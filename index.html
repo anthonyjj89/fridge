@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Custom Dashboard</title>
+</head>
+<body>
+    <div id="dashboard">
+        <!-- Calendar Section -->
+        <div id="calendar" class="widget">Loading calendar...</div>
+
+        <!-- Photo Album Section -->
+        <div id="photo-album" class="widget">Photo album goes here...</div>
+
+        <!-- RSS News Scroller -->
+        <div id="rss-feed" class="widget">RSS feed goes here...</div>
+
+        <!-- Word of the Day -->
+        <div id="word-of-the-day" class="widget">Word of the day goes here...</div>
+
+        <!-- House Chores List -->
+        <div id="chores-list" class="widget">
+            <h2>House Chores</h2>
+            <input type="text" id="newChore" placeholder="Add a new chore">
+            <button onclick="addChore()">Add</button>
+            <ul id="chores"></ul>
+        </div>
+
+        <!-- Shopping List -->
+        <div id="shopping-list" class="widget">
+            <h2>Shopping List</h2>
+            <input type="text" id="newItem" placeholder="Add a new item">
+            <button onclick="addItem()">Add</button>
+            <ul id="items"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
