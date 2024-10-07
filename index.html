@@ -5,37 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Custom Dashboard</title>
+    <style>
+        #passcode-panel {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .code-button {
+            font-size: 2em;
+            margin: 10px;
+            width: 60px;
+            height: 60px;
+        }
+
+        #dashboard {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="dashboard">
-        <!-- Calendar Section -->
-        <div id="calendar" class="widget">Loading calendar...</div>
-
-        <!-- Photo Album Section -->
-        <div id="photo-album" class="widget">Photo album goes here...</div>
-
-        <!-- RSS News Scroller -->
-        <div id="rss-feed" class="widget">RSS feed goes here...</div>
-
-        <!-- Word of the Day -->
-        <div id="word-of-the-day" class="widget">Word of the day goes here...</div>
-
-        <!-- House Chores List -->
-        <div id="chores-list" class="widget">
-            <h2>House Chores</h2>
-            <input type="text" id="newChore" placeholder="Add a new chore">
-            <button onclick="addChore()">Add</button>
-            <ul id="chores"></ul>
-        </div>
-
-        <!-- Shopping List -->
-        <div id="shopping-list" class="widget">
-            <h2>Shopping List</h2>
-            <input type="text" id="newItem" placeholder="Add a new item">
-            <button onclick="addItem()">Add</button>
-            <ul id="items"></ul>
+    <!-- Passcode Panel -->
+    <div id="passcode-panel">
+        <h2>Enter Passcode</h2>
+        <div id="input-display">****</div>
+        <div id="buttons">
+            <button class="code-button" onclick="enterCode(1)">1</button>
+            <button class="code-button" onclick="enterCode(2)">2</button>
+            <button class="code-button" onclick="enterCode(3)">3</button><br>
+            <button class="code-button" onclick="enterCode(4)">4</button>
+            <button class="code-button" onclick="enterCode(5)">5</button>
+            <button class="code-button" onclick="enterCode(6)">6</button><br>
+            <button class="code-button" onclick="enterCode(7)">7</button>
+            <button class="code-button" onclick="enterCode(8)">8</button>
+            <button class="code-button" onclick="enterCode(9)">9</button><br>
+            <button class="code-button" onclick="clearCode()">C</button>
+            <button class="code-button" onclick="enterCode(0)">0</button>
+            <button class="code-button" onclick="checkCode()">OK</button>
         </div>
     </div>
+
+    <!-- Dashboard Content -->
+    <div id="dashboard">
+        <div id="calendar" class="widget">Loading calendar...</div>
+        <!-- Other widgets can go here -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,3 +1,48 @@
+let inputCode = "";
+
+// Function to add number to code
+function enterCode(number) {
+    if (inputCode.length < 4) {
+        inputCode += number;
+        updateDisplay();
+    }
+}
+
+// Function to clear the code
+function clearCode() {
+    inputCode = "";
+    updateDisplay();
+}
+
+// Function to update the display (for visual feedback)
+function updateDisplay() {
+    let display = inputCode.padEnd(4, '*');
+    document.getElementById('input-display').textContent = display;
+}
+
+// Function to check if the code is correct
+function checkCode() {
+    const hashedCorrectCode = "03ac674216f3e15c761ee1a5e255f067953623c8f9664f560c8c20c2f6d7ea57"; // Hash of "1234"
+    const inputHash = CryptoJS.SHA256(inputCode).toString();
+    
+    if (inputHash === hashedCorrectCode) {
+        localStorage.setItem('authenticated', 'true');  // Store authentication token
+        document.getElementById('passcode-panel').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+    } else {
+        alert("Incorrect passcode");
+        clearCode();
+    }
+}
+
+// On page load, check if the user is already authenticated
+document.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem('authenticated') === 'true') {
+        document.getElementById('passcode-panel').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+    }
+});
+
 // Adding a new chore to the list
 function addChore() {
     const newChore = document.getElementById('newChore').value;
@@ -21,7 +66,6 @@ function addItem() {
         document.getElementById('newItem').value = ''; // Clear input
     }
 }
-
 
 function fetchGoogleCalendarEvents() {
     const calendarId = 'YOUR_GOOGLE_CALENDAR_ID';
