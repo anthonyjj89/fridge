@@ -2,12 +2,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeCalendar();
     initializeWeather();
+    updateDateTime();
     updateIosAlbum();
     startCyclingContent();
     enableDragResize();
     loadPositionsAndSizes();
-    initializeChoreButtons(); // Initialize chore buttons
-    initializeConfigIcons(); // Initialize configuration icons
+    initializeChoreButtons();
+    initializeConfigIcons();
+    startChoreScheduleChecker();
+    loadChoreStates(); // Load chore states from localStorage
 
     // Add scroll functionality for chore list
     document.getElementById('scroll-left').addEventListener('click', function() {
@@ -18,6 +21,50 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('chore-list').scrollBy({ left: 100, behavior: 'smooth' });
     });
 });
+
+// Update date and time
+function updateDateTime() {
+    const now = new Date();
+    const dayElement = document.getElementById('day');
+    const timeElement = document.getElementById('time');
+
+    const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    dayElement.textContent = days[now.getDay()];
+
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    timeElement.textContent = `${formattedHours}.${formattedMinutes}${ampm}`;
+
+    // Update every minute
+    setTimeout(updateDateTime, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()));
+}
+
+// Weather Widget Integration
+function initializeWeather() {
+    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your actual API key
+    const city = 'Dubai';
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const temperatureElement = document.getElementById('temperature');
+            if (data && data.main) {
+                const temperature = Math.round(data.main.temp);
+                temperatureElement.textContent = `${temperature}°C`;
+            } else {
+                temperatureElement.textContent = 'Weather data unavailable';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            const temperatureElement = document.getElementById('temperature');
+            temperatureElement.textContent = 'Failed to load weather data';
+        });
+}
 
 // Google Calendar integration
 function initializeCalendar() {
@@ -47,30 +94,6 @@ function initializeCalendar() {
             console.error('Error fetching calendar events:', error);
             const calendarContent = document.getElementById('calendar-content');
             calendarContent.innerHTML = '<p>Failed to load calendar events.</p>';
-        });
-}
-
-// Weather Widget Integration
-function initializeWeather() {
-    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
-    const city = 'Dubai'; // Change as needed
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const temperatureElement = document.getElementById('temperature');
-            if (data && data.main) {
-                const temperature = data.main.temp;
-                temperatureElement.textContent = `${temperature}°C`;
-            } else {
-                temperatureElement.textContent = 'Weather data unavailable';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching weather data:', error);
-            const temperatureElement = document.getElementById('temperature');
-            temperatureElement.textContent = 'Failed to load weather data';
         });
 }
 
@@ -227,9 +250,28 @@ function initializeChoreButtons() {
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             this.classList.toggle('active');
+            saveChoreState(this.dataset.chore, this.classList.contains('active'));
             sortChores(); // Sort chores after toggling active state
         });
     });
+}
+
+// Save chore state to localStorage
+function saveChoreState(choreName, isActive) {
+    localStorage.setItem(`chore-${choreName}`, isActive);
+}
+
+// Load chore states from localStorage
+function loadChoreStates() {
+    const buttons = document.querySelectorAll('.chore-button');
+    buttons.forEach(button => {
+        const choreName = button.dataset.chore;
+        const isActive = localStorage.getItem(`chore-${choreName}`) === 'true';
+        if (isActive) {
+            button.classList.add('active');
+        }
+    });
+    sortChores(); // Sort chores after loading states
 }
 
 // Sort chores function
@@ -253,34 +295,111 @@ function initializeConfigIcons() {
     const configIcons = document.querySelectorAll('.config-icon');
     const popup = document.getElementById('popup');
     const popupChoreName = document.getElementById('popup-chore-name');
-    const choreFrequency = document.getElementById('chore-frequency');
+    const choreTime1 = document.getElementById('chore-time-1');
+    const choreTime2 = document.getElementById('chore-time-2');
+    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
     const saveConfigButton = document.getElementById('save-config');
     const closePopupButton = document.getElementById('close-popup');
 
     console.log('Found', configIcons.length, 'config icons');
 
     configIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
+        icon.addEventListener('click', function(event) {
             console.log('Config icon clicked:', this.dataset.chore);
             const choreName = this.dataset.chore;
             popupChoreName.textContent = choreName;
-            choreFrequency.value = localStorage.getItem(`${choreName}-frequency`) || 1;
+            
+            // Load saved values
+            const savedConfig = JSON.parse(localStorage.getItem(`${choreName}-config`)) || {};
+            choreTime1.value = savedConfig.time1 || '';
+            choreTime2.value = savedConfig.time2 || '';
+            
+            // Set day checkboxes
+            dayCheckboxes.forEach(checkbox => {
+                checkbox.checked = savedConfig.days ? savedConfig.days.includes(checkbox.value) : false;
+            });
+            
             popup.style.display = 'block';
             console.log('Popup displayed');
+            event.stopPropagation(); // Prevent event from bubbling up
         });
     });
 
     saveConfigButton.addEventListener('click', function() {
         const choreName = popupChoreName.textContent;
-        localStorage.setItem(`${choreName}-frequency`, choreFrequency.value);
+        const config = {
+            time1: choreTime1.value,
+            time2: choreTime2.value,
+            days: Array.from(dayCheckboxes).filter(cb => cb.checked).map(cb => cb.value)
+        };
+        localStorage.setItem(`${choreName}-config`, JSON.stringify(config));
         popup.style.display = 'none';
-        console.log('Popup hidden');
+        console.log('Config saved and popup hidden');
     });
 
     closePopupButton.addEventListener('click', function() {
         popup.style.display = 'none';
-        console.log('Popup hidden');
+        console.log('Popup closed');
     });
+
+    // Close popup when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === popup) {
+            popup.style.display = 'none';
+            console.log('Popup closed by clicking outside');
+        }
+    });
+}
+
+// Function to check if a chore is due
+function isChoreScheduled(config, currentDay, currentTime) {
+    if (!config.days || !config.days.includes(currentDay)) {
+        return false;
+    }
+
+    const now = new Date();
+    const time1 = new Date(now.toDateString() + ' ' + config.time1);
+    const time2 = config.time2 ? new Date(now.toDateString() + ' ' + config.time2) : null;
+    const currentDateTime = new Date(now.toDateString() + ' ' + currentTime);
+
+    // Check if the current time is past the scheduled time(s)
+    if (currentDateTime >= time1 || (time2 && currentDateTime >= time2)) {
+        return true;
+    }
+
+    return false;
+}
+
+// Function to check chore schedules and update their state
+function checkChoreSchedules() {
+    const now = new Date();
+    const currentDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][now.getDay()];
+    const currentTime = now.toTimeString().slice(0, 5); // HH:MM format
+
+    const chores = document.querySelectorAll('.chore-button');
+    chores.forEach(chore => {
+        const choreName = chore.dataset.chore;
+        const config = JSON.parse(localStorage.getItem(`${choreName}-config`)) || {};
+
+        if (isChoreScheduled(config, currentDay, currentTime)) {
+            chore.classList.add('due');
+        } else {
+            chore.classList.remove('due');
+        }
+
+        // Keep the 'active' class if it's present
+        if (chore.classList.contains('active')) {
+            chore.classList.remove('due');
+        }
+
+        saveChoreState(choreName, chore.classList.contains('active'));
+    });
+}
+
+// Start the chore schedule checker
+function startChoreScheduleChecker() {
+    checkChoreSchedules(); // Check immediately on start
+    setInterval(checkChoreSchedules, 60000); // Check every minute
 }
 
 // Call sortChores initially to ensure correct order on page load

@@ -50,6 +50,9 @@ body, html {
     background-color: transparent;
     color: #333; /* Off-black color for text */
     height: auto; /* Allows independent height */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 #day {
@@ -140,23 +143,32 @@ li {
 
 /* Chore button styling */
 .chore-button {
-    background-color: red;
+    background-color: red; /* Default color is red */
     color: white;
     border: none;
     border-radius: 5px;
-    width: 90px; /* Adjusted width to account for padding */
-    height: 90px; /* Adjusted height to account for padding */
+    width: 90px;
+    height: 90px;
     margin: 5px;
-    padding: 5px; /* Add padding around the icon */
+    padding: 5px;
     cursor: pointer;
     font-size: 1em;
     display: inline-block;
-    transition: order 0.5s ease; /* Add transition for order */
+    transition: order 0.5s ease, background-color 0.3s ease;
 }
 
 .chore-button.active {
     background-color: green;
     order: 1; /* Move active buttons to the end */
+}
+
+.chore-button.due {
+    background-color: red;
+}
+
+/* Ensure active state takes precedence over due state */
+.chore-button.active.due {
+    background-color: green;
 }
 
 /* Ensure chore buttons are in a horizontal line */
@@ -176,12 +188,12 @@ li {
     color: white;
     border: none;
     border-radius: 5px;
-    width: 30px; /* 50% less wide than the previous 60px */
+    width: 30px;
     height: 100px;
     cursor: pointer;
     position: absolute;
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Adjust for centering */
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 1;
 }
 
@@ -232,7 +244,7 @@ li {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
-    width: 300px;
+    width: 450px;
     color: black;
 }
 
@@ -266,4 +278,62 @@ li {
 
 #close-popup:hover {
     background-color: #da190b;
+}
+
+/* New styles for improved popup layout */
+.day-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.day-selection label {
+    width: 30%;
+    margin-bottom: 5px;
+}
+
+.time-selection {
+    margin-bottom: 15px;
+}
+
+.popup-content button {
+    margin-top: 10px;
+}
+
+/* Additional styles for updated popup layout */
+.popup-content {
+    width: 450px;
+}
+
+.day-selection label {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    margin-bottom: 5px;
+}
+
+.day-selection input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.time-selection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.time-selection label {
+    width: 60px;
+    margin-right: 10px;
+}
+
+#chore-time-1,
+#chore-time-2 {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.popup-content button {
+    margin-top: 10px;
 }

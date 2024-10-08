@@ -86,19 +86,21 @@
             <h2>Configure Chore Timing</h2>
             <p>Chore: <span id="popup-chore-name"></span></p>
             <div class="day-selection">
-                <label><input type="checkbox" name="day" value="Monday"> Mon</label>
-                <label><input type="checkbox" name="day" value="Tuesday"> Tue</label>
-                <label><input type="checkbox" name="day" value="Wednesday"> Wed</label>
-                <label><input type="checkbox" name="day" value="Thursday"> Thu</label>
-                <label><input type="checkbox" name="day" value="Friday"> Fri</label>
-                <label><input type="checkbox" name="day" value="Saturday"> Sat</label>
-                <label><input type="checkbox" name="day" value="Sunday"> Sun</label>
+                <label><input type="checkbox" name="day" value="Monday"><span>Mon</span></label>
+                <label><input type="checkbox" name="day" value="Tuesday"><span>Tue</span></label>
+                <label><input type="checkbox" name="day" value="Wednesday"><span>Wed</span></label>
+                <label><input type="checkbox" name="day" value="Thursday"><span>Thu</span></label>
+                <label><input type="checkbox" name="day" value="Friday"><span>Fri</span></label>
+                <label><input type="checkbox" name="day" value="Saturday"><span>Sat</span></label>
+                <label><input type="checkbox" name="day" value="Sunday"><span>Sun</span></label>
             </div>
             <div class="time-selection">
-                <button id="hour-decrease">-</button>
-                <span id="hour-display">12</span>
-                <button id="hour-increase">+</button>
-                <button id="toggle-am-pm">AM</button>
+                <label for="chore-time-1">Time 1:</label>
+                <input type="time" id="chore-time-1">
+            </div>
+            <div class="time-selection">
+                <label for="chore-time-2">Time 2:</label>
+                <input type="time" id="chore-time-2">
             </div>
             <button id="save-config">Save</button>
             <button id="close-popup">Close</button>
