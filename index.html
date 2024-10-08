@@ -21,8 +21,46 @@
             </div>
         </div>
         <div id="chores" class="widget">
-            <h2>CHORE VIEW</h2>
-            <div class="widget-content" id="chore-list"></div>
+            <button id="scroll-left" class="scroll-button">◀</button>
+            <div class="widget-content" id="chore-list">
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="dishes"><img src="https://cdn-icons-png.flaticon.com/512/3939/3939913.png" alt="Dishes" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="dishes">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="trash"><img src="https://cdn-icons-png.flaticon.com/512/5016/5016735.png" alt="Trash" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="trash">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="water-plants"><img src="https://cdn-icons-png.flaticon.com/512/4147/4147953.png" alt="Water Plants" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="water-plants">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="cat-litter"><img src="https://cdn-icons-png.flaticon.com/512/1687/1687142.png" alt="Cat Litter Tray" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="cat-litter">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="vacuum"><img src="https://cdn-icons-png.flaticon.com/512/125/125668.png" alt="Vacuum" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="vacuum">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="robot-vacuum"><img src="https://cdn-icons-png.flaticon.com/512/1199/1199855.png" alt="Robot Vacuum" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="robot-vacuum">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="cat-dog-meds"><img src="https://cdn-icons-png.flaticon.com/512/4005/4005403.png" alt="Cat and Dog Meds" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="cat-dog-meds">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="laundry"><img src="https://cdn-icons-png.flaticon.com/512/1075/1075355.png" alt="Laundry" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="laundry">
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="dog-walking"><img src="https://cdn-icons-png.flaticon.com/512/10/10869.png" alt="Dog Walking" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="dog-walking">
+                </div>
+            </div>
+            <button id="scroll-right" class="scroll-button">▶</button>
         </div>
         <div id="right-widget" class="widget">
             <div id="rss-news" class="cycling-content active">
@@ -41,6 +79,29 @@
                 <h2>WORD OF THE DAY 🇺🇦</h2>
                 <div id="word-uk-content"></div>
             </div>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Configure Chore Timing</h2>
+            <p>Chore: <span id="popup-chore-name"></span></p>
+            <div class="day-selection">
+                <label><input type="checkbox" name="day" value="Monday"> Mon</label>
+                <label><input type="checkbox" name="day" value="Tuesday"> Tue</label>
+                <label><input type="checkbox" name="day" value="Wednesday"> Wed</label>
+                <label><input type="checkbox" name="day" value="Thursday"> Thu</label>
+                <label><input type="checkbox" name="day" value="Friday"> Fri</label>
+                <label><input type="checkbox" name="day" value="Saturday"> Sat</label>
+                <label><input type="checkbox" name="day" value="Sunday"> Sun</label>
+            </div>
+            <div class="time-selection">
+                <button id="hour-decrease">-</button>
+                <span id="hour-display">12</span>
+                <button id="hour-increase">+</button>
+                <button id="toggle-am-pm">AM</button>
+            </div>
+            <button id="save-config">Save</button>
+            <button id="close-popup">Close</button>
         </div>
     </div>
     <script src="https://apis.google.com/js/api.js"></script>

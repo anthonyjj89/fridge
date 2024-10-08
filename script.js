@@ -1,5 +1,4 @@
 // Ensure JavaScript runs after the DOM has loaded
-
 document.addEventListener('DOMContentLoaded', function() {
     initializeCalendar();
     initializeWeather();
@@ -7,7 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
     startCyclingContent();
     enableDragResize();
     loadPositionsAndSizes();
-    // Add more initialization functions as needed here
+    initializeChoreButtons(); // Initialize chore buttons
+    initializeConfigIcons(); // Initialize configuration icons
+
+    // Add scroll functionality for chore list
+    document.getElementById('scroll-left').addEventListener('click', function() {
+        document.getElementById('chore-list').scrollBy({ left: -100, behavior: 'smooth' });
+    });
+
+    document.getElementById('scroll-right').addEventListener('click', function() {
+        document.getElementById('chore-list').scrollBy({ left: 100, behavior: 'smooth' });
+    });
 });
 
 // Google Calendar integration
@@ -53,7 +62,7 @@ function initializeWeather() {
             const temperatureElement = document.getElementById('temperature');
             if (data && data.main) {
                 const temperature = data.main.temp;
-                temperatureElement.textContent = `${temperature}\u00b0C`;
+                temperatureElement.textContent = `${temperature}°C`;
             } else {
                 temperatureElement.textContent = 'Weather data unavailable';
             }
@@ -211,3 +220,70 @@ function activateDefaultView() {
 }
 
 activateDefaultView();
+
+// Initialize chore buttons
+function initializeChoreButtons() {
+    const buttons = document.querySelectorAll('.chore-button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('active');
+            sortChores(); // Sort chores after toggling active state
+        });
+    });
+}
+
+// Sort chores function
+function sortChores() {
+    const choreList = document.getElementById('chore-list');
+    const chores = Array.from(choreList.querySelectorAll('.chore-container'));
+    
+    chores.sort((a, b) => {
+        const aActive = a.querySelector('.chore-button').classList.contains('active');
+        const bActive = b.querySelector('.chore-button').classList.contains('active');
+        if (aActive === bActive) return 0;
+        return aActive ? 1 : -1;
+    });
+    
+    chores.forEach(chore => choreList.appendChild(chore));
+}
+
+// Initialize configuration icons
+function initializeConfigIcons() {
+    console.log('Initializing configuration icons...');
+    const configIcons = document.querySelectorAll('.config-icon');
+    const popup = document.getElementById('popup');
+    const popupChoreName = document.getElementById('popup-chore-name');
+    const choreFrequency = document.getElementById('chore-frequency');
+    const saveConfigButton = document.getElementById('save-config');
+    const closePopupButton = document.getElementById('close-popup');
+
+    console.log('Found', configIcons.length, 'config icons');
+
+    configIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+            console.log('Config icon clicked:', this.dataset.chore);
+            const choreName = this.dataset.chore;
+            popupChoreName.textContent = choreName;
+            choreFrequency.value = localStorage.getItem(`${choreName}-frequency`) || 1;
+            popup.style.display = 'block';
+            console.log('Popup displayed');
+        });
+    });
+
+    saveConfigButton.addEventListener('click', function() {
+        const choreName = popupChoreName.textContent;
+        localStorage.setItem(`${choreName}-frequency`, choreFrequency.value);
+        popup.style.display = 'none';
+        console.log('Popup hidden');
+    });
+
+    closePopupButton.addEventListener('click', function() {
+        popup.style.display = 'none';
+        console.log('Popup hidden');
+    });
+}
+
+// Call sortChores initially to ensure correct order on page load
+document.addEventListener('DOMContentLoaded', function() {
+    sortChores();
+});

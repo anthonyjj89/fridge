@@ -41,6 +41,7 @@ body, html {
     border-radius: 15px;
     padding: 20px;
     overflow: hidden;
+    position: relative; /* Ensure scroll buttons are positioned correctly */
 }
 
 /* Date and time styling without background */
@@ -135,4 +136,134 @@ li {
 
 .cycling-content.active {
     display: flex;
+}
+
+/* Chore button styling */
+.chore-button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 90px; /* Adjusted width to account for padding */
+    height: 90px; /* Adjusted height to account for padding */
+    margin: 5px;
+    padding: 5px; /* Add padding around the icon */
+    cursor: pointer;
+    font-size: 1em;
+    display: inline-block;
+    transition: order 0.5s ease; /* Add transition for order */
+}
+
+.chore-button.active {
+    background-color: green;
+    order: 1; /* Move active buttons to the end */
+}
+
+/* Ensure chore buttons are in a horizontal line */
+#chore-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow: hidden; /* Hide scrollbar */
+    width: calc(100% - 60px); /* Adjust width to accommodate buttons */
+    height: 100px; /* Fixed height to match icon size */
+    margin: 0 30px; /* Add margin to accommodate buttons */
+}
+
+/* Scroll button styling */
+.scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px; /* 50% less wide than the previous 60px */
+    height: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for centering */
+    z-index: 1;
+}
+
+#scroll-left {
+    left: 0;
+}
+
+#scroll-right {
+    right: 0;
+}
+
+/* New styles for chore container and config icon */
+.chore-container {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.config-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+/* Popup styles */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    color: black;
+}
+
+.popup-content h2 {
+    margin-bottom: 15px;
+}
+
+.popup-content label,
+.popup-content input,
+.popup-content button {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.popup-content button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background-color: #45a049;
+}
+
+#close-popup {
+    background-color: #f44336;
+}
+
+#close-popup:hover {
+    background-color: #da190b;
 }
