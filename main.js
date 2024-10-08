@@ -8,10 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     startCyclingContent();
     enableDragResize();
     loadPositionsAndSizes();
+    
+    // Chores system initialization
     initializeChoreButtons();
-    initializeConfigIcons();
+    loadChoreStates();
     startChoreScheduleChecker();
-    loadChoreStates(); // Load chore states from localStorage
+    
+    initializeConfigIcons();
     console.log('All initializations complete');
 
     // Add scroll functionality for chore list
@@ -22,6 +25,33 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('scroll-right').addEventListener('click', function() {
         document.getElementById('chore-list').scrollBy({ left: 100, behavior: 'smooth' });
     });
+
+    // Example of using the chores event system
+    window.eventSystem.subscribe('choreStateChanged', (data) => {
+        console.log(`Main.js: Chore ${data.choreName} state changed to ${data.isActive ? 'active' : 'inactive'}`);
+        // You can add any global UI updates or other actions here
+    });
+
+    window.eventSystem.subscribe('allChoresReset', () => {
+        console.log('Main.js: All chores have been reset');
+        // You can add any global UI updates or other actions here
+    });
+
+    // Add a button to reset all chores
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset All Chores';
+    resetButton.addEventListener('click', window.resetAllChores);
+    document.body.appendChild(resetButton);
+
+    // Add a button to export chore data
+    const exportButton = document.createElement('button');
+    exportButton.textContent = 'Export Chore Data';
+    exportButton.addEventListener('click', () => {
+        const data = window.exportChoreData();
+        console.log('Exported chore data:', data);
+        // You could add code here to save the data to a file or send it to a server
+    });
+    document.body.appendChild(exportButton);
 });
 
 // Activate the default cycling content view

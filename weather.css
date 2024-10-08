@@ -1,0 +1,15 @@
+/* Weather widget styling */
+#temperature {
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px;
+    color: #333; /* Off-black color */
+    height: auto; /* Allows independent height */
+}
+
+#temperature::before {
+    content: '\2600\fe0f';
+    margin-right: 10px;
+}

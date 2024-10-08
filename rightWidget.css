@@ -1,0 +1,38 @@
+/* RSS widget positioning */
+#rss {
+    grid-column: 2; /* Place in the second column */
+    height: auto; /* Independent height */
+}
+
+/* Independent right widget styling */
+#right-widget {
+    grid-column: 2; /* Place in the second column */
+    height: auto; /* Independent height */
+}
+
+/* Styles for RSS news */
+#rss-news {
+    /* Add specific styles for RSS news */
+}
+
+/* Styles for iOS album */
+#ios-album {
+    /* Add specific styles for iOS album */
+}
+
+/* Styles for word of the day (English) */
+#word-of-day-en {
+    /* Add specific styles for English word of the day */
+}
+
+/* Styles for word of the day (Ukrainian) */
+#word-of-day-uk {
+    /* Add specific styles for Ukrainian word of the day */
+}
+
+/* Responsive design for right widget */
+@media (max-width: 768px) {
+    #right-widget {
+        grid-column: 1;
+    }
+}
