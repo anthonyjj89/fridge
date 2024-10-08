@@ -1,25 +1,138 @@
-body {
-    font-family: Arial, sans-serif;
-    background: url('your-background-image.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: #ffffff;
+/* Reset default margin and padding, and set box-sizing */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* Set body and html to full height and define font and color */
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* Background styling with fixed position and cover size */
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('bkground.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+/* Dashboard grid layout with two columns */
 #dashboard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: 2fr 1fr; /* Two columns, left is wider */
+    gap: 15px;
     padding: 20px;
+    height: 100vh;
+    align-items: start; /* Align items to the start of each cell */
 }
 
+/* General widget styling */
 .widget {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
     padding: 20px;
-    border-radius: 10px;
+    overflow: hidden;
 }
 
+/* Date and time styling without background */
+#datetime {
+    grid-column: 2;
+    background-color: transparent;
+    color: #333; /* Off-black color for text */
+    height: auto; /* Allows independent height */
+}
+
+#day {
+    font-size: 5em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+#time {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Weather widget styling */
+#temperature {
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px;
+    color: #333; /* Off-black color */
+    height: auto; /* Allows independent height */
+}
+
+#temperature::before {
+    content: '\2600\fe0f';
+    margin-right: 10px;
+}
+
+/* Calendar/Shopping Widget positioning */
+#main-widget {
+    grid-column: 1; /* Place in the first column */
+    height: auto; /* Independent height */
+}
+
+/* Chores widget positioning */
+#chores {
+    grid-column: 1; /* Place in the first column */
+    height: auto; /* Independent height */
+}
+
+/* RSS widget positioning */
+#rss {
+    grid-column: 2; /* Place in the second column */
+    height: auto; /* Independent height */
+}
+
+/* Independent right widget styling */
+#right-widget {
+    grid-column: 2; /* Place in the second column */
+    height: auto; /* Independent height */
+}
+
+/* Heading styling */
 h2 {
-    color: #ffd700; /* Gold color for headings */
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Content styling for widgets */
+.widget-content, .cycling-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+/* List styling */
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* Cycling content visibility */
+.cycling-content {
+    display: none;
+}
+
+.cycling-content.active {
+    display: flex;
 }

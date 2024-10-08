@@ -1,87 +1,213 @@
-let inputCode = "";
+// Ensure JavaScript runs after the DOM has loaded
 
-// Function to add number to code
-function enterCode(number) {
-    if (inputCode.length < 4) {
-        inputCode += number;
-        updateDisplay();
-    }
-}
-
-// Function to clear the code
-function clearCode() {
-    inputCode = "";
-    updateDisplay();
-}
-
-// Function to update the display (for visual feedback)
-function updateDisplay() {
-    let display = inputCode.padEnd(4, '*');
-    document.getElementById('input-display').textContent = display;
-}
-
-// Function to check if the code is correct
-function checkCode() {
-    const hashedCorrectCode = "03ac674216f3e15c761ee1a5e255f067953623c8f9664f560c8c20c2f6d7ea57"; // Hash of "1234"
-    const inputHash = CryptoJS.SHA256(inputCode).toString();
-    
-    if (inputHash === hashedCorrectCode) {
-        localStorage.setItem('authenticated', 'true');  // Store authentication token
-        document.getElementById('passcode-panel').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-    } else {
-        alert("Incorrect passcode");
-        clearCode();
-    }
-}
-
-// On page load, check if the user is already authenticated
-document.addEventListener("DOMContentLoaded", function() {
-    if (localStorage.getItem('authenticated') === 'true') {
-        document.getElementById('passcode-panel').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCalendar();
+    initializeWeather();
+    updateIosAlbum();
+    startCyclingContent();
+    enableDragResize();
+    loadPositionsAndSizes();
+    // Add more initialization functions as needed here
 });
 
-// Adding a new chore to the list
-function addChore() {
-    const newChore = document.getElementById('newChore').value;
-    if (newChore) {
-        const choresList = document.getElementById('chores');
-        const listItem = document.createElement('li');
-        listItem.textContent = newChore;
-        choresList.appendChild(listItem);
-        document.getElementById('newChore').value = ''; // Clear input
-    }
-}
-
-// Adding a new item to the shopping list
-function addItem() {
-    const newItem = document.getElementById('newItem').value;
-    if (newItem) {
-        const itemsList = document.getElementById('items');
-        const listItem = document.createElement('li');
-        listItem.textContent = newItem;
-        itemsList.appendChild(listItem);
-        document.getElementById('newItem').value = ''; // Clear input
-    }
-}
-
-function fetchGoogleCalendarEvents() {
-    const calendarId = 'YOUR_GOOGLE_CALENDAR_ID';
+// Google Calendar integration
+function initializeCalendar() {
     const apiKey = 'AIzaSyDIH9O0LARG-q2H0fTEmybeSp2o9tc9ivQ';
+    const calendarId = 'primary';
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`;
 
-    fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`)
+    fetch(url)
         .then(response => response.json())
         .then(data => {
-            let eventsHTML = '<h2>Upcoming Events</h2>';
-            data.items.forEach(event => {
-                eventsHTML += `<p>${event.summary} - ${new Date(event.start.dateTime).toLocaleString()}</p>`;
-            });
-            document.getElementById('calendar').innerHTML = eventsHTML;
+            console.log(data); // Debugging API response
+            const events = data.items;
+            const calendarContent = document.getElementById('calendar-content');
+            let html = '<ul>';
+            if (events && events.length > 0) {
+                events.forEach(event => {
+                    const start = new Date(event.start.dateTime || event.start.date);
+                    html += `<li>${start.toLocaleDateString()}: ${event.summary}</li>`;
+                });
+            } else {
+                html += '<li>No upcoming events found.</li>';
+            }
+            html += '</ul>';
+            calendarContent.innerHTML = html;
         })
-        .catch(error => console.error('Error fetching calendar events:', error));
+        .catch(error => {
+            console.error('Error fetching calendar events:', error);
+            const calendarContent = document.getElementById('calendar-content');
+            calendarContent.innerHTML = '<p>Failed to load calendar events.</p>';
+        });
 }
 
-// Uncomment to enable Google Calendar
-// fetchGoogleCalendarEvents();
+// Weather Widget Integration
+function initializeWeather() {
+    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+    const city = 'Dubai'; // Change as needed
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const temperatureElement = document.getElementById('temperature');
+            if (data && data.main) {
+                const temperature = data.main.temp;
+                temperatureElement.textContent = `${temperature}\u00b0C`;
+            } else {
+                temperatureElement.textContent = 'Weather data unavailable';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            const temperatureElement = document.getElementById('temperature');
+            temperatureElement.textContent = 'Failed to load weather data';
+        });
+}
+
+// iOS Public Album integration
+function updateIosAlbum() {
+    const albumUrl = 'https://www.icloud.com/sharedalbum/#B0UGrq0zwuvmn8';
+    const albumContent = document.getElementById('album-content');
+    
+    // For demo purposes, we'll display a message indicating that the album is loading
+    albumContent.innerHTML = '<p>Loading iOS album...</p>';
+
+    // If more functionality is needed, add it here to fetch album data dynamically
+}
+
+// Start cycling content every 5 seconds
+function startCyclingContent() {
+    const calendarShoppingElements = document.querySelectorAll('#calendar-shopping .cycling-content');
+    const rightWidgetElements = [
+        document.getElementById('rss-news'),
+        document.getElementById('ios-album'),
+        document.getElementById('word-of-day-en'),
+        document.getElementById('word-of-day-uk')
+    ];
+    let calendarShoppingIndex = 0;
+    let rightWidgetIndex = 0;
+
+    setInterval(() => {
+        // Cycle calendar and shopping list
+        calendarShoppingElements.forEach((element, index) => {
+            element.classList.toggle('active', index === calendarShoppingIndex);
+        });
+        calendarShoppingIndex = (calendarShoppingIndex + 1) % calendarShoppingElements.length;
+
+        // Cycle right widget content
+        rightWidgetElements.forEach((element, index) => {
+            element.classList.remove('active');
+        });
+        rightWidgetElements[rightWidgetIndex].classList.add('active');
+        rightWidgetIndex = (rightWidgetIndex + 1) % rightWidgetElements.length;
+    }, 5000);
+}
+
+// Enable dragging and resizing of elements
+function enableDragResize() {
+    const resizableElements = document.querySelectorAll('.widget');
+    const gridSize = 20; // Grid size for snapping
+    let isLocked = true;
+
+    // Create lock icon
+    const lockIcon = document.createElement('div');
+    lockIcon.style.position = 'fixed';
+    lockIcon.style.bottom = '10px';
+    lockIcon.style.left = '10px';
+    lockIcon.style.width = '30px';
+    lockIcon.style.height = '30px';
+    lockIcon.style.background = 'url(lock.png) no-repeat center center';
+    lockIcon.style.backgroundSize = 'contain';
+    lockIcon.style.cursor = 'pointer';
+    document.body.appendChild(lockIcon);
+
+    lockIcon.addEventListener('click', function() {
+        isLocked = !isLocked;
+        lockIcon.style.background = isLocked ? 'url(lock.png) no-repeat center center' : 'url(unlock.png) no-repeat center center';
+        resizableElements.forEach(element => {
+            element.style.resize = isLocked ? 'none' : 'both';
+            element.style.cursor = isLocked ? 'default' : 'move';
+            const dragHandle = element.querySelector('.drag-handle');
+            if (dragHandle) {
+                dragHandle.style.display = isLocked ? 'none' : 'block';
+            }
+        });
+    });
+
+    resizableElements.forEach(element => {
+        element.style.position = 'absolute';
+
+        // Create a handle for dragging
+        const dragHandle = document.createElement('div');
+        dragHandle.className = 'drag-handle';
+        dragHandle.style.width = '20px';
+        dragHandle.style.height = '20px';
+        dragHandle.style.background = 'rgba(0, 0, 0, 0.5)';
+        dragHandle.style.position = 'absolute';
+        dragHandle.style.top = '0';
+        dragHandle.style.left = '0';
+        dragHandle.style.cursor = 'move';
+        dragHandle.style.display = 'none';
+        element.appendChild(dragHandle);
+
+        // Make the element draggable from the top-left handle
+        dragHandle.addEventListener('mousedown', function(e) {
+            if (isLocked) return;
+            const offsetX = e.clientX - element.offsetLeft;
+            const offsetY = e.clientY - element.offsetTop;
+
+            function mouseMoveHandler(e) {
+                element.style.left = `${Math.round((e.clientX - offsetX) / gridSize) * gridSize}px`;
+                element.style.top = `${Math.round((e.clientY - offsetY) / gridSize) * gridSize}px`;
+            }
+
+            function mouseUpHandler() {
+                document.removeEventListener('mousemove', mouseMoveHandler);
+                document.removeEventListener('mouseup', mouseUpHandler);
+                savePositionsAndSizes();
+            }
+
+            document.addEventListener('mousemove', mouseMoveHandler);
+            document.addEventListener('mouseup', mouseUpHandler);
+        });
+    });
+}
+
+// Save positions and sizes to local storage
+function savePositionsAndSizes() {
+    const resizableElements = document.querySelectorAll('.widget');
+    const positions = [];
+    resizableElements.forEach(element => {
+        positions.push({
+            id: element.id,
+            left: element.style.left,
+            top: element.style.top,
+            width: element.style.width,
+            height: element.style.height
+        });
+    });
+    localStorage.setItem('widgetPositions', JSON.stringify(positions));
+}
+
+// Load positions and sizes from local storage
+function loadPositionsAndSizes() {
+    const positions = JSON.parse(localStorage.getItem('widgetPositions')) || [];
+    positions.forEach(pos => {
+        const element = document.getElementById(pos.id);
+        if (element) {
+            element.style.left = pos.left;
+            element.style.top = pos.top;
+            element.style.width = pos.width;
+            element.style.height = pos.height;
+        }
+    });
+}
+
+// Example: Activate the default cycling content view
+function activateDefaultView() {
+    document.querySelector('#calendar-shopping .cycling-content').classList.add('active');
+    document.getElementById('rss-news').classList.add('active');
+}
+
+activateDefaultView();

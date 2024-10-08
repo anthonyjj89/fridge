@@ -4,53 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Custom Dashboard</title>
-    <style>
-        #passcode-panel {
-            text-align: center;
-            margin-top: 100px;
-        }
-
-        .code-button {
-            font-size: 2em;
-            margin: 10px;
-            width: 60px;
-            height: 60px;
-        }
-
-        #dashboard {
-            display: none;
-        }
-    </style>
+    <title>Smart Dashboard</title>
 </head>
 <body>
-    <!-- Passcode Panel -->
-    <div id="passcode-panel">
-        <h2>Enter Passcode</h2>
-        <div id="input-display">****</div>
-        <div id="buttons">
-            <button class="code-button" onclick="enterCode(1)">1</button>
-            <button class="code-button" onclick="enterCode(2)">2</button>
-            <button class="code-button" onclick="enterCode(3)">3</button><br>
-            <button class="code-button" onclick="enterCode(4)">4</button>
-            <button class="code-button" onclick="enterCode(5)">5</button>
-            <button class="code-button" onclick="enterCode(6)">6</button><br>
-            <button class="code-button" onclick="enterCode(7)">7</button>
-            <button class="code-button" onclick="enterCode(8)">8</button>
-            <button class="code-button" onclick="enterCode(9)">9</button><br>
-            <button class="code-button" onclick="clearCode()">C</button>
-            <button class="code-button" onclick="enterCode(0)">0</button>
-            <button class="code-button" onclick="checkCode()">OK</button>
+    <div id="background"></div>
+    <div id="dashboard">
+        <div id="datetime" class="widget">
+            <div id="day">mon</div>
+            <div id="time">3.30pm</div>
+            <div id="temperature">30°C</div>
+        </div>
+        <div id="main-widget" class="widget">
+            <div id="calendar-shopping">
+                <div id="calendar-content" class="cycling-content active">WEEKLY VIEW<br>CALENDAR<br>GOOGLE API<br>SHOPPING NEEDS<br>ON CYCLE every 30 seconds</div>
+                <div id="shopping-list" class="cycling-content"></div>
+            </div>
+        </div>
+        <div id="chores" class="widget">
+            <h2>CHORE VIEW</h2>
+            <div class="widget-content" id="chore-list"></div>
+        </div>
+        <div id="right-widget" class="widget">
+            <div id="rss-news" class="cycling-content active">
+                <h2>RSS NEWS</h2>
+                <div id="news-content"></div>
+            </div>
+            <div id="ios-album" class="cycling-content">
+                <h2>iOS PUBLIC ALBUM</h2>
+                <div id="album-content"></div>
+            </div>
+            <div id="word-of-day-en" class="cycling-content">
+                <h2>WORD OF THE DAY 🇬🇧</h2>
+                <div id="word-en-content"></div>
+            </div>
+            <div id="word-of-day-uk" class="cycling-content">
+                <h2>WORD OF THE DAY 🇺🇦</h2>
+                <div id="word-uk-content"></div>
+            </div>
         </div>
     </div>
-
-    <!-- Dashboard Content -->
-    <div id="dashboard">
-        <div id="calendar" class="widget">Loading calendar...</div>
-        <!-- Other widgets can go here -->
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
