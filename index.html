@@ -59,6 +59,10 @@
                     <button class="chore-button" data-chore="dog-walking"><img src="https://cdn-icons-png.flaticon.com/512/10/10869.png" alt="Dog Walking" width="80" height="80"></button>
                     <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="dog-walking">
                 </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="water-bottle"><img src="water-bottle.png" alt="Put Water Bottle Outside" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="water-bottle">
+                </div>
             </div>
             <button id="scroll-right" class="scroll-button">▶</button>
         </div>
@@ -85,6 +89,7 @@
         <div class="popup-content">
             <h2>Configure Chore Timing</h2>
             <p>Chore: <span id="popup-chore-name"></span></p>
+            <button id="all-days-button">All Days</button>
             <div class="day-selection">
                 <label><input type="checkbox" name="day" value="Monday"><span>Mon</span></label>
                 <label><input type="checkbox" name="day" value="Tuesday"><span>Tue</span></label>
@@ -107,6 +112,14 @@
         </div>
     </div>
     <script src="https://apis.google.com/js/api.js"></script>
-    <script src="script.js"></script>
+    <script src="dateTime.js"></script>
+    <script src="weather.js"></script>
+    <script src="calendar.js"></script>
+    <script src="iosAlbum.js"></script>
+    <script src="contentCycling.js"></script>
+    <script src="dragResize.js"></script>
+    <script src="chores.js"></script>
+    <script src="config.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
