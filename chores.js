@@ -14,10 +14,27 @@ function initializeChores() {
 }
 
 function toggleChore(button) {
-    if (button.style.backgroundColor === 'red') {
-        button.style.backgroundColor = 'green';
+    if (button.classList.contains('flashing') || button.style.backgroundColor === 'red') {
+        completeChore(button);
     } else {
-        button.style.backgroundColor = 'red';
+        resetChore(button);
+    }
+}
+
+function completeChore(button) {
+    button.classList.remove('flashing');
+    button.style.backgroundColor = 'green';
+    button.dataset.completed = 'true';
+}
+
+function resetChore(button) {
+    button.style.backgroundColor = 'red';
+    button.dataset.completed = 'false';
+}
+
+function setChoreOverdue(button) {
+    if (button.dataset.completed !== 'true') {
+        button.classList.add('flashing');
     }
 }
 
@@ -45,3 +62,10 @@ function scrollChores(direction) {
 
 // Initialize chores when the DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeChores);
+
+// Expose functions for external use
+window.chores = {
+    setChoreOverdue: setChoreOverdue,
+    completeChore: completeChore,
+    resetChore: resetChore
+};

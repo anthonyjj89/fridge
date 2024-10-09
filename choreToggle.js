@@ -1,11 +1,10 @@
 // Chore Toggle Functionality with Scheduling
 
 function toggleChore(button) {
-    if (button.classList.contains('active')) {
-        button.classList.remove('active');
+    if (button.dataset.completed === 'true') {
+        resetChoreState(button);
     } else {
-        button.classList.remove('flashing');
-        button.classList.add('active');
+        window.chores.completeChore(button);
     }
     updateChoreStatus(button);
 }
@@ -13,11 +12,17 @@ function toggleChore(button) {
 function updateChoreStatus(button) {
     const choreName = button.dataset.chore;
     if (isChoredDue(choreName)) {
-        button.classList.remove('active');
-        button.classList.add('flashing');
-    } else {
-        button.classList.remove('flashing');
+        if (button.dataset.completed === 'true') {
+            resetChoreState(button);
+        }
+        window.chores.setChoreOverdue(button);
     }
+}
+
+function resetChoreState(button) {
+    button.dataset.completed = 'false';
+    button.style.backgroundColor = 'red';
+    button.classList.remove('flashing');
 }
 
 function isChoredDue(choreName) {
@@ -49,7 +54,7 @@ function scheduleChores() {
 }
 
 // Set up periodic checking
-setInterval(scheduleChores, 10000); // Check every 10 seconds for development purposes
+setInterval(scheduleChores, 5000); // Check every minute
 
 // Initial check when the page loads
 document.addEventListener('DOMContentLoaded', scheduleChores);
