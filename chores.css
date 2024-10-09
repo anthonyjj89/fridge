@@ -41,10 +41,13 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    overflow: hidden; /* Hide scrollbar */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow-y: hidden; /* Hide vertical scrollbar */
     width: calc(100% - 60px); /* Adjust width to accommodate buttons */
-    height: 100px; /* Fixed height to match icon size */
+    height: auto; /* Remove fixed height to prevent cropping */
+    min-height: 120px; /* Set a minimum height to accommodate chores */
     margin: 0 30px; /* Add margin to accommodate buttons */
+    padding: 10px 0; /* Add vertical padding */
 }
 
 /* Scroll button styling */
@@ -137,9 +140,9 @@
 /* Responsive design improvements */
 @media (max-width: 768px) {
     #chore-list {
-        flex-wrap: wrap;
-        justify-content: center;
-        height: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
     }
 
     .scroll-button {
