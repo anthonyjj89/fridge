@@ -48,6 +48,13 @@
     min-height: 120px; /* Set a minimum height to accommodate chores */
     margin: 0 30px; /* Add margin to accommodate buttons */
     padding: 10px 0; /* Add vertical padding */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Hide WebKit scrollbar */
+#chore-list::-webkit-scrollbar {
+    display: none;
 }
 
 /* Scroll button styling */
@@ -78,7 +85,6 @@
     position: relative;
     display: inline-block;
     margin: 5px;
-    padding-top: 20px; /* Add padding to accommodate the countdown text */
 }
 
 .config-icon {
@@ -91,20 +97,6 @@
     background-color: white;
     border-radius: 50%;
     padding: 2px;
-}
-
-/* Chore countdown styling */
-.chore-countdown {
-    position: absolute;
-    top: -10px; /* Position 10px above the chore box */
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 0.8em;
-    padding: 2px;
-    text-align: center;
-    border-radius: 3px;
 }
 
 /* Chore controls styling */
