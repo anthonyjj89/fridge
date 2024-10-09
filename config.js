@@ -6,6 +6,7 @@ function initializeConfigIcons() {
     const popup = document.getElementById('popup');
     const popupChoreName = document.getElementById('popup-chore-name');
     const choreTime = document.getElementById('chore-time');
+    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
     const saveConfigButton = document.getElementById('save-config');
     const closePopupButton = document.getElementById('close-popup');
 
@@ -31,12 +32,18 @@ function openConfigPopup(choreName) {
     const popup = document.getElementById('popup');
     const popupChoreName = document.getElementById('popup-chore-name');
     const choreTime = document.getElementById('chore-time');
+    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
 
     popupChoreName.textContent = choreName;
     
     // Load saved values
     const savedConfig = JSON.parse(localStorage.getItem(`chore-${choreName}-config`) || '{}');
     choreTime.value = savedConfig.time || '';
+    
+    // Set day checkboxes
+    dayCheckboxes.forEach(checkbox => {
+        checkbox.checked = savedConfig.days ? savedConfig.days.includes(checkbox.value) : false;
+    });
     
     popup.style.display = 'block';
     console.log('Popup displayed for chore:', choreName);
@@ -45,21 +52,23 @@ function openConfigPopup(choreName) {
 function saveChoreConfig() {
     const popupChoreName = document.getElementById('popup-chore-name');
     const choreTime = document.getElementById('chore-time');
+    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
 
     const choreName = popupChoreName.textContent;
     const config = {
-        time: choreTime.value
+        time: choreTime.value,
+        days: Array.from(dayCheckboxes).filter(cb => cb.checked).map(cb => cb.value)
     };
     
     localStorage.setItem(`chore-${choreName}-config`, JSON.stringify(config));
     console.log('Config saved for chore:', choreName, config);
     
-    // Schedule the chore
-    if (window.scheduleChore) {
-        window.scheduleChore(choreName, config.time);
-    }
-    
     closeConfigPopup();
+    
+    // Update the chore status immediately
+    if (window.scheduleChores) {
+        window.scheduleChores();
+    }
 }
 
 function closeConfigPopup() {
