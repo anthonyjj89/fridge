@@ -1,0 +1,14 @@
+/* Calendar/Shopping Widget positioning */
+#main-widget {
+    grid-column: 1; /* Place in the first column */
+    height: auto; /* Independent height */
+}
+
+/* Add any specific styles for calendar content here */
+#calendar-content {
+    /* Add styles specific to calendar content */
+}
+
+#shopping-list {
+    /* Add styles specific to shopping list */
+}

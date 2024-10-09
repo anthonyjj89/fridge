@@ -1,0 +1,22 @@
+/* Date and time styling without background */
+#datetime {
+    grid-column: 2;
+    background-color: transparent;
+    color: #333; /* Off-black color for text */
+    height: auto; /* Allows independent height */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#day {
+    font-size: 5em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+#time {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 1;
+}

@@ -3,54 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Custom Dashboard</title>
-    <style>
-        #passcode-panel {
-            text-align: center;
-            margin-top: 100px;
-        }
-
-        .code-button {
-            font-size: 2em;
-            margin: 10px;
-            width: 60px;
-            height: 60px;
-        }
-
-        #dashboard {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="datetime.css">
+    <link rel="stylesheet" href="weather.css">
+    <link rel="stylesheet" href="calendar.css">
+    <link rel="stylesheet" href="chores.css">
+    <link rel="stylesheet" href="rightWidget.css">
+    <link rel="stylesheet" href="popup.css">
+    <title>Smart Dashboard</title>
 </head>
 <body>
-    <!-- Passcode Panel -->
-    <div id="passcode-panel">
-        <h2>Enter Passcode</h2>
-        <div id="input-display">****</div>
-        <div id="buttons">
-            <button class="code-button" onclick="enterCode(1)">1</button>
-            <button class="code-button" onclick="enterCode(2)">2</button>
-            <button class="code-button" onclick="enterCode(3)">3</button><br>
-            <button class="code-button" onclick="enterCode(4)">4</button>
-            <button class="code-button" onclick="enterCode(5)">5</button>
-            <button class="code-button" onclick="enterCode(6)">6</button><br>
-            <button class="code-button" onclick="enterCode(7)">7</button>
-            <button class="code-button" onclick="enterCode(8)">8</button>
-            <button class="code-button" onclick="enterCode(9)">9</button><br>
-            <button class="code-button" onclick="clearCode()">C</button>
-            <button class="code-button" onclick="enterCode(0)">0</button>
-            <button class="code-button" onclick="checkCode()">OK</button>
+    <div id="background"></div>
+    <div id="dashboard">
+        <div id="datetime" class="widget">
+            <div id="day">mon</div>
+            <div id="time">3.30pm</div>
+            <div id="temperature">30°C</div>
+        </div>
+        <div id="main-widget" class="widget">
+            <div id="calendar-shopping">
+                <div id="calendar-content" class="cycling-content active">WEEKLY VIEW<br>CALENDAR<br>GOOGLE API<br>SHOPPING NEEDS<br>ON CYCLE every 30 seconds</div>
+                <div id="shopping-list" class="cycling-content"></div>
+            </div>
+        </div>
+        <div id="chores" class="widget">
+            <button id="scroll-left" class="scroll-button">◀</button>
+            <div class="widget-content" id="chore-list">
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="dishes" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/3939/3939913.png" alt="Dishes" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="dishes">
+                    <div class="chore-countdown" data-chore="dishes"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="trash" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/5016/5016735.png" alt="Trash" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="trash">
+                    <div class="chore-countdown" data-chore="trash"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="water-plants" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/4147/4147953.png" alt="Water Plants" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="water-plants">
+                    <div class="chore-countdown" data-chore="water-plants"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="cat-litter" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/1687/1687142.png" alt="Cat Litter Tray" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="cat-litter">
+                    <div class="chore-countdown" data-chore="cat-litter"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="vacuum" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/125/125668.png" alt="Vacuum" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="vacuum">
+                    <div class="chore-countdown" data-chore="vacuum"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="robot-vacuum" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/1199/1199855.png" alt="Robot Vacuum" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="robot-vacuum">
+                    <div class="chore-countdown" data-chore="robot-vacuum"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="cat-dog-meds" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/4005/4005403.png" alt="Cat and Dog Meds" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="cat-dog-meds">
+                    <div class="chore-countdown" data-chore="cat-dog-meds"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="laundry" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/1075/1075355.png" alt="Laundry" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="laundry">
+                    <div class="chore-countdown" data-chore="laundry"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="dog-walking" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/10/10869.png" alt="Dog Walking" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="dog-walking">
+                    <div class="chore-countdown" data-chore="dog-walking"></div>
+                </div>
+                <div class="chore-container">
+                    <button class="chore-button" data-chore="water-bottle" aria-pressed="false"><img src="water-bottle.png" alt="Put Water Bottle Outside" width="80" height="80"></button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Configure" class="config-icon" data-chore="water-bottle">
+                    <div class="chore-countdown" data-chore="water-bottle"></div>
+                </div>
+            </div>
+            <button id="scroll-right" class="scroll-button">▶</button>
+        </div>
+        <div id="right-widget" class="widget">
+            <div id="rss-news" class="cycling-content active">
+                <h2>RSS NEWS</h2>
+                <div id="news-content"></div>
+            </div>
+            <div id="ios-album" class="cycling-content">
+                <h2>iOS PUBLIC ALBUM</h2>
+                <div id="album-content"></div>
+            </div>
+            <div id="word-of-day-en" class="cycling-content">
+                <h2>WORD OF THE DAY 🇬🇧</h2>
+                <div id="word-en-content"></div>
+            </div>
+            <div id="word-of-day-uk" class="cycling-content">
+                <h2>WORD OF THE DAY 🇺🇦</h2>
+                <div id="word-uk-content"></div>
+            </div>
         </div>
     </div>
-
-    <!-- Dashboard Content -->
-    <div id="dashboard">
-        <div id="calendar" class="widget">Loading calendar...</div>
-        <!-- Other widgets can go here -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Configure Chore Timing</h2>
+            <p>Chore: <span id="popup-chore-name"></span></p>
+            <div class="day-selection">
+                <label><input type="checkbox" name="day" value="mon"><span>Mon</span></label>
+                <label><input type="checkbox" name="day" value="tue"><span>Tue</span></label>
+                <label><input type="checkbox" name="day" value="wed"><span>Wed</span></label>
+                <label><input type="checkbox" name="day" value="thu"><span>Thu</span></label>
+                <label><input type="checkbox" name="day" value="fri"><span>Fri</span></label>
+                <label><input type="checkbox" name="day" value="sat"><span>Sat</span></label>
+                <label><input type="checkbox" name="day" value="sun"><span>Sun</span></label>
+            </div>
+            <div class="time-selection">
+                <label for="chore-time">Time:</label>
+                <input type="time" id="chore-time">
+            </div>
+            <button id="save-config">Save</button>
+            <button id="close-popup">Close</button>
+        </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="script.js"></script>
+    <div id="chore-controls">
+        <button id="export-chores">Export Chore Data</button>
+    </div>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="eventSystem.js"></script>
+    <script src="dateTime.js"></script>
+    <script src="weather.js"></script>
+    <script src="calendar.js"></script>
+    <script src="iosAlbum.js"></script>
+    <script src="contentCycling.js"></script>
+    <script src="dragResize.js"></script>
+    <script src="choreToggle.js"></script>
+    <script src="config.js"></script>
+    <script src="chores.js"></script>
+    <script src="ui.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
