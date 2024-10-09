@@ -5,12 +5,9 @@ function initializeConfigIcons() {
     const configIcons = document.querySelectorAll('.config-icon');
     const popup = document.getElementById('popup');
     const popupChoreName = document.getElementById('popup-chore-name');
-    const choreTime1 = document.getElementById('chore-time-1');
-    const choreTime2 = document.getElementById('chore-time-2');
-    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
+    const choreTime = document.getElementById('chore-time');
     const saveConfigButton = document.getElementById('save-config');
     const closePopupButton = document.getElementById('close-popup');
-    const allDaysButton = document.getElementById('all-days-button');
 
     configIcons.forEach(icon => {
         icon.addEventListener('click', function(event) {
@@ -19,7 +16,6 @@ function initializeConfigIcons() {
         });
     });
 
-    allDaysButton.addEventListener('click', toggleAllDays);
     saveConfigButton.addEventListener('click', saveChoreConfig);
     closePopupButton.addEventListener('click', closeConfigPopup);
 
@@ -34,57 +30,36 @@ function initializeConfigIcons() {
 function openConfigPopup(choreName) {
     const popup = document.getElementById('popup');
     const popupChoreName = document.getElementById('popup-chore-name');
-    const choreTime1 = document.getElementById('chore-time-1');
-    const choreTime2 = document.getElementById('chore-time-2');
-    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
+    const choreTime = document.getElementById('chore-time');
 
     popupChoreName.textContent = choreName;
     
     // Load saved values
     const savedConfig = JSON.parse(localStorage.getItem(`chore-${choreName}-config`) || '{}');
-    choreTime1.value = savedConfig.time1 || '';
-    choreTime2.value = savedConfig.time2 || '';
-    
-    // Set day checkboxes
-    dayCheckboxes.forEach(checkbox => {
-        checkbox.checked = savedConfig.days ? savedConfig.days.includes(checkbox.value) : false;
-    });
+    choreTime.value = savedConfig.time || '';
     
     popup.style.display = 'block';
     console.log('Popup displayed for chore:', choreName);
 }
 
-function toggleAllDays() {
-    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
-    const allChecked = Array.from(dayCheckboxes).every(cb => cb.checked);
-    dayCheckboxes.forEach(checkbox => {
-        checkbox.checked = !allChecked;
-    });
-}
-
 function saveChoreConfig() {
     const popupChoreName = document.getElementById('popup-chore-name');
-    const choreTime1 = document.getElementById('chore-time-1');
-    const choreTime2 = document.getElementById('chore-time-2');
-    const dayCheckboxes = document.querySelectorAll('.day-selection input[type="checkbox"]');
+    const choreTime = document.getElementById('chore-time');
 
     const choreName = popupChoreName.textContent;
     const config = {
-        time1: choreTime1.value,
-        time2: choreTime2.value,
-        days: Array.from(dayCheckboxes).filter(cb => cb.checked).map(cb => cb.value)
+        time: choreTime.value
     };
     
     localStorage.setItem(`chore-${choreName}-config`, JSON.stringify(config));
     console.log('Config saved for chore:', choreName, config);
     
-    closeConfigPopup();
-    
-    // Update the chore UI if needed
-    const choreButton = document.querySelector(`.chore-button[data-chore="${choreName}"]`);
-    if (choreButton && window.choreToggle && window.choreToggle.updateUI) {
-        window.choreToggle.updateUI(choreButton);
+    // Schedule the chore
+    if (window.scheduleChore) {
+        window.scheduleChore(choreName, config.time);
     }
+    
+    closeConfigPopup();
 }
 
 function closeConfigPopup() {

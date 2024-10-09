@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize chore status checking
     updateAllChores();
-    setInterval(updateAllChores, 60000); // Check every minute
+    setInterval(updateAllChores, 10000); // Check every 10 seconds
     
     console.log('All initializations complete');
 
@@ -33,3 +33,10 @@ function activateDefaultView() {
     document.querySelector('#calendar-shopping .cycling-content').classList.add('active');
     document.getElementById('rss-news').classList.add('active');
 }
+
+// Expose the onChoreConfigSaved function globally
+window.onChoreConfigSaved = function() {
+    if (window.updateAllChores) {
+        window.updateAllChores();
+    }
+};
