@@ -11,14 +11,13 @@ function enableDragResize() {
     lockIcon.style.left = '10px';
     lockIcon.style.width = '30px';
     lockIcon.style.height = '30px';
-    lockIcon.style.background = 'url(lock.png) no-repeat center center';
-    lockIcon.style.backgroundSize = 'contain';
+    lockIcon.style.backgroundColor = 'red'; // Changed to red square
     lockIcon.style.cursor = 'pointer';
     document.body.appendChild(lockIcon);
 
     lockIcon.addEventListener('click', function() {
         isLocked = !isLocked;
-        lockIcon.style.background = isLocked ? 'url(lock.png) no-repeat center center' : 'url(unlock.png) no-repeat center center';
+        lockIcon.style.backgroundColor = isLocked ? 'red' : 'green'; // Toggle between red and green
         resizableElements.forEach(element => {
             element.style.resize = isLocked ? 'none' : 'both';
             element.style.cursor = isLocked ? 'default' : 'move';

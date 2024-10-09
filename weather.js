@@ -1,23 +1,42 @@
 // Weather Widget Integration
-function initializeWeather() {
-    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your actual API key
-    const city = 'Dubai';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const temperatureElement = document.getElementById('temperature');
+function getMockWeatherData() {
+    const temperatures = [20, 22, 25, 28, 30, 32, 35];
+    const randomTemp = temperatures[Math.floor(Math.random() * temperatures.length)];
+    return {
+        main: {
+            temp: randomTemp
+        }
+    };
+}
+
+function initializeWeather() {
+    console.log('Initializing weather widget');
+    try {
+        const data = getMockWeatherData();
+        const temperatureElement = document.getElementById('temperature');
+        if (temperatureElement) {
             if (data && data.main) {
                 const temperature = Math.round(data.main.temp);
                 temperatureElement.textContent = `${temperature}°C`;
+                console.log('Weather data updated:', `${temperature}°C`);
             } else {
                 temperatureElement.textContent = 'Weather data unavailable';
+                console.warn('Weather data is incomplete');
             }
-        })
-        .catch(error => {
-            console.error('Error fetching weather data:', error);
-            const temperatureElement = document.getElementById('temperature');
+        } else {
+            console.error('Temperature element not found in the DOM');
+        }
+    } catch (error) {
+        console.error('Error updating weather data:', error);
+        const temperatureElement = document.getElementById('temperature');
+        if (temperatureElement) {
             temperatureElement.textContent = 'Failed to load weather data';
-        });
+        }
+    }
 }
+
+// Initialize weather when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeWeather);
+
+console.log('Weather.js loaded');

@@ -1,0 +1,64 @@
+{
+  "chores": [
+    {
+      "name": "dishes",
+      "days": ["mon", "wed", "fri"],
+      "time": "20:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "trash",
+      "days": ["mon", "thu"],
+      "time": "19:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "water-plants",
+      "days": ["tue", "fri"],
+      "time": "09:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "cat-litter",
+      "days": ["mon", "wed", "fri", "sun"],
+      "time": "18:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "vacuum",
+      "days": ["sat"],
+      "time": "11:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "robot-vacuum",
+      "days": ["tue", "thu", "sun"],
+      "time": "10:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "cat-dog-meds",
+      "days": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+      "time": "08:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "laundry",
+      "days": ["sat"],
+      "time": "10:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "dog-walking",
+      "days": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+      "time": "07:00",
+      "lastCompleted": null
+    },
+    {
+      "name": "water-bottle",
+      "days": ["mon", "tue", "wed", "thu", "fri"],
+      "time": "22:00",
+      "lastCompleted": null
+    }
+  ]
+}
