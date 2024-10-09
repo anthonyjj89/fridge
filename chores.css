@@ -1,8 +1,4 @@
-/* Chores widget positioning */
-#chores {
-    grid-column: 1; /* Place in the first column */
-    height: auto; /* Independent height */
-}
+/* Add this to the end of the existing chores.css file */
 
 /* Keyframe animation for flashing effect */
 @keyframes flash-red-white {
@@ -10,9 +6,14 @@
     50% { background-color: white; }
 }
 
+.chore-button.flashing {
+    animation: flash-red-white 2s infinite;
+}
+
 /* Chore button styling */
 .chore-button {
-    color: black;
+    background-color: #808080; /* Default color is gray */
+    color: white;
     border: none;
     border-radius: 5px;
     width: 90px;
@@ -24,15 +25,15 @@
     display: inline-block;
     transition: background-color 0.3s ease;
     position: relative;
-    /* Apply flashing animation by default */
-    animation: flash-red-white 2s infinite;
 }
 
 .chore-button.active {
-    background-color: green;
-    color: white;
-    /* Stop the flashing animation when active */
-    animation: none;
+    background-color: green !important;
+    animation: none !important;
+}
+
+.chore-button.flashing {
+    animation: flash-red-white 2s infinite;
 }
 
 /* Ensure chore buttons are in a horizontal line */
@@ -74,6 +75,7 @@
     position: relative;
     display: inline-block;
     margin: 5px;
+    padding-top: 20px; /* Add padding to accommodate the countdown text */
 }
 
 .config-icon {
@@ -91,7 +93,7 @@
 /* Chore countdown styling */
 .chore-countdown {
     position: absolute;
-    bottom: 0;
+    top: -10px; /* Position 10px above the chore box */
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.7);
@@ -99,6 +101,7 @@
     font-size: 0.8em;
     padding: 2px;
     text-align: center;
+    border-radius: 3px;
 }
 
 /* Chore controls styling */
@@ -121,14 +124,6 @@
 
 #chore-controls button:hover {
     background-color: #45a049;
-}
-
-#reset-chores {
-    background-color: #f44336;
-}
-
-#reset-chores:hover {
-    background-color: #da190b;
 }
 
 /* Improved accessibility for buttons */

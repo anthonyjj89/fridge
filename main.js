@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initializeConfigIcons();
     
+    // Initialize chore status checking
+    updateAllChores();
+    setInterval(updateAllChores, 60000); // Check every minute
+    
     console.log('All initializations complete');
 
     activateDefaultView();

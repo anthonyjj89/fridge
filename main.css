@@ -77,3 +77,32 @@ li {
 .cycling-content.active {
     display: flex;
 }
+
+/* Chore button styling */
+.chore-button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* Active chore state */
+.chore-button.active {
+    background-color: green;
+    color: white;
+}
+
+/* Flashing animation for due chores */
+@keyframes flash {
+    0% { background-color: red; }
+    50% { background-color: white; }
+    100% { background-color: red; }
+}
+
+.chore-button.flashing {
+    animation: flash 1s linear infinite;
+    color: black; /* Ensure text is visible on both red and white backgrounds */
+}
