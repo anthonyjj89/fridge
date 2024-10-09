@@ -16,30 +16,16 @@
 // DOM Elements
 const choreList = document.getElementById('chore-list');
 
-// Event system
-const eventSystem = {
-    events: {},
-    subscribe: function(eventName, fn) {
-        this.events[eventName] = this.events[eventName] || [];
-        this.events[eventName].push(fn);
-    },
-    publish: function(eventName, data) {
-        if (this.events[eventName]) {
-            this.events[eventName].forEach(fn => {
-                fn(data);
-            });
-        }
-    }
-};
-
-// Initialization
-document.addEventListener('DOMContentLoaded', function() {
+/**
+ * Initialize the chore system
+ */
+function initializeChores() {
     initializeChoreButtons();
     loadChoreStates();
     sortChores();
     startChoreScheduleChecker();
     console.log('Chore system initialized');
-});
+}
 
 /**
  * Initialize chore buttons with event listeners
@@ -57,7 +43,7 @@ function initializeChoreButtons() {
                 saveChoreState(this.dataset.chore, this.classList.contains('active'));
                 sortChores();
                 updateChoreUI(this.dataset.chore);
-                eventSystem.publish('choreStateChanged', { 
+                window.eventSystem.publish('choreStateChanged', { 
                     choreName: this.dataset.chore, 
                     isActive: this.classList.contains('active') 
                 });
@@ -125,7 +111,7 @@ function resetAllChores() {
         }
     });
     sortChores();
-    eventSystem.publish('allChoresReset', {});
+    window.eventSystem.publish('allChoresReset', {});
 }
 
 /**
@@ -322,14 +308,17 @@ function exportChoreData() {
 }
 
 // Expose functions globally
-window.resetAllChores = resetAllChores;
-window.exportChoreData = exportChoreData;
+window.chores = {
+    initialize: initializeChores,
+    resetAll: resetAllChores,
+    exportData: exportChoreData
+};
 
 // Example usage of the event system
-eventSystem.subscribe('choreStateChanged', (data) => {
+window.eventSystem.subscribe('choreStateChanged', (data) => {
     console.log(`Chore ${data.choreName} state changed to ${data.isActive ? 'active' : 'inactive'}`);
 });
 
-eventSystem.subscribe('allChoresReset', () => {
+window.eventSystem.subscribe('allChoresReset', () => {
     console.log('All chores have been reset');
 });
