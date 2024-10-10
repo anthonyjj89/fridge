@@ -44,6 +44,20 @@ body, html {
     position: relative; /* Ensure scroll buttons are positioned correctly */
 }
 
+/* Main widget specific styling */
+#main-widget {
+    display: flex;
+    align-items: center;
+    padding: 0 40px; /* Add padding to make space for the arrows */
+}
+
+#calendar-shopping {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    width: 100%; /* Ensure full width within the padding */
+}
+
 /* Heading styling */
 h2 {
     font-size: 1.2em;
@@ -72,6 +86,7 @@ li {
 /* Cycling content visibility */
 .cycling-content {
     display: none;
+    padding: 0 10px; /* Add some padding to the content itself */
 }
 
 .cycling-content.active {
@@ -105,4 +120,64 @@ li {
 .chore-button.flashing {
     animation: flash 1s linear infinite;
     color: black; /* Ensure text is visible on both red and white backgrounds */
+}
+
+/* Scroll button styling for main widget and right widget */
+.scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.scroll-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#main-widget-prev, #right-widget-prev {
+    left: 5px;
+}
+
+#main-widget-next, #right-widget-next {
+    right: 5px;
+}
+
+/* Improved accessibility for buttons */
+.scroll-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #dashboard {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+    }
+
+    .widget {
+        padding: 10px;
+    }
+
+    #main-widget, #right-widget {
+        padding: 0;
+    }
+
+    .scroll-button {
+        display: none; /* Hide scroll buttons on smaller screens */
+    }
+
+    .cycling-content {
+        padding: 0;
+    }
 }
