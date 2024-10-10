@@ -8,6 +8,78 @@
 #right-widget {
     grid-column: 2; /* Place in the second column */
     height: auto; /* Independent height */
+    display: flex;
+    align-items: center;
+    position: relative; /* Added for absolute positioning of buttons */
+    padding: 0 40px; /* Add padding to make space for the arrows */
+}
+
+/* Styles for the widget content container */
+#right-widget .widget-content {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    width: 100%; /* Ensure full width within the padding */
+}
+
+/* Styles for cycling content */
+#right-widget .cycling-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    padding: 0 10px; /* Add some padding to the content itself */
+}
+
+#right-widget .cycling-content.active {
+    opacity: 1;
+    z-index: 1;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Updated styles for navigation buttons to match chore element arrows */
+#right-widget .scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+#right-widget .scroll-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#right-widget-prev {
+    left: 5px; /* Adjust to align with the new padding */
+}
+
+#right-widget-next {
+    right: 5px; /* Adjust to align with the new padding */
+}
+
+/* Improved accessibility for buttons */
+#right-widget .scroll-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
 }
 
 /* Styles for RSS news */
@@ -34,5 +106,14 @@
 @media (max-width: 768px) {
     #right-widget {
         grid-column: 1;
+        padding: 0; /* Remove padding on smaller screens */
+    }
+
+    #right-widget .scroll-button {
+        display: none;
+    }
+
+    #right-widget .cycling-content {
+        padding: 0; /* Remove content padding on smaller screens */
     }
 }

@@ -13,7 +13,6 @@ function initializeApp() {
         { name: 'Weather', func: initializeWeather },
         { name: 'DateTime', func: updateDateTime },
         { name: 'IosAlbum', func: updateIosAlbum },
-        { name: 'CyclingContent', func: startCyclingContent },
         { name: 'DragResize', func: enableDragResize },
         { name: 'PositionsAndSizes', func: loadPositionsAndSizes },
     ];
@@ -61,6 +60,15 @@ function initializeApp() {
     } catch (error) {
         console.error('Error setting up chore checking:', error);
     }
+
+    // Initialize content cycling and set up event listeners
+    try {
+        console.log('Initializing content cycling...');
+        initializeContentCycling();
+        console.log('Content cycling initialized');
+    } catch (error) {
+        console.error('Error initializing content cycling:', error);
+    }
     
     console.log('All initializations complete');
 
@@ -73,6 +81,40 @@ function activateDefaultView() {
     console.log('Activating default view');
     document.querySelector('#calendar-shopping .cycling-content').classList.add('active');
     document.getElementById('rss-news').classList.add('active');
+}
+
+// Initialize content cycling and set up event listeners
+function initializeContentCycling() {
+    if (typeof startCyclingContent === 'function') {
+        startCyclingContent();
+    } else {
+        console.error('startCyclingContent function not found');
+    }
+
+    const prevButton = document.getElementById('right-widget-prev');
+    const nextButton = document.getElementById('right-widget-next');
+
+    if (prevButton && nextButton) {
+        prevButton.addEventListener('click', () => {
+            console.log('Prev button clicked');
+            if (typeof cycleRightWidget === 'function') {
+                cycleRightWidget('prev');
+            } else {
+                console.error('cycleRightWidget function not found');
+            }
+        });
+        nextButton.addEventListener('click', () => {
+            console.log('Next button clicked');
+            if (typeof cycleRightWidget === 'function') {
+                cycleRightWidget('next');
+            } else {
+                console.error('cycleRightWidget function not found');
+            }
+        });
+        console.log('Event listeners for right widget buttons set up');
+    } else {
+        console.error('Right widget navigation buttons not found');
+    }
 }
 
 // Expose the onChoreConfigSaved function globally
