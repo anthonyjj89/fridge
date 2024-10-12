@@ -25,8 +25,7 @@ function loadChoreConfig() {
     }
     console.log('Chore configuration loaded:', choreConfig);
 }
-
-function initialize() {
+export function initialize() {
     console.log('Initializing chore system');
     loadChoreConfig();
     initializeChores();
@@ -156,7 +155,7 @@ function saveChoreConfig() {
     console.log('Chore configuration saved');
 }
 
-function checkAllChores() {
+export function checkAllChores() {
     console.log('Checking all chores');
     try {
         const buttons = document.querySelectorAll('.chore-button');
@@ -193,8 +192,7 @@ function scrollChores(direction) {
         choreList.scrollLeft += scrollAmount;
     }
 }
-
-function openChorePopup(choreName) {
+export function openChorePopup(choreName) {
     console.log('Opening chore popup for:', choreName);
     const chore = choreConfig.chores.find(c => c.name === choreName);
     if (chore) {
@@ -208,8 +206,7 @@ function openChorePopup(choreName) {
         document.getElementById('chore-popup').style.display = 'block';
     }
 }
-
-function saveChorePopup() {
+export function saveChorePopup() {
     const choreName = document.getElementById('chore-name').textContent;
     const chore = choreConfig.chores.find(c => c.name === choreName);
     if (chore) {
@@ -225,27 +222,18 @@ function saveChorePopup() {
 function closeChorePopup() {
     document.getElementById('chore-popup').style.display = 'none';
 }
-
-function selectAllDays() {
+export function selectAllDays() {
     document.querySelectorAll('.day-checkbox').forEach(checkbox => {
         checkbox.checked = true;
     });
 }
 
-// Initialize chores when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing chores');
-    initialize();
-    
-    // Add event listeners for popup buttons
-    document.getElementById('save-chore-button').addEventListener('click', saveChorePopup);
-    document.getElementById('close-popup-button').addEventListener('click', closeChorePopup);
-    document.getElementById('select-all-days-button').addEventListener('click', selectAllDays);
-});
+// Remove the DOMContentLoaded event listener, as we'll handle initialization in main.js
+// document.addEventListener('DOMContentLoaded', () => { ... });
 
-// Expose functions and config for external use
-window.chores = {
-    initialize: initialize,
+// Export functions and config for external use
+export const chores = {
+    initialize,
     setChoreOverdue: (button) => {
         button.classList.add('flashing');
     },
@@ -257,11 +245,11 @@ window.chores = {
         button.style.backgroundColor = 'white';
         button.classList.remove('flashing');
     },
-    openChorePopup: openChorePopup,
-    saveChoreConfig: saveChoreConfig,
-    toggleChore: toggleChore,
-    updateChoreState: updateChoreState,
-    checkAllChores: checkAllChores,
+    openChorePopup,
+    saveChoreConfig,
+    toggleChore,
+    updateChoreState,
+    checkAllChores,
     get config() {
         return choreConfig;
     }

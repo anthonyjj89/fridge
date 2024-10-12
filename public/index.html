@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="../src/styles/main.css" type="text/css">
+    <link rel="stylesheet" href="../src/styles/components/datetime.css" type="text/css">
+    <link rel="stylesheet" href="../src/styles/components/weather.css" type="text/css">
+    <link rel="stylesheet" href="../src/styles/components/calendar.css" type="text/css">
+    <link rel="stylesheet" href="../src/styles/components/chores.css" type="text/css">
+    <link rel="stylesheet" href="../src/styles/components/rightWidget.css" type="text/css">
+    <link rel="stylesheet" href="../src/styles/components/popup.css" type="text/css">
     <title>Smart Dashboard</title>
 </head>
 <body>
     <div id="background"></div>
     <div id="dashboard">
-        <div id="version-number">v0.1.6</div>
+        <div id="version-number">v0.1.7</div>
         <div id="widget-container"></div>
     </div>
     <div id="chore-popup" class="popup">
@@ -41,7 +47,7 @@
     
     <!-- Debug toggle button -->
     <div id="debug-toggle" class="debug-control">
-        <button onclick="window.toggleDebugging()">Debug</button>
+        <button id="debug-button">Debug</button>
     </div>
 
     <!-- Debug timer displays -->
@@ -49,12 +55,18 @@
     <div id="right-widget-debug-timer" class="debug-timer"></div>
 
     <script type="module">
-        import { initializeApp } from './main.js';
-        import { enableDragResize } from './dragResize.js';
+        import { initializeApp } from '../src/scripts/main.js';
+        import { enableDragResize } from '../src/scripts/dragResize.js';
+        import { toggleDebugging } from '../src/scripts/contentCycling.js';
 
         // Load widget HTML content
         const widgetContainer = document.getElementById('widget-container');
-        const widgetFiles = ['datetime-widget.html', 'main-widget.html', 'chores-widget.html', 'right-widget.html'];
+        const widgetFiles = [
+            '../src/components/datetime-widget.html', 
+            '../src/components/main-widget.html', 
+            '../src/components/chores-widget.html', 
+            '../src/components/right-widget.html'
+        ];
 
         Promise.all(widgetFiles.map(widget => 
             fetch(widget)
@@ -67,23 +79,24 @@
             console.log('All widgets loaded');
             // Load all scripts
             return Promise.all([
-                loadScript('eventSystem.js'),
-                loadScript('dateTime.js'),
-                loadScript('weather.js'),
-                loadScript('calendar.js'),
-                loadScript('iosAlbum.js'),
-                loadScript('contentCycling.js'),
-                loadScript('config.js'),
-                loadScript('chores.js'),
-                loadScript('choreToggle.js'),
-                loadScript('ui.js'),
-                loadScript('rss.js')
+                loadScript('../src/scripts/eventSystem.js'),
+                loadScript('../src/scripts/dateTime.js'),
+                loadScript('../src/scripts/weather.js'),
+                loadScript('../src/scripts/calendar.js'),
+                loadScript('../src/scripts/iosAlbum.js'),
+                loadScript('../src/scripts/contentCycling.js'),
+                loadScript('../src/scripts/config.js'),
+                loadScript('../src/scripts/chores.js'),
+                loadScript('../src/scripts/choreToggle.js'),
+                loadScript('../src/scripts/ui.js'),
+                loadScript('../src/scripts/rss.js')
             ]);
         })
         .then(() => {
             console.log('All scripts loaded');
             initializeApp();
             enableDragResize();
+            document.getElementById('debug-button').addEventListener('click', toggleDebugging);
         })
         .catch(error => console.error('Error loading widgets or scripts:', error));
 

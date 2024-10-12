@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.7] - 2023-05-28
+
+### Added
+- Improved widget resizing functionality for more flexible sizing.
+- Enhanced scrollbar visibility management in both locked and unlocked states.
+
+### Changed
+- Refined widget cycling behavior for smoother transitions and consistent widget sizes.
+- Updated widget layout and styling for better appearance and space utilization.
+- Modified chore button styling for clearer visual feedback on chore states.
+
+### Fixed
+- Resolved issues with unnecessary scrollbar appearance in various widgets.
+- Addressed problems with widgets becoming too small or too large during resizing.
+- Fixed widget size changes during content cycling.
+
+### Known Issues
+- Chores may not always initialize in the correct state (flashing red-white) on first load or reset.
+
+## [0.1.6] - 2023-05-21
+
 ## [0.1.6] - 2023-05-21
 
 ### Added
@@ -42,3 +63,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Resolved issues with widget outlines appearing outside of debug mode.
 - Fixed inconsistent timer behavior when manually cycling widgets.
+

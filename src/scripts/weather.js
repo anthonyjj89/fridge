@@ -10,7 +10,7 @@ function getMockWeatherData() {
     };
 }
 
-function initializeWeather() {
+export function initializeWeather() {
     console.log('Initializing weather widget');
     try {
         const data = getMockWeatherData();
@@ -36,7 +36,7 @@ function initializeWeather() {
     }
 }
 
-// Initialize weather when the DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeWeather);
+// Remove the DOMContentLoaded event listener, as we'll handle initialization in main.js
+// document.addEventListener('DOMContentLoaded', initializeWeather);
 
 console.log('Weather.js loaded');

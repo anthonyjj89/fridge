@@ -30,15 +30,10 @@ export function loadPositionsAndSizes() {
             element.style.display = savedPosition.visible ? 'block' : 'none';
         } else {
             // If no saved position, set default values
+            setDefaultWidgetSize(element);
             element.style.left = '20px';
             element.style.top = '20px';
             element.style.display = 'block';
-            
-            // Set default size for the right-widget (or the widget with red outline)
-            if (element.id === 'right-widget') {
-                element.style.width = '300px';
-                element.style.height = '300px';
-            }
         }
         console.log(`Widget ${element.id} display:`, element.style.display);
     });
@@ -67,16 +62,10 @@ export function toggleWidget(id) {
 export function resetWidget(id) {
     const widget = document.getElementById(id);
     if (widget) {
+        setDefaultWidgetSize(widget);
         widget.style.left = '20px';
         widget.style.top = '20px';
         widget.style.display = 'block';
-        
-        // Set default size for the right-widget (or the widget with red outline)
-        if (id === 'right-widget') {
-            widget.style.width = '300px';
-            widget.style.height = '300px';
-        }
-        
         savePositionsAndSizes();
     }
 }
@@ -86,18 +75,24 @@ export function resetAllWidgets(visibleOnly) {
     let topOffset = 20;
     widgets.forEach(widget => {
         if (!visibleOnly || widget.style.display !== 'none') {
+            setDefaultWidgetSize(widget);
             widget.style.left = '20px';
             widget.style.top = `${topOffset}px`;
             widget.style.display = 'block';
-            
-            // Set default size for the right-widget (or the widget with red outline)
-            if (widget.id === 'right-widget') {
-                widget.style.width = '300px';
-                widget.style.height = '300px';
-            }
-            
             topOffset += 50; // Offset each widget by 50px vertically
         }
     });
     savePositionsAndSizes();
 }
+
+function setDefaultWidgetSize(widget) {
+    if (widget.id === 'chores') {
+        widget.style.width = '400px';
+        widget.style.height = '100px';
+    } else {
+        widget.style.width = '400px';
+        widget.style.height = '400px';
+    }
+}
+
+console.log('WidgetPositions.js loaded');

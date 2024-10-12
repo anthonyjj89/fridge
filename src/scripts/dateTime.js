@@ -1,5 +1,5 @@
 // Update date and time
-function updateDateTime() {
+export function updateDateTime() {
     const now = new Date();
     const dayElement = document.getElementById('day');
     const timeElement = document.getElementById('time');
@@ -17,3 +17,5 @@ function updateDateTime() {
     // Update every minute
     setTimeout(updateDateTime, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()));
 }
+
+console.log('DateTime.js loaded');

@@ -1,0 +1,168 @@
+/* Right widget styling */
+#right-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 0 40px; /* Add padding to make space for the arrows */
+    height: 100%; /* Ensure full height */
+}
+
+/* Styles for the widget content container */
+#right-widget .widget-content {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Styles for cycling content */
+#right-widget .cycling-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#right-widget .cycling-content.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Updated styles for navigation buttons */
+#right-widget .scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+#right-widget .scroll-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#right-widget-prev {
+    left: 5px;
+}
+
+#right-widget-next {
+    right: 5px;
+}
+
+/* Improved accessibility for buttons */
+#right-widget .scroll-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Styles for RSS news */
+#rss-news {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+#rss-news h2 {
+    margin-bottom: 15px;
+}
+
+#rss-news ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: calc(100% - 40px); /* Adjust based on your h2 height */
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+#rss-news ul::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
+#rss-news li {
+    margin-bottom: 10px;
+}
+
+#rss-news a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#rss-news a:hover {
+    text-decoration: underline;
+}
+
+/* Styles for iOS album */
+#ios-album {
+    display: flex;
+    flex-direction: column;
+}
+
+#ios-album #album-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Styles for word of the day (English and Ukrainian) */
+#word-of-day-en,
+#word-of-day-uk {
+    display: flex;
+    flex-direction: column;
+}
+
+#word-of-day-en #word-en-content,
+#word-of-day-uk #word-uk-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Responsive design for right widget */
+@media (max-width: 768px) {
+    #right-widget {
+        padding: 0;
+    }
+
+    #right-widget .scroll-button {
+        display: none;
+    }
+
+    #right-widget .cycling-content {
+        position: relative;
+        opacity: 1;
+        height: auto;
+    }
+}
+
+/* Debug styles */
+#right-widget {
+    border: 2px solid blue; /* Add a blue border to make the right widget visible */
+}
+
+#right-widget .cycling-content {
+    border: 1px solid orange; /* Add an orange border to make cycling content visible */
+}
+
+#right-widget .cycling-content.active {
+    border-color: lime; /* Change the border color for active content */
+}

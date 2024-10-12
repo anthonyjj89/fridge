@@ -13,7 +13,7 @@ const MANUAL_CYCLE_DELAY = 120000; // 2 minutes
 
 let isDebugging = localStorage.getItem('isDebugging') === 'true';
 
-function cycleRightWidget(direction, manual = false) {
+export function cycleRightWidget(direction, manual = false) {
     console.log('Cycling right widget:', direction);
     console.log('Current right widget index before cycling:', rightWidgetIndex);
 
@@ -38,8 +38,7 @@ function cycleRightWidget(direction, manual = false) {
     }
     updateDebugTimers('right');
 }
-
-function cycleMainWidget(direction, manual = false) {
+export function cycleMainWidget(direction, manual = false) {
     console.log('Cycling main widget:', direction);
     console.log('Current main widget index before cycling:', mainWidgetIndex);
 
@@ -65,7 +64,8 @@ function cycleMainWidget(direction, manual = false) {
     updateDebugTimers('main');
 }
 
-function startAutoCycling() {
+
+export function startAutoCycling() {
     console.log('Starting auto cycling');
     stopAutoCycling(); // Clear any existing intervals
     autoScrollInterval = setInterval(() => {
@@ -76,7 +76,7 @@ function startAutoCycling() {
     updateDebugTimers('both');
 }
 
-function stopAutoCycling() {
+export function stopAutoCycling() {
     console.log('Stopping auto cycling');
     clearInterval(autoScrollInterval);
     clearDebugTimers();
@@ -138,7 +138,7 @@ function clearDebugTimers() {
     debugTimerIntervals = {};
 }
 
-function toggleDebugging() {
+export function toggleDebugging() {
     isDebugging = !isDebugging;
     localStorage.setItem('isDebugging', isDebugging);
     document.body.classList.toggle('debugging', isDebugging);
@@ -183,7 +183,7 @@ function setupEventListeners() {
     }
 }
 
-function initializeCycling() {
+export function initializeCycling() {
     console.log('Initializing content cycling');
     rightWidgetElements = [
         document.getElementById('rss-news'),
@@ -213,18 +213,7 @@ function initializeCycling() {
     }
 }
 
-// Ensure the DOM is fully loaded before initializing
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeCycling);
-} else {
-    initializeCycling();
-}
-
 console.log('contentCycling.js loaded and executed');
 
-// Export functions for external use
-window.cycleRightWidget = cycleRightWidget;
-window.cycleMainWidget = cycleMainWidget;
-window.startAutoCycling = startAutoCycling;
-window.stopAutoCycling = stopAutoCycling;
-window.toggleDebugging = toggleDebugging;
+// Export the initializeCycling function as initializeContentCycling
+export { initializeCycling as initializeContentCycling };

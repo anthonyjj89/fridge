@@ -1,6 +1,6 @@
 // Chore Toggle Functionality with Scheduling
 
-function toggleChore(button) {
+export function toggleChore(button) {
     if (window.chores && window.chores.toggleChore) {
         window.chores.toggleChore(button);
     } else {
@@ -8,9 +8,8 @@ function toggleChore(button) {
     }
 }
 
-// Initialize everything when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("choreToggle.js: DOM fully loaded");
+export function initializeChoreToggle() {
+    console.log("choreToggle.js: Initializing");
 
     // Check if window.chores is properly initialized
     if (window.chores) {
@@ -18,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("window.chores is not initialized");
     }
-});
-
-// Expose functions globally
-window.toggleChore = toggleChore;
+}
 
 console.log("choreToggle.js loaded");

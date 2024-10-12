@@ -42,7 +42,7 @@ function displayRSSFeed(feedItems) {
     rssNewsElement.appendChild(newsContent);
 }
 
-async function initializeRSSFeed() {
+export async function initializeRSSFeed() {
     console.log('Initializing RSS feed');
     const rssUrl = 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml'; // Example RSS feed URL
     const xmlDoc = await fetchRSSFeed(rssUrl);
@@ -55,9 +55,9 @@ async function initializeRSSFeed() {
     }
 }
 
-// Initialize RSS feed when the DOM is fully loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeRSSFeed);
-} else {
-    initializeRSSFeed();
-}
+// Remove the DOMContentLoaded event listener, as we'll handle initialization in main.js
+// if (document.readyState === 'loading') {
+//     document.addEventListener('DOMContentLoaded', initializeRSSFeed);
+// } else {
+//     initializeRSSFeed();
+// }

@@ -15,5 +15,7 @@ const eventSystem = {
     }
 };
 
-// Expose the event system globally
-window.eventSystem = eventSystem;
+// Export the event system
+export default eventSystem;
+
+console.log('EventSystem.js loaded');

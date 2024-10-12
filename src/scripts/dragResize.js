@@ -152,11 +152,13 @@ export function enableDragResize() {
     updateLockState();
 }
 
-// Initialize drag and resize functionality
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM content loaded, initializing drag and resize');
-    loadPositionsAndSizes();
-    enableDragResize();
-});
+// Remove the DOMContentLoaded event listener
+// document.addEventListener('DOMContentLoaded', () => {
+//     console.log('DOM content loaded, initializing drag and resize');
+//     loadPositionsAndSizes();
+//     enableDragResize();
+// });
 
-export { toggleWidget, resetWidget, resetAllWidgets };
+export { toggleWidget, resetWidget, resetAllWidgets, loadPositionsAndSizes };
+
+console.log('DragResize.js loaded');

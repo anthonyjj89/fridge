@@ -2,6 +2,23 @@ export function enableResize(element, resizeHandle, gridSize, isLockedFn, savePo
     resizeHandle.addEventListener('mousedown', resizeStart);
     resizeHandle.addEventListener('touchstart', resizeStart);
 
+    // Function to update resizable state
+    function updateResizableState() {
+        if (isLockedFn()) {
+            element.classList.remove('resizable');
+            resizeHandle.style.display = 'none';
+        } else {
+            element.classList.add('resizable');
+            resizeHandle.style.display = 'block';
+        }
+    }
+
+    // Initial update of resizable state
+    updateResizableState();
+
+    // Update resizable state whenever lock state changes
+    document.addEventListener('lockStateChanged', updateResizableState);
+
     function resizeStart(e) {
         if (isLockedFn()) return;
         e.stopPropagation();
@@ -34,3 +51,5 @@ export function enableResize(element, resizeHandle, gridSize, isLockedFn, savePo
         document.addEventListener('touchend', endHandler);
     }
 }
+
+console.log('WidgetResize.js loaded');

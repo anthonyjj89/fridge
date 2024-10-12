@@ -1,11 +1,18 @@
-import { enableDragResize } from './dragResize.js';
-import { loadPositionsAndSizes } from './widgetPositions.js';
+import { enableDragResize, loadPositionsAndSizes } from './dragResize.js';
 import { toggleMaximize } from './widgetMaximize.js';
+import { initializeCalendar } from './calendar.js';
+import { initializeWeather } from './weather.js';
+import { updateDateTime } from './dateTime.js';
+import { updateIosAlbum } from './iosAlbum.js';
+import { initializeRSSFeed } from './rss.js';
+import { initialize as initializeChores, checkAllChores, chores } from './chores.js';
+import { initializeUI } from './ui.js';
+import { initializeContentCycling, cycleRightWidget } from './contentCycling.js';
 
 console.log('Main.js execution started');
 
 export function initializeApp() {
-    console.log('Initializing app version v0.1.6');
+    console.log('Initializing app version v0.1.7');
     
     const initializationTimeout = setTimeout(() => {
         console.error('Initialization timed out after 6 seconds');
@@ -13,20 +20,20 @@ export function initializeApp() {
 
     // Initialize core components
     const components = [
-        { name: 'Calendar', func: window.initializeCalendar || (() => console.log('Calendar initialization not available')) },
-        { name: 'Weather', func: window.initializeWeather || (() => console.log('Weather initialization not available')) },
-        { name: 'DateTime', func: window.updateDateTime || (() => console.log('DateTime update not available')) },
-        { name: 'IosAlbum', func: window.updateIosAlbum || (() => console.log('IosAlbum update not available')) },
+        { name: 'Calendar', func: initializeCalendar },
+        { name: 'Weather', func: initializeWeather },
+        { name: 'DateTime', func: updateDateTime },
+        { name: 'IosAlbum', func: updateIosAlbum },
         { name: 'DragResize', func: enableDragResize },
         { name: 'PositionsAndSizes', func: loadPositionsAndSizes },
-        { name: 'RSS', func: window.initializeRSSFeed || (() => console.log('RSS initialization not available')) },
+        { name: 'RSS', func: initializeRSSFeed },
     ];
 
     components.forEach(component => {
         try {
             console.log(`Initializing ${component.name}...`);
             component.func();
-            console.log(`${component.name} initialized`);
+            console.log(`${component.name} initialized successfully`);
             
             if (component.name === 'Calendar') {
                 const calendarWidget = document.getElementById('main-widget');
@@ -40,12 +47,9 @@ export function initializeApp() {
     // Initialize chores system
     try {
         console.log('Initializing chores system...');
-        if (window.chores && window.chores.initialize) {
-            window.chores.initialize();
-            console.log('Chores system initialized');
-        } else {
-            console.warn('Chores system not available');
-        }
+        initializeChores();
+        console.log('Chores system initialized successfully');
+        console.log('Chores config:', chores.config);
     } catch (error) {
         console.error('Error initializing chores system:', error);
     }
@@ -53,12 +57,8 @@ export function initializeApp() {
     // Initialize UI components
     try {
         console.log('Initializing UI components...');
-        if (window.initializeUI) {
-            window.initializeUI();
-            console.log('UI components initialized');
-        } else {
-            console.warn('UI initialization not available');
-        }
+        initializeUI();
+        console.log('UI components initialized successfully');
     } catch (error) {
         console.error('Error initializing UI components:', error);
     }
@@ -66,19 +66,9 @@ export function initializeApp() {
     // Initialize chore status checking
     try {
         console.log('Setting up chore checking...');
-        if (window.chores && window.chores.checkAllChores) {
-            window.chores.checkAllChores();
-            setInterval(() => {
-                try {
-                    window.chores.checkAllChores();
-                } catch (error) {
-                    console.error('Error checking chores:', error);
-                }
-            }, 60000); // Check every minute
-            console.log('Chore checking set up');
-        } else {
-            console.warn('Chore checking not available');
-        }
+        checkAllChores();
+        setInterval(checkAllChores, 10000); // Check every 10 sec
+        console.log('Chore checking set up successfully');
     } catch (error) {
         console.error('Error setting up chore checking:', error);
     }
@@ -87,7 +77,7 @@ export function initializeApp() {
     try {
         console.log('Initializing content cycling...');
         initializeContentCycling();
-        console.log('Content cycling initialized');
+        console.log('Content cycling initialized successfully');
     } catch (error) {
         console.error('Error initializing content cycling:', error);
     }
@@ -96,7 +86,7 @@ export function initializeApp() {
     try {
         console.log('Initializing toggle buttons...');
         initializeToggleButtons();
-        console.log('Toggle buttons initialized');
+        console.log('Toggle buttons initialized successfully');
     } catch (error) {
         console.error('Error initializing toggle buttons:', error);
     }
@@ -110,6 +100,13 @@ export function initializeApp() {
     const mainWidget = document.getElementById('main-widget');
     console.log('Final main widget display:', mainWidget ? mainWidget.style.display : 'Widget not found');
     console.log('Main widget computed style display:', mainWidget ? window.getComputedStyle(mainWidget).display : 'Widget not found');
+
+    // Log all widget elements
+    const widgets = document.querySelectorAll('.widget');
+    console.log('All widget elements:', widgets);
+    widgets.forEach((widget, index) => {
+        console.log(`Widget ${index + 1}:`, widget.id, 'Display:', widget.style.display);
+    });
 }
 
 // Activate the default cycling content view
@@ -132,43 +129,10 @@ function activateDefaultView() {
     }
 }
 
-// Initialize content cycling and set up event listeners
-function initializeContentCycling() {
-    if (typeof window.startCyclingContent === 'function') {
-        window.startCyclingContent();
-    } else {
-        console.warn('startCyclingContent function not found');
-    }
-
-    const prevButton = document.getElementById('right-widget-prev');
-    const nextButton = document.getElementById('right-widget-next');
-
-    if (prevButton && nextButton) {
-        prevButton.addEventListener('click', () => {
-            console.log('Prev button clicked');
-            if (typeof window.cycleRightWidget === 'function') {
-                window.cycleRightWidget('prev');
-            } else {
-                console.warn('cycleRightWidget function not found');
-            }
-        });
-        nextButton.addEventListener('click', () => {
-            console.log('Next button clicked');
-            if (typeof window.cycleRightWidget === 'function') {
-                window.cycleRightWidget('next');
-            } else {
-                console.warn('cycleRightWidget function not found');
-            }
-        });
-        console.log('Event listeners for right widget buttons set up');
-    } else {
-        console.warn('Right widget navigation buttons not found');
-    }
-}
-
 // Initialize toggle buttons
 function initializeToggleButtons() {
     const toggleButtons = document.querySelectorAll('.widget-toggle');
+    console.log('Toggle buttons found:', toggleButtons.length);
     toggleButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             const widget = event.target.closest('.widget');
@@ -182,20 +146,6 @@ function initializeToggleButtons() {
     });
     console.log('Toggle buttons initialized');
 }
-
-// Expose the onChoreConfigSaved function globally
-window.onChoreConfigSaved = function() {
-    console.log('Chore config saved, updating chores');
-    if (window.chores && window.chores.checkAllChores) {
-        try {
-            window.chores.checkAllChores();
-        } catch (error) {
-            console.error('Error updating chores after config save:', error);
-        }
-    } else {
-        console.warn('Chore checking function not available');
-    }
-};
 
 // Initialize app when DOM content is loaded
 document.addEventListener('DOMContentLoaded', () => {

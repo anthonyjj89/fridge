@@ -1,0 +1,106 @@
+/* Calendar/Shopping Widget positioning */
+#main-widget {
+    grid-column: 1; /* Place in the first column */
+    height: auto; /* Independent height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Calendar content styles */
+#calendar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-header h2 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.calendar-navigation {
+    display: flex;
+    gap: 10px;
+}
+
+.calendar-navigation button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.calendar-day.today {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* Shopping list styles */
+#shopping-list {
+    padding: 10px;
+}
+
+#shopping-list h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+#shopping-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#shopping-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#shopping-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+#shopping-list button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .calendar-grid {
+        font-size: 0.8em;
+    }
+
+    #shopping-list {
+        font-size: 0.9em;
+    }
+}

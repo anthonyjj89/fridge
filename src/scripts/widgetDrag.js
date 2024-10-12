@@ -53,3 +53,5 @@ export function enableDrag(element, gridSize, isLockedFn, savePositionsAndSizes)
     // Set initial cursor style
     element.style.cursor = 'grab';
 }
+
+console.log('WidgetDrag.js loaded');

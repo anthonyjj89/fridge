@@ -101,3 +101,5 @@ function resetMaximizeTimer() {
         }
     }, 120000); // 2 minutes
 }
+
+console.log('WidgetMaximize.js loaded');

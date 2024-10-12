@@ -2,6 +2,77 @@
 
 IMPORTANT: When updating this log, add new entries at the top of the file. Do not overwrite or remove previous entries. You may add information to previous entries if necessary, but preserve all existing content.
 
+## Version 0.1.7 - 2023-05-28
+
+### Implemented Features
+1. Improved widget resizing functionality
+   - Updated the widget resizing mechanism to allow for more flexible sizing
+   - Modified the CSS to support dynamic widget sizes
+   - Implemented constraints to prevent widgets from becoming too small or too large
+
+2. Enhanced scrollbar visibility management
+   - Updated CSS to hide scrollbars in both locked and unlocked states
+   - Implemented a mechanism to show scrollbars only when needed (e.g., when content overflows)
+
+3. Refined widget cycling behavior
+   - Adjusted the content cycling logic to maintain consistent widget sizes during transitions
+   - Improved the cycling animation to provide a smoother user experience
+
+### Changed Features
+1. Widget layout and styling
+   - Updated the CSS for various widgets to improve their appearance and consistency
+   - Adjusted the layout of widgets to better utilize available space
+
+2. Chore system visual feedback
+   - Modified the chore button styling to provide clearer visual feedback on chore states
+
+### Fixed Issues
+1. Scrollbar visibility
+   - Resolved issues with scrollbars appearing unnecessarily in various widgets
+   - Fixed inconsistencies in scrollbar behavior between locked and unlocked states
+
+2. Widget resizing constraints
+   - Addressed problems with widgets becoming too small or too large during resizing
+   - Implemented proper constraints to maintain usable widget sizes
+
+3. Content cycling stability
+   - Fixed issues with widget size changes during content cycling
+   - Improved the stability of widget layouts during transitions
+
+### Code Refactoring
+1. widgets.css
+   - Reorganized and optimized CSS rules for better maintainability
+   - Implemented new classes and styles to support improved widget functionality
+
+2. widgetResize.js
+   - Refactored the resizing logic to provide smoother and more consistent behavior
+   - Implemented additional checks and constraints for widget sizes
+
+3. contentCycling.js
+   - Updated the cycling logic to maintain consistent widget sizes and improve transitions
+
+### Known Issues
+1. Chore state initialization
+   - Chores may not always initialize in the correct state (flashing red-white) on first load or reset
+   - Further investigation and implementation are needed to ensure consistent initial chore states
+
+### Future Improvements
+- Implement a more robust chore state initialization system
+- Consider adding user preferences for widget sizes and layouts
+- Explore additional performance optimizations for smoother animations and transitions
+
+### Lessons Learned
+1. Importance of thorough testing across different widget states and sizes
+2. Benefits of modular CSS and JavaScript for easier maintenance and updates
+3. Significance of user feedback in identifying and prioritizing improvements
+
+### Development Environment
+- No changes to the development environment in this version
+
+### Third-party Dependencies
+- No new dependencies were added in this version
+- Existing dependencies remain compatible with the current implementation
+
 ## Version 0.1.6 - 2023-05-21
 
 ### Implemented Features

@@ -1,0 +1,98 @@
+/* Dashboard grid layout with two columns */
+#dashboard {
+    display: grid;
+    grid-template-columns: minmax(200px, 2fr) minmax(100px, 1fr); /* Two columns, left is wider, with minimum sizes */
+    grid-template-rows: auto 1fr; /* First row auto, second row takes remaining space */
+    gap: 15px;
+    padding: 20px;
+    height: 100vh;
+    align-items: start; /* Align items to the start of each cell */
+    box-sizing: border-box;
+}
+
+/* Main widget specific styling */
+#main-widget {
+    grid-column: 1;
+    grid-row: 1 / span 2; /* Span both rows */
+    align-items: center;
+    padding: 0 40px; /* Add padding to make space for the arrows */
+    min-width: 200px; /* Minimum width */
+    max-width: 100%; /* Maximum width */
+    resize: horizontal; /* Allow horizontal resizing */
+    overflow: auto; /* Enable scrolling if content overflows */
+}
+
+/* Right widget specific styling */
+#right-widget {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 40px; /* Add padding to make space for the arrows */
+    min-width: 100px; /* Minimum width */
+    max-width: 100%; /* Maximum width */
+    resize: horizontal; /* Allow horizontal resizing */
+    overflow: auto; /* Enable scrolling if content overflows */
+}
+
+/* Chores widget specific styling */
+#chores {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 100px; /* Minimum width */
+    max-width: 100%; /* Maximum width */
+    resize: horizontal; /* Allow horizontal resizing */
+    overflow: auto; /* Enable scrolling if content overflows */
+}
+
+/* Management buttons styling */
+#management-buttons {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Adjust widget container to fit the grid layout */
+#widget-container {
+    display: contents;
+}
+
+/* Ensure widgets take full height of their grid cells */
+.widget {
+    height: 100%;
+    overflow: auto;
+    min-height: 100px; /* Minimum height */
+    resize: both; /* Allow both horizontal and vertical resizing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #dashboard {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+        grid-template-rows: auto auto 1fr; /* Three rows for smaller screens */
+    }
+
+    #main-widget, #right-widget, #chores {
+        grid-column: 1;
+        padding: 0 20px;
+    }
+
+    #main-widget {
+        grid-row: 1;
+    }
+
+    #chores {
+        grid-row: 2;
+    }
+
+    #right-widget {
+        grid-row: 3;
+    }
+}

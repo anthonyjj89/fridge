@@ -1,6 +1,6 @@
 // Configuration and Schedule Popup Logic
 
-function initializeConfigIcons() {
+export function initializeConfigIcons() {
     console.log('Initializing configuration icons...');
     const configIcons = document.querySelectorAll('.config-icon');
     const popup = document.getElementById('chore-popup');
@@ -43,7 +43,7 @@ function initializeConfigIcons() {
     }
 }
 
-function openConfigPopup(choreName) {
+export function openConfigPopup(choreName) {
     console.log('Opening config popup for chore:', choreName);
     try {
         const popup = document.getElementById('chore-popup');
@@ -79,7 +79,7 @@ function openConfigPopup(choreName) {
     }
 }
 
-function saveChoreConfig() {
+export function saveChoreConfig() {
     console.log('Saving chore config');
     try {
         const popupChoreName = document.getElementById('chore-name');
@@ -124,7 +124,7 @@ function saveChoreConfig() {
     }
 }
 
-function closeConfigPopup() {
+export function closeConfigPopup() {
     console.log('Closing config popup');
     try {
         const popup = document.getElementById('chore-popup');
@@ -138,13 +138,5 @@ function closeConfigPopup() {
         console.error('Error closing config popup:', error.message);
     }
 }
-
-// Initialize configuration when the DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeConfigIcons);
-
-// Expose necessary functions globally
-window.openConfigPopup = openConfigPopup;
-window.saveChoreConfig = saveChoreConfig;
-window.closeConfigPopup = closeConfigPopup;
 
 console.log('config.js loaded');

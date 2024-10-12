@@ -1,0 +1,59 @@
+
+# Guide to Document Usage
+
+This guide explains how to effectively use the 4 main documents for tracking and managing your project's development.
+
+---
+
+## 1. **Change Logs**
+   - **Purpose**: A public-facing document that summarizes what has been done in each patch, presented in a simple and digestible way for users or clients.
+   - **When to Use**: After each release, update the change log with the key features, fixes, and changes. This is a simplified version of the development details that focuses on the end results.
+   - **Contents**: 
+     - Features added or removed
+     - Bugs fixed
+     - Known issues (optional)
+   - **Audience**: Users, clients, or anyone external who needs a quick overview of what has changed.
+
+---
+
+## 2. **Dev Logs**
+   - **Purpose**: A detailed, internal log for developers. It provides in-depth explanations of what was done during each patch, including technical challenges and solutions.
+   - **When to Use**: Log detailed development progress while you're working on each patch. Use it to document decisions, bugs, and code refactoring that are important for future reference.
+   - **Contents**: 
+     - Detailed feature implementation
+     - Technical fixes or refactors
+     - Notes on debugging and code decisions
+   - **Audience**: For your own records or for any future developers who may work on the project.
+
+---
+
+## 3. **Patch Roadmap**
+   - **Purpose**: A forward-looking plan that outlines what is *intended* for future patches. It sets the direction for development and serves as a strategic planning document.
+   - **When to Use**: Before you begin work on a new version or patch, use this to define the features and fixes that will be implemented. Update it with new ideas or requests as development progresses.
+   - **Contents**:
+     - Planned features and fixes for upcoming patches
+     - New functionality or improvements
+     - Large-scale changes (e.g., refactoring, design overhauls)
+   - **Audience**: Internal, but can be shared with clients or stakeholders to provide an overview of future development.
+
+---
+
+## 4. **Internal Patch Roadmap**
+   - **Purpose**: A more detailed, internally focused version of the Patch Roadmap. This version includes timelines, priorities, and risks associated with each feature or fix.
+   - **When to Use**: Use it as an active working document for project management. This is where you’ll set realistic timelines, assess risks, and break down complex tasks into manageable steps.
+   - **Contents**:
+     - Timeline estimates
+     - Priorities for each task
+     - Risks or technical challenges
+     - Development considerations (e.g., dependencies, testing)
+   - **Audience**: Just for you or your development team to stay organized and focused on what needs to be done.
+
+---
+
+### Best Practices:
+1. **Keep Each Document Updated**: Ensure that every change, plan, or development is reflected in its respective document as soon as possible to avoid inconsistencies.
+2. **Use Documents Together**: The Dev Logs and Internal Patch Roadmap are primarily for development tracking, while the Patch Roadmap and Change Logs are more client/user-focused. Use them as complementary documents.
+3. **Review Before Each Release**: Before releasing a new version, check the Patch Roadmap and Internal Patch Roadmap to make sure all planned features have been completed, and update the Change Logs accordingly.
+4. **Track Feedback**: Use the Patch Roadmap to track and prioritize any feedback you receive from users or stakeholders.
+
+By maintaining these documents, you'll have a clear structure for both current and future development, making it easier to manage your workflow and track progress.

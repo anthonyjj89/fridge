@@ -1,0 +1,117 @@
+/* Keyframe animation for flashing effect */
+@keyframes flash-red-white {
+    0%, 100% { background-color: red; }
+    50% { background-color: white; }
+}
+
+/* Chore button styling */
+.chore-button {
+    background-color: #808080; /* Default color is gray */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 90px;
+    height: 90px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+.chore-button.active {
+    background-color: green !important;
+    animation: none !important;
+}
+
+.chore-button.flashing {
+    animation: flash-red-white 2s infinite;
+}
+
+/* Ensure chore buttons are in a horizontal line */
+#chore-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    width: calc(100% - 60px); /* Adjust width to accommodate buttons */
+    height: auto; /* Remove fixed height to prevent cropping */
+    min-height: 120px; /* Set a minimum height to accommodate chores */
+    margin: 0 30px; /* Add margin to accommodate buttons */
+    padding: 10px 0; /* Add vertical padding */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Hide WebKit scrollbar */
+#chore-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll button styling */
+.scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+#scroll-left {
+    left: 0;
+}
+
+#scroll-right {
+    right: 0;
+}
+
+/* New styles for chore container and config icon */
+.chore-container {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.config-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+/* Improved accessibility for buttons */
+.chore-button:focus,
+.scroll-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+    #chore-list {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+    }
+
+    .scroll-button {
+        display: none;
+    }
+}

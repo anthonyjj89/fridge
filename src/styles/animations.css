@@ -1,0 +1,54 @@
+/* Flashing animation for due chores */
+@keyframes flash {
+    0% { background-color: red; }
+    50% { background-color: white; }
+    100% { background-color: red; }
+}
+
+.chore-button.flashing {
+    animation: flash 1s linear infinite;
+    color: black; /* Ensure text is visible on both red and white backgrounds */
+}
+
+/* Animation for maximizing/minimizing */
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes zoomOut {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.95); opacity: 0; }
+}
+
+.widget.maximizing {
+    animation: zoomIn 0.3s ease forwards;
+}
+
+.widget.minimizing {
+    animation: zoomOut 0.3s ease forwards;
+}
+
+/* Fade animation for background opacity */
+@keyframes fadeIn {
+    from { background-color: rgba(31, 30, 30, 0.637); }
+    to { background-color: rgba(0, 0, 0, 0.95); }
+}
+
+@keyframes fadeOut {
+    from { background-color: rgba(0, 0, 0, 0.95); }
+    to { background-color: rgba(31, 30, 30, 0.637); }
+}
+
+.widget.fading-in {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.widget.fading-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+/* Smooth transition for widget background color */
+.widget {
+    transition: background-color 0.3s ease;
+}

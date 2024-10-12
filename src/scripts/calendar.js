@@ -24,7 +24,7 @@ function generateMockEvents() {
     return events;
 }
 
-function initializeCalendar() {
+export function initializeCalendar() {
     const events = generateMockEvents();
     const calendarContent = document.getElementById('calendar-content');
     let html = '<ul>';
@@ -42,7 +42,7 @@ function initializeCalendar() {
     calendarContent.innerHTML = html;
 }
 
-// Initialize calendar when the DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeCalendar);
+// Remove the DOMContentLoaded event listener, as we'll handle initialization in main.js
+// document.addEventListener('DOMContentLoaded', initializeCalendar);
 
 console.log('Calendar.js loaded');

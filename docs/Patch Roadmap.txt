@@ -1,30 +1,32 @@
-
 # Patch Roadmap
 
-## Version 0.1.7 - Planned Release
+## Version 0.1.7 - 2023-05-28
 
 ### Overview
-Version 0.1.7 aims to address several known issues while refactoring the project folder structure to improve maintainability and scalability.
+Version 0.1.7 focused on improving widget functionality, addressing scrollbar issues, and enhancing the overall user experience.
 
 ### Key Updates
-1. **Folder Restructure**:
-   - Implement a more organized folder hierarchy for easier management and navigation.
-   - Separate concerns between front-end assets, logic, and configurations.
+1. **Improved Widget Resizing**: 
+   - Updated the widget resizing mechanism for more flexible sizing.
+   - Implemented constraints to prevent widgets from becoming too small or too large.
 
-2. **Fix Known Issues**:
-   - Resolve the issue where the main widget changes size on cycling after an initial load or reset.
-   - Address the problem of right widget debug outlines (blue and green lines) being visible outside of debug mode.
-   - Fix the incorrect initial display of chores, ensuring proper white or red flashing states based on their due status.
+2. **Enhanced Scrollbar Management**:
+   - Updated CSS to hide scrollbars in both locked and unlocked states.
+   - Implemented a mechanism to show scrollbars only when needed.
 
-### Known Issues:
-- Inconsistent layout stability on initial load and reset.
-- CSS issues affecting debug outlines.
-- Chores not displaying their correct states on first load.
+3. **Refined Widget Cycling**:
+   - Adjusted content cycling logic to maintain consistent widget sizes during transitions.
+   - Improved cycling animation for a smoother user experience.
 
-### Development Considerations
-- Implement the folder restructure with minimal disruption to current functionality.
-- Ensure thorough testing of CSS and layout changes across all device sizes.
-- Prioritize fixing the chore state display issue to improve user experience.
+4. **Updated Widget Layout and Styling**:
+   - Improved appearance and consistency of various widgets.
+   - Adjusted widget layout to better utilize available space.
+
+5. **Chore System Visual Feedback**:
+   - Modified chore button styling for clearer visual feedback on chore states.
+
+### Known Issues
+- Chores may not always initialize in the correct state (flashing red-white) on first load or reset.
 
 ---
 
@@ -38,6 +40,8 @@ This patch introduced enhanced scheduling features, improved user interaction wi
 2. **Second Time Slot**: Users can now assign a second time slot for chores within the same day.
 3. **Auto-Close Pop-Up**: Clicking outside the pop-up will now close it automatically.
 
+## Version 0.1.5 - 2023-05-14
+
 ### Known Issues
 - Main widget changes size on each cycle after initial load or reset.
 - Right widget debug outlines visible outside of debug mode.
@@ -45,12 +49,65 @@ This patch introduced enhanced scheduling features, improved user interaction wi
 
 ---
 
-## Version 0.1.5 - 2023-05-14
+## Version 0.1.8 - Planned Release
 
 ### Overview
-The focus of this patch was on improving the widget cycling behavior, introducing a new debug mode, and fixing inconsistencies in the timer logic.
+Version 0.1.8 aims to address remaining known issues and further improve the user experience.
 
 ### Key Updates
-1. **Debug Mode Toggle**: Added a new debug mode for easier development and testing, displaying widget names and outlines.
-2. **Improved Widget Cycling**: Widgets now cycle independently, and manual cycling triggers a 120-second delay before auto-cycling resumes.
-3. **Timer Fixes**: Resolved issues where cycling one widget affected the timers of others.
+1. **Fix Chore Initialization**:
+   - Resolve the issue where chores may not initialize in the correct state on first load or reset.
+
+2. **Further UI/UX Improvements**:
+   - Fine-tune widget animations and transitions.
+   - Enhance responsiveness across different screen sizes.
+
+3. **Performance Optimization**:
+   - Optimize JavaScript and CSS for better performance.
+   - Implement lazy loading for non-critical resources.
+
+---
+
+## Version 0.2.0 - Planned Release
+
+### Overview
+Version 0.2.0 introduces several major features that enhance functionality and user experience across multiple aspects of the application.
+
+### Key Features
+1. **RSS Feed**: Integrate an RSS feed reader for pulling in external content.
+2. **Ukrainian and English Word of the Day**:
+   - Cross-translation functionality using an external API.
+   - Displays a word of the day in both languages with translation between them.
+3. **iOS Public Album Slide Show**: Incorporate a slideshow feature using photos from a shared public album on iOS.
+4. **Google Maps Upcoming Events List**: Show upcoming events based on user’s location, powered by Google Maps.
+5. **Shopping List with Scheduling**:
+   - Grid-based list for regular shopping, similar to Chores.
+   - User-settable schedule based on average consumption (e.g., daily, weekly).
+   - Add and remove items via a pop-up interface.
+
+---
+
+## Version 0.3.0 - Planned Release
+
+### Overview
+Version 0.3.0 will focus on changes and updates based on user feedback collected during the usage of previous versions.
+
+### Key Areas of Improvement:
+- UI/UX improvements based on feedback.
+- Feature enhancements to address user pain points or feature requests.
+- Optimization of performance across all devices and browsers.
+
+---
+
+## Version 0.4.0 and Beyond - To Be Confirmed (TBC)
+
+### Future Goals:
+- Further iterations based on evolving user needs and technical capabilities.
+- Preparation for a stable version with all core functionalities.
+
+---
+
+## Version 1.0.0 - Planned Release
+
+### Overview
+The goal for version 1.0.0 is to implement a user login system and finalize the application to function similarly to a DAK board replacement, offering a wide range of widgets for users to customize.

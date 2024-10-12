@@ -1,6 +1,6 @@
 // UI-related functions
 
-function initializeUI() {
+export function initializeUI() {
     addScrollFunctionality();
     addChorePopupListeners();
     addPopupAutoClose();
@@ -99,8 +99,4 @@ function addPopupAutoClose() {
     });
 }
 
-// Initialize UI when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeUI();
-    console.log('UI initialized');
-});
+console.log('UI module loaded');

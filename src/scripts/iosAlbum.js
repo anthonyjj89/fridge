@@ -1,5 +1,5 @@
 // iOS Public Album integration
-function updateIosAlbum() {
+export function updateIosAlbum() {
     const albumUrl = 'https://www.icloud.com/sharedalbum/#B0UGrq0zwuvmn8';
     const albumContent = document.getElementById('album-content');
     
@@ -8,3 +8,5 @@ function updateIosAlbum() {
 
     // If more functionality is needed, add it here to fetch album data dynamically
 }
+
+console.log('iOS Album module loaded');
