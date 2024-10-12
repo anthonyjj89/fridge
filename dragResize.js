@@ -59,51 +59,71 @@ function enableDragResize() {
         element.appendChild(resizeHandle);
 
         // Make the entire element draggable
-        element.addEventListener('mousedown', function(e) {
-            if (isLocked || e.target === resizeHandle) return;
-            const offsetX = e.clientX - element.offsetLeft;
-            const offsetY = e.clientY - element.offsetTop;
+        element.addEventListener('mousedown', dragStart);
+        element.addEventListener('touchstart', dragStart);
 
-            function mouseMoveHandler(e) {
-                element.style.left = `${Math.round((e.clientX - offsetX) / gridSize) * gridSize}px`;
-                element.style.top = `${Math.round((e.clientY - offsetY) / gridSize) * gridSize}px`;
+        function dragStart(e) {
+            if (isLocked || e.target === resizeHandle) return;
+            e.preventDefault();
+            const touch = e.type === 'touchstart' ? e.touches[0] : e;
+            const offsetX = touch.clientX - element.offsetLeft;
+            const offsetY = touch.clientY - element.offsetTop;
+
+            function moveHandler(e) {
+                const touch = e.type === 'touchmove' ? e.touches[0] : e;
+                element.style.left = `${Math.round((touch.clientX - offsetX) / gridSize) * gridSize}px`;
+                element.style.top = `${Math.round((touch.clientY - offsetY) / gridSize) * gridSize}px`;
             }
 
-            function mouseUpHandler() {
-                document.removeEventListener('mousemove', mouseMoveHandler);
-                document.removeEventListener('mouseup', mouseUpHandler);
+            function endHandler() {
+                document.removeEventListener('mousemove', moveHandler);
+                document.removeEventListener('mouseup', endHandler);
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('touchend', endHandler);
                 savePositionsAndSizes();
             }
 
-            document.addEventListener('mousemove', mouseMoveHandler);
-            document.addEventListener('mouseup', mouseUpHandler);
-        });
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', endHandler);
+            document.addEventListener('touchmove', moveHandler);
+            document.addEventListener('touchend', endHandler);
+        }
 
         // Make the element resizable from the bottom-right corner
-        resizeHandle.addEventListener('mousedown', function(e) {
+        resizeHandle.addEventListener('mousedown', resizeStart);
+        resizeHandle.addEventListener('touchstart', resizeStart);
+
+        function resizeStart(e) {
             if (isLocked) return;
             e.stopPropagation();
-            const startX = e.clientX;
-            const startY = e.clientY;
+            e.preventDefault();
+            const touch = e.type === 'touchstart' ? e.touches[0] : e;
+            const startX = touch.clientX;
+            const startY = touch.clientY;
             const startWidth = parseInt(document.defaultView.getComputedStyle(element).width, 10);
             const startHeight = parseInt(document.defaultView.getComputedStyle(element).height, 10);
 
-            function mouseMoveHandler(e) {
-                const newWidth = Math.round((startWidth + e.clientX - startX) / gridSize) * gridSize;
-                const newHeight = Math.round((startHeight + e.clientY - startY) / gridSize) * gridSize;
+            function moveHandler(e) {
+                const touch = e.type === 'touchmove' ? e.touches[0] : e;
+                const newWidth = Math.round((startWidth + touch.clientX - startX) / gridSize) * gridSize;
+                const newHeight = Math.round((startHeight + touch.clientY - startY) / gridSize) * gridSize;
                 element.style.width = `${newWidth}px`;
                 element.style.height = `${newHeight}px`;
             }
 
-            function mouseUpHandler() {
-                document.removeEventListener('mousemove', mouseMoveHandler);
-                document.removeEventListener('mouseup', mouseUpHandler);
+            function endHandler() {
+                document.removeEventListener('mousemove', moveHandler);
+                document.removeEventListener('mouseup', endHandler);
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('touchend', endHandler);
                 savePositionsAndSizes();
             }
 
-            document.addEventListener('mousemove', mouseMoveHandler);
-            document.addEventListener('mouseup', mouseUpHandler);
-        });
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', endHandler);
+            document.addEventListener('touchmove', moveHandler);
+            document.addEventListener('touchend', endHandler);
+        }
     });
 
     // Initial update of lock state
