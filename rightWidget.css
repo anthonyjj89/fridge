@@ -1,25 +1,20 @@
-/* RSS widget positioning */
-#rss {
-    grid-column: 2; /* Place in the second column */
-    height: auto; /* Independent height */
-}
-
-/* Independent right widget styling */
+/* Right widget styling */
 #right-widget {
-    grid-column: 2; /* Place in the second column */
-    height: auto; /* Independent height */
     display: flex;
+    flex-direction: column;
     align-items: center;
-    position: relative; /* Added for absolute positioning of buttons */
+    position: relative;
     padding: 0 40px; /* Add padding to make space for the arrows */
+    height: 100%; /* Ensure full height */
 }
 
 /* Styles for the widget content container */
 #right-widget .widget-content {
     flex-grow: 1;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     position: relative;
-    width: 100%; /* Ensure full width within the padding */
 }
 
 /* Styles for cycling content */
@@ -31,21 +26,18 @@
     height: 100%;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-    padding: 0 10px; /* Add some padding to the content itself */
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 #right-widget .cycling-content.active {
     opacity: 1;
     z-index: 1;
-    animation: fadeIn 0.5s ease-in-out;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Updated styles for navigation buttons to match chore element arrows */
+/* Updated styles for navigation buttons */
 #right-widget .scroll-button {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -69,11 +61,11 @@
 }
 
 #right-widget-prev {
-    left: 5px; /* Adjust to align with the new padding */
+    left: 5px;
 }
 
 #right-widget-next {
-    right: 5px; /* Adjust to align with the new padding */
+    right: 5px;
 }
 
 /* Improved accessibility for buttons */
@@ -84,29 +76,62 @@
 
 /* Styles for RSS news */
 #rss-news {
-    /* Add specific styles for RSS news */
+    display: flex;
+    flex-direction: column;
+}
+
+#rss-news h2 {
+    margin-bottom: 15px;
+}
+
+#rss-news ul {
+    list-style-type: none;
+    padding: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#rss-news li {
+    margin-bottom: 10px;
+}
+
+#rss-news a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#rss-news a:hover {
+    text-decoration: underline;
 }
 
 /* Styles for iOS album */
 #ios-album {
-    /* Add specific styles for iOS album */
+    display: flex;
+    flex-direction: column;
 }
 
-/* Styles for word of the day (English) */
-#word-of-day-en {
-    /* Add specific styles for English word of the day */
+#ios-album #album-content {
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
-/* Styles for word of the day (Ukrainian) */
+/* Styles for word of the day (English and Ukrainian) */
+#word-of-day-en,
 #word-of-day-uk {
-    /* Add specific styles for Ukrainian word of the day */
+    display: flex;
+    flex-direction: column;
+}
+
+#word-of-day-en #word-en-content,
+#word-of-day-uk #word-uk-content {
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
 /* Responsive design for right widget */
 @media (max-width: 768px) {
     #right-widget {
-        grid-column: 1;
-        padding: 0; /* Remove padding on smaller screens */
+        padding: 0;
     }
 
     #right-widget .scroll-button {
@@ -114,6 +139,21 @@
     }
 
     #right-widget .cycling-content {
-        padding: 0; /* Remove content padding on smaller screens */
+        position: relative;
+        opacity: 1;
+        height: auto;
     }
+}
+
+/* Debug styles */
+#right-widget {
+    border: 2px solid blue; /* Add a blue border to make the right widget visible */
+}
+
+#right-widget .cycling-content {
+    border: 1px solid orange; /* Add an orange border to make cycling content visible */
+}
+
+#right-widget .cycling-content.active {
+    border-color: lime; /* Change the border color for active content */
 }

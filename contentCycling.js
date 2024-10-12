@@ -16,7 +16,11 @@ function cycleRightWidget(direction) {
     clearInterval(autoScrollInterval);
     clearTimeout(autoScrollTimeout);
 
-    rightWidgetElements.forEach(element => element.classList.remove('active'));
+    rightWidgetElements.forEach((element, index) => {
+        console.log(`Element ${index} (${element.id}) classList before:`, element.classList);
+        element.classList.remove('active');
+        console.log(`Element ${index} (${element.id}) classList after removal:`, element.classList);
+    });
 
     if (direction === 'next') {
         rightWidgetIndex = (rightWidgetIndex + 1) % rightWidgetElements.length;
@@ -27,6 +31,10 @@ function cycleRightWidget(direction) {
     console.log('New right widget active index:', rightWidgetIndex);
     rightWidgetElements[rightWidgetIndex].classList.add('active');
     console.log('Active right widget element:', rightWidgetElements[rightWidgetIndex].id);
+    console.log('Active right widget element classList:', rightWidgetElements[rightWidgetIndex].classList);
+
+    // Log the content of the active element
+    console.log('Active right widget element content:', rightWidgetElements[rightWidgetIndex].innerHTML);
 
     resetAutoScroll();
 }
@@ -102,11 +110,21 @@ function setupEventListeners() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         console.log('DOM content loaded');
-        setupEventListeners();
-        startCyclingContent();
+        initializeCycling();
     });
 } else {
     console.log('DOM already loaded');
+    initializeCycling();
+}
+
+function initializeCycling() {
+    console.log('Initializing content cycling');
+    console.log('Main widget elements:', mainWidgetElements);
+    console.log('Right widget elements:', rightWidgetElements);
+    rightWidgetElements.forEach((element, index) => {
+        console.log(`Right widget element ${index}:`, element);
+        console.log(`Right widget element ${index} content:`, element.innerHTML);
+    });
     setupEventListeners();
     startCyclingContent();
 }

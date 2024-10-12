@@ -29,6 +29,7 @@ body, html {
 #dashboard {
     display: grid;
     grid-template-columns: 2fr 1fr; /* Two columns, left is wider */
+    grid-template-rows: auto 1fr; /* First row auto, second row takes remaining space */
     gap: 15px;
     padding: 20px;
     height: 100vh;
@@ -42,11 +43,15 @@ body, html {
     padding: 20px;
     overflow: hidden;
     position: relative; /* Ensure scroll buttons are positioned correctly */
+    min-height: 100px; /* Set a minimum height for widgets */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Main widget specific styling */
 #main-widget {
-    display: flex;
+    grid-column: 1;
+    grid-row: 1 / span 2; /* Span both rows */
     align-items: center;
     padding: 0 40px; /* Add padding to make space for the arrows */
 }
@@ -56,6 +61,25 @@ body, html {
     overflow: hidden;
     position: relative;
     width: 100%; /* Ensure full width within the padding */
+    height: 100%; /* Ensure full height */
+}
+
+/* Right widget specific styling */
+#right-widget {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 40px; /* Add padding to make space for the arrows */
+}
+
+/* Chores widget specific styling */
+#chores {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Heading styling */
@@ -67,11 +91,13 @@ h2 {
 
 /* Content styling for widgets */
 .widget-content, .cycling-content {
-    height: 100%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: 1.2em;
+    overflow-y: auto; /* Add scrolling for overflow content */
+    width: 100%;
 }
 
 /* List styling */
@@ -159,18 +185,84 @@ li {
     outline-offset: 2px;
 }
 
+/* Management buttons styling */
+#management-buttons {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#management-buttons button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#management-buttons button:hover {
+    background-color: #45a049;
+}
+
+/* Reset button styling */
+#management-buttons button:nth-child(2) {
+    background-color: #008CBA;
+}
+
+#management-buttons button:nth-child(2):hover {
+    background-color: #007B9A;
+}
+
+/* Global reset buttons styling */
+#management-buttons button:last-child,
+#management-buttons button:nth-last-child(2) {
+    background-color: #f44336;
+    margin-top: 10px;
+}
+
+#management-buttons button:last-child:hover,
+#management-buttons button:nth-last-child(2):hover {
+    background-color: #d32f2f;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     #dashboard {
         grid-template-columns: 1fr; /* Single column layout on smaller screens */
+        grid-template-rows: auto auto auto; /* Three rows for smaller screens */
     }
 
     .widget {
         padding: 10px;
+        min-height: auto; /* Allow height to adjust on smaller screens */
     }
 
-    #main-widget, #right-widget {
+    #main-widget, #right-widget, #chores {
+        grid-column: 1;
         padding: 0;
+    }
+
+    #main-widget {
+        grid-row: 1;
+    }
+
+    #chores {
+        grid-row: 2;
+    }
+
+    #right-widget {
+        grid-row: 3;
     }
 
     .scroll-button {
@@ -179,6 +271,15 @@ li {
 
     .cycling-content {
         padding: 0;
+    }
+
+    #management-buttons {
+        flex-direction: column;
+    }
+
+    #management-buttons button {
+        width: 100%;
+        margin: 5px 0;
     }
 }
 
@@ -197,4 +298,17 @@ li {
     #version-number {
         font-size: 0.7em;
     }
+}
+
+/* Debug styles */
+#right-widget {
+    border: 2px solid red; /* Add a red border to make the right widget visible */
+}
+
+.cycling-content {
+    border: 1px solid yellow; /* Add a yellow border to make cycling content visible */
+}
+
+.cycling-content.active {
+    border-color: green; /* Change the border color for active content */
 }

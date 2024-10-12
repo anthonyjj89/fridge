@@ -20,8 +20,52 @@ function enableDragResize() {
     lockIcon.style.alignItems = 'center';
     document.body.appendChild(lockIcon);
 
+    // Create management buttons container
+    const managementButtons = document.createElement('div');
+    managementButtons.id = 'management-buttons';
+    managementButtons.style.position = 'fixed';
+    managementButtons.style.top = '10px';
+    managementButtons.style.left = '50%';
+    managementButtons.style.transform = 'translateX(-50%)';
+    managementButtons.style.display = 'none';
+    document.body.appendChild(managementButtons);
+
+    // Create management buttons
+    const buttonLabels = ['Calendar/Shopping', 'Time/Weather', 'Chores', 'Word/RSS/Album'];
+    const buttonIds = ['main-widget', 'datetime', 'chores', 'right-widget'];
+
+    buttonIds.forEach((id, index) => {
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'inline-block';
+        buttonContainer.style.marginRight = '10px';
+
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = buttonLabels[index];
+        toggleButton.addEventListener('click', () => toggleWidget(id));
+        buttonContainer.appendChild(toggleButton);
+
+        const resetButton = document.createElement('button');
+        resetButton.innerHTML = '⟲👁'; // Reset symbol + eye
+        resetButton.addEventListener('click', () => resetWidget(id));
+        buttonContainer.appendChild(resetButton);
+
+        managementButtons.appendChild(buttonContainer);
+    });
+
+    // Add global reset buttons
+    const globalResetVisible = document.createElement('button');
+    globalResetVisible.innerHTML = '⟲👁 Reset All Visible';
+    globalResetVisible.addEventListener('click', () => resetAllWidgets(true));
+    managementButtons.appendChild(globalResetVisible);
+
+    const globalResetNonVisible = document.createElement('button');
+    globalResetNonVisible.innerHTML = '⟲👁‍🗨 Reset All Non-Visible';
+    globalResetNonVisible.addEventListener('click', () => resetAllWidgets(false));
+    managementButtons.appendChild(globalResetNonVisible);
+
     function updateLockState() {
         lockIcon.innerHTML = isLocked ? '&#x1F512;' : '&#x1F513;'; // 🔒 when locked, 🔓 when unlocked
+        managementButtons.style.display = isLocked ? 'none' : 'flex';
         resizableElements.forEach(element => {
             element.style.cursor = isLocked ? 'default' : 'move';
             const resizeHandle = element.querySelector('.resize-handle');
@@ -140,22 +184,87 @@ function savePositionsAndSizes() {
             left: element.style.left,
             top: element.style.top,
             width: element.style.width,
-            height: element.style.height
+            height: element.style.height,
+            visible: element.style.display !== 'none'
         });
     });
     localStorage.setItem('widgetPositions', JSON.stringify(positions));
+    console.log('Saved positions:', positions);
 }
 
 // Load positions and sizes from local storage
 function loadPositionsAndSizes() {
     const positions = JSON.parse(localStorage.getItem('widgetPositions')) || [];
-    positions.forEach(pos => {
-        const element = document.getElementById(pos.id);
-        if (element) {
-            element.style.left = pos.left;
-            element.style.top = pos.top;
-            element.style.width = pos.width;
-            element.style.height = pos.height;
+    console.log('Loaded positions:', positions);
+    const resizableElements = document.querySelectorAll('.widget');
+    
+    resizableElements.forEach(element => {
+        const savedPosition = positions.find(pos => pos.id === element.id);
+        if (savedPosition) {
+            element.style.left = savedPosition.left;
+            element.style.top = savedPosition.top;
+            element.style.width = savedPosition.width;
+            element.style.height = savedPosition.height;
+            element.style.display = savedPosition.visible ? 'block' : 'none';
+        } else {
+            // If no saved position, set default values
+            element.style.left = '20px';
+            element.style.top = '20px';
+            element.style.display = 'block';
         }
+        console.log(`Widget ${element.id} display:`, element.style.display);
     });
 }
+
+// Toggle widget visibility
+function toggleWidget(id) {
+    const widget = document.getElementById(id);
+    if (widget) {
+        console.log(`Toggling widget ${id}. Current display:`, widget.style.display);
+        if (widget.style.display === 'none') {
+            widget.style.display = 'block';
+            if (!widget.style.left && !widget.style.top) {
+                // If the widget has no position, center it
+                const rect = widget.getBoundingClientRect();
+                widget.style.left = `${(window.innerWidth - rect.width) / 2}px`;
+                widget.style.top = `${(window.innerHeight - rect.height) / 2}px`;
+            }
+        } else {
+            widget.style.display = 'none';
+        }
+        console.log(`Widget ${id} new display:`, widget.style.display);
+        savePositionsAndSizes();
+    }
+}
+
+// Reset a single widget
+function resetWidget(id) {
+    const widget = document.getElementById(id);
+    if (widget) {
+        widget.style.left = '20px';
+        widget.style.top = '20px';
+        widget.style.display = 'block';
+        savePositionsAndSizes();
+    }
+}
+
+// Reset all widgets
+function resetAllWidgets(visibleOnly) {
+    const widgets = document.querySelectorAll('.widget');
+    let topOffset = 20;
+    widgets.forEach(widget => {
+        if (!visibleOnly || widget.style.display !== 'none') {
+            widget.style.left = '20px';
+            widget.style.top = `${topOffset}px`;
+            widget.style.display = 'block';
+            topOffset += 50; // Offset each widget by 50px vertically
+        }
+    });
+    savePositionsAndSizes();
+}
+
+// Initialize drag and resize functionality
+document.addEventListener('DOMContentLoaded', () => {
+    loadPositionsAndSizes();
+    enableDragResize();
+});

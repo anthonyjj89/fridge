@@ -1,7 +1,7 @@
 console.log('Main.js execution started');
 
 function initializeApp() {
-    console.log('Initializing app');
+    console.log('Initializing app version v0.1.3');
     
     const initializationTimeout = setTimeout(() => {
         console.error('Initialization timed out after 6 seconds');
@@ -15,6 +15,7 @@ function initializeApp() {
         { name: 'IosAlbum', func: updateIosAlbum },
         { name: 'DragResize', func: enableDragResize },
         { name: 'PositionsAndSizes', func: loadPositionsAndSizes },
+        { name: 'RSS', func: initializeRSSFeed }, // Add RSS feed initialization
     ];
 
     components.forEach(component => {
@@ -22,6 +23,11 @@ function initializeApp() {
             console.log(`Initializing ${component.name}...`);
             component.func();
             console.log(`${component.name} initialized`);
+            
+            if (component.name === 'Calendar') {
+                const calendarWidget = document.getElementById('main-widget');
+                console.log('Calendar widget display after initialization:', calendarWidget.style.display);
+            }
         } catch (error) {
             console.error(`Error initializing ${component.name}:`, error);
         }
@@ -74,13 +80,23 @@ function initializeApp() {
 
     activateDefaultView();
     clearTimeout(initializationTimeout);
+
+    // Final check of main widget visibility
+    const mainWidget = document.getElementById('main-widget');
+    console.log('Final main widget display:', mainWidget.style.display);
+    console.log('Main widget computed style display:', window.getComputedStyle(mainWidget).display);
 }
 
 // Activate the default cycling content view
 function activateDefaultView() {
     console.log('Activating default view');
-    document.querySelector('#calendar-shopping .cycling-content').classList.add('active');
-    document.getElementById('rss-news').classList.add('active');
+    const calendarContent = document.querySelector('#calendar-shopping .cycling-content');
+    calendarContent.classList.add('active');
+    console.log('Calendar content class list after activation:', calendarContent.classList);
+    
+    const rssNews = document.getElementById('rss-news');
+    rssNews.classList.add('active');
+    console.log('RSS news class list after activation:', rssNews.classList);
 }
 
 // Initialize content cycling and set up event listeners
