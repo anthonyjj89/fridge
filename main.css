@@ -13,6 +13,23 @@
 @import url('components/rightWidget.css');
 @import url('components/popup.css');
 
+/* Ensure the page is not scrollable */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+#dashboard {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#widget-container {
+    flex: 1;
+    overflow: auto;
+}
+
 /* Styles for specific components that haven't been moved to separate files */
 
 /* Chore button styling */
@@ -50,27 +67,6 @@
 
 #management-buttons button:hover {
     background-color: #45a049;
-}
-
-/* Reset button styling */
-#management-buttons button:nth-child(2) {
-    background-color: #008CBA;
-}
-
-#management-buttons button:nth-child(2):hover {
-    background-color: #007B9A;
-}
-
-/* Global reset buttons styling */
-#management-buttons button:last-child,
-#management-buttons button:nth-last-child(2) {
-    background-color: #f44336;
-    margin-top: 10px;
-}
-
-#management-buttons button:last-child:hover,
-#management-buttons button:nth-last-child(2):hover {
-    background-color: #d32f2f;
 }
 
 /* Debug styles */
@@ -152,4 +148,12 @@ body.debugging .widget-debug-info {
 
 body.debugging .debug-timer {
     display: inline-block;
+}
+
+/* Fix padlock position */
+#lock-icon {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 9999;
 }

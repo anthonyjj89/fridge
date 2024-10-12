@@ -9,7 +9,7 @@
 <body>
     <div id="background"></div>
     <div id="dashboard">
-        <div id="version-number">v0.1.5</div>
+        <div id="version-number">v0.1.6</div>
         <div id="widget-container"></div>
     </div>
     <div id="chore-popup" class="popup">
@@ -24,17 +24,19 @@
                 <label><input type="checkbox" class="day-checkbox" value="fri"><span>Fri</span></label>
                 <label><input type="checkbox" class="day-checkbox" value="sat"><span>Sat</span></label>
                 <label><input type="checkbox" class="day-checkbox" value="sun"><span>Sun</span></label>
+                <button id="select-all-days-button">All Days</button>
             </div>
             <div class="time-selection">
-                <label for="chore-time">Time:</label>
+                <label for="chore-time">Time 1:</label>
                 <input type="time" id="chore-time">
             </div>
-            <button id="save-chore-schedule">Save</button>
-            <button id="close-popup">Close</button>
+            <div class="time-selection">
+                <label for="chore-time2">Time 2 (Optional):</label>
+                <input type="time" id="chore-time2">
+            </div>
+            <button id="save-chore-button">Save</button>
+            <button id="close-popup-button">Close</button>
         </div>
-    </div>
-    <div id="chore-controls">
-        <button id="export-chores">Export Chore Data</button>
     </div>
     
     <!-- Debug toggle button -->

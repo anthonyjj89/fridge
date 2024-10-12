@@ -1,0 +1,56 @@
+
+# Patch Roadmap
+
+## Version 0.1.7 - Planned Release
+
+### Overview
+Version 0.1.7 aims to address several known issues while refactoring the project folder structure to improve maintainability and scalability.
+
+### Key Updates
+1. **Folder Restructure**:
+   - Implement a more organized folder hierarchy for easier management and navigation.
+   - Separate concerns between front-end assets, logic, and configurations.
+
+2. **Fix Known Issues**:
+   - Resolve the issue where the main widget changes size on cycling after an initial load or reset.
+   - Address the problem of right widget debug outlines (blue and green lines) being visible outside of debug mode.
+   - Fix the incorrect initial display of chores, ensuring proper white or red flashing states based on their due status.
+
+### Known Issues:
+- Inconsistent layout stability on initial load and reset.
+- CSS issues affecting debug outlines.
+- Chores not displaying their correct states on first load.
+
+### Development Considerations
+- Implement the folder restructure with minimal disruption to current functionality.
+- Ensure thorough testing of CSS and layout changes across all device sizes.
+- Prioritize fixing the chore state display issue to improve user experience.
+
+---
+
+## Version 0.1.6 - 2023-05-21
+
+### Overview
+This patch introduced enhanced scheduling features, improved user interaction with pop-ups, and resolved several timer-related bugs. However, some layout stability issues remain.
+
+### Key Updates
+1. **Added “All Days” Button**: Simplified scheduling by adding a button for selecting all days at once.
+2. **Second Time Slot**: Users can now assign a second time slot for chores within the same day.
+3. **Auto-Close Pop-Up**: Clicking outside the pop-up will now close it automatically.
+
+### Known Issues
+- Main widget changes size on each cycle after initial load or reset.
+- Right widget debug outlines visible outside of debug mode.
+- Chores display in white only on initial load, instead of showing correct flashing states.
+
+---
+
+## Version 0.1.5 - 2023-05-14
+
+### Overview
+The focus of this patch was on improving the widget cycling behavior, introducing a new debug mode, and fixing inconsistencies in the timer logic.
+
+### Key Updates
+1. **Debug Mode Toggle**: Added a new debug mode for easier development and testing, displaying widget names and outlines.
+2. **Improved Widget Cycling**: Widgets now cycle independently, and manual cycling triggers a 120-second delay before auto-cycling resumes.
+3. **Timer Fixes**: Resolved issues where cycling one widget affected the timers of others.

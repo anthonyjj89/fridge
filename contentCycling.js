@@ -4,8 +4,8 @@ let rightWidgetElements = [];
 let mainWidgetElements = [];
 
 let autoScrollInterval;
-let mainWidgetTimeout;
-let rightWidgetTimeout;
+let mainWidgetManualTimeout;
+let rightWidgetManualTimeout;
 let debugTimerIntervals = {};
 
 const AUTO_CYCLE_INTERVAL = 5000; // 5 seconds
@@ -67,11 +67,11 @@ function cycleMainWidget(direction, manual = false) {
 
 function startAutoCycling() {
     console.log('Starting auto cycling');
-    clearInterval(autoScrollInterval);
+    stopAutoCycling(); // Clear any existing intervals
     autoScrollInterval = setInterval(() => {
         console.log('Auto-cycling triggered');
-        cycleMainWidget('next');
-        cycleRightWidget('next');
+        if (!mainWidgetManualTimeout) cycleMainWidget('next');
+        if (!rightWidgetManualTimeout) cycleRightWidget('next');
     }, AUTO_CYCLE_INTERVAL);
     updateDebugTimers('both');
 }
@@ -79,25 +79,25 @@ function startAutoCycling() {
 function stopAutoCycling() {
     console.log('Stopping auto cycling');
     clearInterval(autoScrollInterval);
-    clearTimeout(mainWidgetTimeout);
-    clearTimeout(rightWidgetTimeout);
     clearDebugTimers();
 }
 
 function pauseMainWidgetCycling() {
     console.log('Pausing main widget cycling');
-    clearTimeout(mainWidgetTimeout);
-    mainWidgetTimeout = setTimeout(() => {
-        startAutoCycling();
+    clearTimeout(mainWidgetManualTimeout);
+    mainWidgetManualTimeout = setTimeout(() => {
+        mainWidgetManualTimeout = null;
+        if (!rightWidgetManualTimeout) startAutoCycling();
     }, MANUAL_CYCLE_DELAY);
     updateDebugTimers('main');
 }
 
 function pauseRightWidgetCycling() {
     console.log('Pausing right widget cycling');
-    clearTimeout(rightWidgetTimeout);
-    rightWidgetTimeout = setTimeout(() => {
-        startAutoCycling();
+    clearTimeout(rightWidgetManualTimeout);
+    rightWidgetManualTimeout = setTimeout(() => {
+        rightWidgetManualTimeout = null;
+        if (!mainWidgetManualTimeout) startAutoCycling();
     }, MANUAL_CYCLE_DELAY);
     updateDebugTimers('right');
 }
@@ -126,10 +126,10 @@ function updateDebugTimers(widgetType) {
     };
 
     if (widgetType === 'main' || widgetType === 'both') {
-        updateTimer('main-widget-debug-timer', mainWidgetTimeout ? MANUAL_CYCLE_DELAY : AUTO_CYCLE_INTERVAL);
+        updateTimer('main-widget-debug-timer', mainWidgetManualTimeout ? MANUAL_CYCLE_DELAY : AUTO_CYCLE_INTERVAL);
     }
     if (widgetType === 'right' || widgetType === 'both') {
-        updateTimer('right-widget-debug-timer', rightWidgetTimeout ? MANUAL_CYCLE_DELAY : AUTO_CYCLE_INTERVAL);
+        updateTimer('right-widget-debug-timer', rightWidgetManualTimeout ? MANUAL_CYCLE_DELAY : AUTO_CYCLE_INTERVAL);
     }
 }
 

@@ -1,13 +1,7 @@
-/* Add this to the end of the existing chores.css file */
-
 /* Keyframe animation for flashing effect */
 @keyframes flash-red-white {
     0%, 100% { background-color: red; }
     50% { background-color: white; }
-}
-
-.chore-button.flashing {
-    animation: flash-red-white 2s infinite;
 }
 
 /* Chore button styling */
@@ -22,7 +16,10 @@
     padding: 5px;
     cursor: pointer;
     font-size: 1em;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     transition: background-color 0.3s ease;
     position: relative;
 }
@@ -99,32 +96,9 @@
     padding: 2px;
 }
 
-/* Chore controls styling */
-#chore-controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-#chore-controls button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#chore-controls button:hover {
-    background-color: #45a049;
-}
-
 /* Improved accessibility for buttons */
 .chore-button:focus,
-.scroll-button:focus,
-#chore-controls button:focus {
+.scroll-button:focus {
     outline: 2px solid #ffffff;
     outline-offset: 2px;
 }
@@ -139,15 +113,5 @@
 
     .scroll-button {
         display: none;
-    }
-
-    #chore-controls {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #chore-controls button {
-        margin: 10px 0;
-        width: 80%;
     }
 }

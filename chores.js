@@ -9,16 +9,16 @@ function loadChoreConfig() {
     } else {
         choreConfig = {
             chores: [
-                { name: "dishes", days: ["mon", "wed", "fri"], time: "19:00", lastCompleted: null },
-                { name: "trash", days: ["tue", "fri"], time: "18:00", lastCompleted: null },
-                { name: "water-plants", days: ["mon", "thu"], time: "09:00", lastCompleted: null },
-                { name: "cat-litter", days: ["mon", "wed", "fri", "sun"], time: "20:00", lastCompleted: null },
-                { name: "vacuum", days: ["sat"], time: "10:00", lastCompleted: null },
-                { name: "robot-vacuum", days: ["mon", "wed", "fri"], time: "14:00", lastCompleted: null },
-                { name: "cat-dog-meds", days: ["mon", "wed", "fri"], time: "08:00", lastCompleted: null },
-                { name: "laundry", days: ["sun"], time: "11:00", lastCompleted: null },
-                { name: "dog-walking", days: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"], time: "17:00", lastCompleted: null },
-                { name: "water-bottle", days: ["mon", "tue", "wed", "thu", "fri"], time: "22:00", lastCompleted: null }
+                { name: "dishes", days: ["mon", "wed", "fri"], time: "19:00", time2: "", lastCompleted: null },
+                { name: "trash", days: ["tue", "fri"], time: "18:00", time2: "", lastCompleted: null },
+                { name: "water-plants", days: ["mon", "thu"], time: "09:00", time2: "", lastCompleted: null },
+                { name: "cat-litter", days: ["mon", "wed", "fri", "sun"], time: "20:00", time2: "", lastCompleted: null },
+                { name: "vacuum", days: ["sat"], time: "10:00", time2: "", lastCompleted: null },
+                { name: "robot-vacuum", days: ["mon", "wed", "fri"], time: "14:00", time2: "", lastCompleted: null },
+                { name: "cat-dog-meds", days: ["mon", "wed", "fri"], time: "08:00", time2: "", lastCompleted: null },
+                { name: "laundry", days: ["sun"], time: "11:00", time2: "", lastCompleted: null },
+                { name: "dog-walking", days: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"], time: "17:00", time2: "", lastCompleted: null },
+                { name: "water-bottle", days: ["mon", "tue", "wed", "thu", "fri"], time: "22:00", time2: "", lastCompleted: null }
             ]
         };
         saveChoreConfig();
@@ -93,26 +93,38 @@ function isChoredDue(chore) {
     const [hours, minutes] = chore.time.split(':').map(Number);
     const scheduleTime = hours * 60 + minutes;
 
+    const [hours2, minutes2] = chore.time2 ? chore.time2.split(':').map(Number) : [null, null];
+    const scheduleTime2 = hours2 !== null ? hours2 * 60 + minutes2 : null;
+
     if (chore.lastCompleted) {
         const lastCompleted = new Date(chore.lastCompleted);
         const nextScheduledTime = getNextScheduledTime(lastCompleted, chore);
         return now >= nextScheduledTime;
     }
 
-    return currentTime >= scheduleTime;
+    return currentTime >= scheduleTime || (scheduleTime2 !== null && currentTime >= scheduleTime2);
 }
 
 function getNextScheduledTime(lastCompleted, chore) {
     const [hours, minutes] = chore.time.split(':').map(Number);
+    const [hours2, minutes2] = chore.time2 ? chore.time2.split(':').map(Number) : [null, null];
     let nextScheduled = new Date(lastCompleted);
     nextScheduled.setHours(hours, minutes, 0, 0);
 
     if (nextScheduled <= lastCompleted) {
         // If the scheduled time for the day of last completion has passed,
-        // find the next scheduled day
-        do {
-            nextScheduled.setDate(nextScheduled.getDate() + 1);
-        } while (!chore.days.includes(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][nextScheduled.getDay()]));
+        // check the second time slot if it exists
+        if (hours2 !== null) {
+            nextScheduled.setHours(hours2, minutes2, 0, 0);
+        }
+        
+        // If both time slots have passed, find the next scheduled day
+        if (nextScheduled <= lastCompleted) {
+            do {
+                nextScheduled.setDate(nextScheduled.getDate() + 1);
+                nextScheduled.setHours(hours, minutes, 0, 0);
+            } while (!chore.days.includes(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][nextScheduled.getDay()]));
+        }
     }
 
     return nextScheduled;
@@ -191,15 +203,44 @@ function openChorePopup(choreName) {
             checkbox.checked = chore.days.includes(checkbox.value);
         });
         document.getElementById('chore-time').value = chore.time;
+        document.getElementById('chore-time2').value = chore.time2 || '';
         
         document.getElementById('chore-popup').style.display = 'block';
     }
+}
+
+function saveChorePopup() {
+    const choreName = document.getElementById('chore-name').textContent;
+    const chore = choreConfig.chores.find(c => c.name === choreName);
+    if (chore) {
+        chore.days = Array.from(document.querySelectorAll('.day-checkbox:checked')).map(cb => cb.value);
+        chore.time = document.getElementById('chore-time').value;
+        chore.time2 = document.getElementById('chore-time2').value;
+        saveChoreConfig();
+        closeChorePopup();
+        checkAllChores();
+    }
+}
+
+function closeChorePopup() {
+    document.getElementById('chore-popup').style.display = 'none';
+}
+
+function selectAllDays() {
+    document.querySelectorAll('.day-checkbox').forEach(checkbox => {
+        checkbox.checked = true;
+    });
 }
 
 // Initialize chores when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing chores');
     initialize();
+    
+    // Add event listeners for popup buttons
+    document.getElementById('save-chore-button').addEventListener('click', saveChorePopup);
+    document.getElementById('close-popup-button').addEventListener('click', closeChorePopup);
+    document.getElementById('select-all-days-button').addEventListener('click', selectAllDays);
 });
 
 // Expose functions and config for external use

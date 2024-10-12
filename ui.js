@@ -2,9 +2,8 @@
 
 function initializeUI() {
     addScrollFunctionality();
-    createResetButton();
-    createExportButton();
     addChorePopupListeners();
+    addPopupAutoClose();
 }
 
 function addScrollFunctionality() {
@@ -25,47 +24,21 @@ function addScrollFunctionality() {
     }
 }
 
-function createResetButton() {
-    const resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset All Chores';
-    resetButton.addEventListener('click', function() {
-        if (typeof window.resetAllChores === 'function') {
-            window.resetAllChores();
-        } else {
-            console.warn('resetAllChores function not found');
-        }
-    });
-    document.body.appendChild(resetButton);
-}
-
-function createExportButton() {
-    const exportButton = document.createElement('button');
-    exportButton.textContent = 'Export Chore Data';
-    exportButton.addEventListener('click', () => {
-        if (typeof window.exportChoreData === 'function') {
-            const data = window.exportChoreData();
-            console.log('Exported chore data:', data);
-            // You could add code here to save the data to a file or send it to a server
-        } else {
-            console.warn('exportChoreData function not found');
-        }
-    });
-    document.body.appendChild(exportButton);
-}
-
 function addChorePopupListeners() {
-    const saveButton = document.getElementById('save-chore-schedule');
-    const closeButton = document.getElementById('close-popup');
+    const saveButton = document.getElementById('save-chore-button');
+    const closeButton = document.getElementById('close-popup-button');
+    const selectAllDaysButton = document.getElementById('select-all-days-button');
     const popup = document.getElementById('chore-popup');
 
-    if (saveButton && closeButton && popup) {
+    if (saveButton && closeButton && selectAllDaysButton && popup) {
         saveButton.addEventListener('click', function() {
             try {
                 const choreName = document.getElementById('chore-name').textContent;
                 const selectedDays = Array.from(document.querySelectorAll('.day-checkbox:checked')).map(cb => cb.value);
                 const time = document.getElementById('chore-time').value;
+                const time2 = document.getElementById('chore-time2').value;
 
-                console.log('Saving chore:', choreName, 'Days:', selectedDays, 'Time:', time);
+                console.log('Saving chore:', choreName, 'Days:', selectedDays, 'Time 1:', time, 'Time 2:', time2);
 
                 // Find the chore in the config and update it
                 if (window.chores && window.chores.config && window.chores.config.chores) {
@@ -73,6 +46,7 @@ function addChorePopupListeners() {
                     if (chore) {
                         chore.days = selectedDays;
                         chore.time = time;
+                        chore.time2 = time2;
                         window.chores.saveChoreConfig();
                         window.chores.updateChoreState(document.querySelector(`[data-chore="${choreName}"]`), chore);
                         console.log('Chore updated successfully');
@@ -97,9 +71,32 @@ function addChorePopupListeners() {
                 console.error('Error closing chore popup:', error);
             }
         });
+
+        selectAllDaysButton.addEventListener('click', function() {
+            try {
+                document.querySelectorAll('.day-checkbox').forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+                console.log('All days selected');
+            } catch (error) {
+                console.error('Error selecting all days:', error);
+            }
+        });
     } else {
         console.warn('Chore popup elements not found in the DOM');
     }
+}
+
+function addPopupAutoClose() {
+    const popup = document.getElementById('chore-popup');
+    const popupContent = popup.querySelector('.popup-content');
+
+    document.addEventListener('click', function(event) {
+        if (popup.style.display === 'block' && !popupContent.contains(event.target) && !event.target.classList.contains('config-icon')) {
+            popup.style.display = 'none';
+            console.log('Chore popup auto-closed');
+        }
+    });
 }
 
 // Initialize UI when the DOM is fully loaded

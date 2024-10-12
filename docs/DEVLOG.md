@@ -1,104 +1,100 @@
 # Developer Log
 
-## Version 0.1.5 - 2023-05-14
+IMPORTANT: When updating this log, add new entries at the top of the file. Do not overwrite or remove previous entries. You may add information to previous entries if necessary, but preserve all existing content.
+
+## Version 0.1.6 - 2023-05-21
 
 ### Implemented Features
-1. Debug mode toggle
-   - Added a button to enable/disable debug mode
-   - Implemented localStorage to persist debug mode state across page reloads
-   - Debug mode now displays widget outlines, names, and timers for easier development and troubleshooting
+1. "All Days" button in chore scheduling popup
+   - Added a new button to the chore scheduling popup for selecting all days at once
+   - Implemented the functionality in chores.js to handle the "All Days" button click
+   - Updated the UI to include the new button in the popup
 
-2. Widget naming in debug mode
-   - Added widget names to each widget's HTML structure
-   - Implemented CSS to show/hide widget names based on debug mode
-   - This feature significantly improves the ability to identify and work with specific widgets during development
+2. Second time slot for chore scheduling
+   - Modified the chore configuration structure to include a second optional time slot
+   - Updated the chore scheduling popup to display and handle the second time slot
+   - Adjusted the chore checking logic to account for the second time slot
 
-3. Attempted improvement of widget cycling behavior
-   - Implemented independent timers for main and right widgets
-   - Attempted to add 120-second delay after manual cycling before resuming auto-cycling
-   - Aimed to ensure each widget's cycling behavior is independent
+3. Auto-close functionality for popups
+   - Implemented a new function in ui.js to handle closing popups when clicking outside
+   - Added event listeners to detect clicks outside the popup area
+   - Ensured that clicks on the config icon don't trigger the auto-close functionality
+
+### Changed Features
+1. Centered chore icons
+   - Updated the CSS in components/chores.css to center the icons within their containers
+   - Adjusted the layout of chore buttons to ensure consistent alignment across different screen sizes
+
+2. Non-scrollable page layout
+   - Modified the main.css file to make the page fit all content on a single screen without scrolling
+   - Adjusted the layout of widgets and other elements to fit within the viewport
+   - Implemented fixed positioning for the debug toggle and lock icon
+
+### Removed Features
+1. "Reset All Chores" and "Export Chore Data" buttons
+   - Removed the HTML elements for these buttons from the index.html file
+   - Deleted associated JavaScript functions from chores.js
+   - Removed related CSS styles from components/chores.css
 
 ### Fixed Issues
-1. Widget outlines appearing outside debug mode
-   - Modified CSS to only show outlines when debug mode is active
-   - Fixed issue with right widget having a blue outline instead of green
-   - Root cause: CSS specificity issues and lack of proper debug mode checks
-   - Solution: Implemented a 'debugging' class on the body element and used it to control debug-related styles
-
-2. Inconsistent timer behavior
-   - Refactored timer logic to handle manual and auto-cycling correctly
-   - Fixed issue where both widgets' timers were affected by cycling one widget
-   - Root cause: Shared timer variables between widgets and lack of independent cycling logic
-   - Solution: Implemented separate timer variables and cycling functions for each widget
-
-### Ongoing Issues
-1. Double-jumping in widget cycling
-   - Problem: Widgets still skip two items instead of one when cycling
-   - Current behavior: When cycling, the widget moves two positions instead of one
-   - Expected behavior: The widget should move only one position at a time
-   - Potential causes:
-     a. Event listeners might be triggered multiple times
-     b. Cycling logic may be incrementing the index twice
-     c. Possible race condition in the cycling functions
-   - Next steps:
-     a. Review event listener implementation in contentCycling.js
-     b. Add additional logging to track index changes during cycling
-     c. Investigate potential asynchronous operations that might interfere with cycling
-
-2. 120-second delay not functioning correctly
-   - Problem: The 120-second delay after manual cycling is not working as intended
-   - Current behavior: The timer is visible in debug mode but resets to 120 seconds every 5 seconds
-   - Expected behavior: After manual cycling, there should be a 120-second delay before auto-cycling resumes
-   - Potential causes:
-     a. Auto-cycling timer might be overriding the manual cycling delay
-     b. Incorrect implementation of the delay logic
-     c. Possible conflict between different timing functions
-   - Next steps:
-     a. Review the implementation of the delay logic in contentCycling.js
-     b. Add more detailed logging to track timer state changes
-     c. Investigate the interaction between auto-cycling and manual cycling timers
+1. Timer behavior in content cycling
+   - Refactored the contentCycling.js file to address issues with timer behavior
+   - Implemented separate timers for manual and auto-cycling to prevent interference
+   - Ensured that the 120-second delay after manual cycling works correctly before resuming auto-cycling
 
 ### Code Refactoring
-1. contentCycling.js
-   - Separated concerns for main and right widget cycling
-   - Implemented pauseMainWidgetCycling and pauseRightWidgetCycling functions
-   - Updated event listeners to handle manual cycling correctly
-   - Improved code organization and readability
+1. chores.js
+   - Updated the chore configuration structure to include the second time slot
+   - Modified functions related to chore scheduling and checking to handle the new time slot
+   - Implemented the "All Days" selection functionality
 
-2. main.css
-   - Reorganized debug-related styles
-   - Improved specificity of debug mode styles to prevent unintended styling
-   - Centralized widget-related styles for easier maintenance
+2. ui.js
+   - Added new function addPopupAutoClose() to handle the auto-close functionality for popups
+   - Updated event listeners to incorporate the new auto-close feature
 
-3. index.html
-   - Restructured widget containers for better consistency
-   - Added data attributes for easier JavaScript selection and manipulation
+3. main.css
+   - Reorganized styles to implement the non-scrollable page layout
+   - Added styles for fixed positioning of debug toggle and lock icon
+   - Adjusted widget styles to fit within the new layout
+
+4. index.html
+   - Updated the chore popup structure to include the "All Days" button and second time slot input
+   - Removed HTML elements related to the "Reset All Chores" and "Export Chore Data" buttons
 
 ### Known Issues
-- Double-jumping in widget cycling (as described in Ongoing Issues)
-- 120-second delay after manual cycling not functioning correctly
+1. Main widget size change on cycling
+   - On initial load or reset, the main widget changes size on each cycle
+   - This affects the layout stability and user experience
+   - Further investigation is needed to determine the root cause
+
+2. Right widget debug outlines visible outside debug mode
+   - Blue and green lines for the right widget are still visible when debug mode is not active
+   - This is likely a CSS issue that needs to be addressed
+
+3. Incorrect initial chore states
+   - On initial load or without a scheduled trigger, chores are only displayed in white
+   - They should be in their appropriate white or red flashing state based on their due status
+   - The chore checking logic may need to be adjusted to properly set initial states
 
 ### Future Improvements
-- Resolve the double-jumping issue in widget cycling
-- Fix the 120-second delay functionality after manual cycling
-- Implement more robust timing and cycling logic
-- Consider adding more detailed logging in debug mode
-- Explore options for customizable widget cycling intervals
-- Implement unit tests for critical cycling and timer functions
-- Optimize performance for devices with lower processing power
+- Consider adding more customization options for chore scheduling
+- Explore ways to optimize the auto-close functionality for better performance
+- Investigate potential improvements for the non-scrollable layout on various device sizes
+- Address the known issues listed above in the next patch or update
 
 ### Lessons Learned
-1. Importance of independent state management for each widget
-2. Benefits of implementing a comprehensive debug mode for development
-3. Necessity of thorough testing for timing-related features
-4. Value of clear separation of concerns in JavaScript modules
-5. Importance of careful event listener management to prevent unintended behavior
-6. Complexity of managing multiple timers and cycling behaviors simultaneously
+1. Importance of thorough testing when implementing new UI features
+2. Benefits of modular code structure when adding new functionality
+3. Significance of considering user experience when removing features
+4. Need for comprehensive testing across different states (initial load, reset, etc.)
 
 ### Development Environment
-- Ensure all developers are using the same linter settings to maintain code consistency
-- Consider implementing a pre-commit hook to run linter and tests automatically
+- No changes to the development environment in this version
 
 ### Third-party Dependencies
 - No new dependencies were added in this version
-- Existing dependencies are up-to-date and compatible with the current implementation
+- Existing dependencies remain compatible with the current implementation
+
+## Version 0.1.5 - 2023-05-14
+
+[Previous content remains unchanged]

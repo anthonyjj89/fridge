@@ -5,7 +5,7 @@ import { toggleMaximize } from './widgetMaximize.js';
 console.log('Main.js execution started');
 
 export function initializeApp() {
-    console.log('Initializing app version v0.1.5');
+    console.log('Initializing app version v0.1.6');
     
     const initializationTimeout = setTimeout(() => {
         console.error('Initialization timed out after 6 seconds');
