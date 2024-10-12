@@ -4,113 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="datetime.css">
-    <link rel="stylesheet" href="weather.css">
-    <link rel="stylesheet" href="calendar.css">
-    <link rel="stylesheet" href="chores.css">
-    <link rel="stylesheet" href="rightWidget.css">
-    <link rel="stylesheet" href="popup.css">
     <title>Smart Dashboard</title>
 </head>
 <body>
     <div id="background"></div>
     <div id="dashboard">
-        <div id="version-number">v0.1.3</div>
-        <div id="datetime" class="widget">
-            <div id="day">mon</div>
-            <div id="time">3.30pm</div>
-            <div id="temperature">30°C</div>
-        </div>
-        <div id="main-widget" class="widget">
-            <button id="main-widget-prev" class="scroll-button">◀</button>
-            <div id="calendar-shopping">
-                <div id="calendar-content" class="cycling-content active">WEEKLY VIEW<br>CALENDAR<br>SHOPPING NEEDS<br>ON CYCLE every 30 seconds</div>
-                <div id="shopping-list" class="cycling-content">
-                    <h2>Shopping List</h2>
-                    <ul>
-                        <li>Milk</li>
-                        <li>Bread</li>
-                        <li>Eggs</li>
-                        <li>Cheese</li>
-                        <li>Apples</li>
-                        <li>Chicken</li>
-                        <li>Pasta</li>
-                        <li>Tomato sauce</li>
-                        <li>Toilet paper</li>
-                        <li>Dish soap</li>
-                    </ul>
-                </div>
-            </div>
-            <button id="main-widget-next" class="scroll-button">▶</button>
-        </div>
-        <div id="chores" class="widget">
-            <button id="scroll-left" class="scroll-button">◀</button>
-            <div class="widget-content" id="chore-list">
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="dishes" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/3939/3939913.png" alt="Dishes" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="dishes" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="trash" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/5016/5016735.png" alt="Trash" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="trash" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="water-plants" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/4147/4147953.png" alt="Water Plants" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="water-plants" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="cat-litter" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/1687/1687142.png" alt="Cat Litter Tray" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="cat-litter" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="vacuum" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/125/125668.png" alt="Vacuum" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="vacuum" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="robot-vacuum" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/1199/1199855.png" alt="Robot Vacuum" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="robot-vacuum" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="cat-dog-meds" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/4005/4005403.png" alt="Cat and Dog Meds" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="cat-dog-meds" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="laundry" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/1075/1075355.png" alt="Laundry" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="laundry" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="dog-walking" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/10/10869.png" alt="Dog Walking" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="dog-walking" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-                <div class="chore-container">
-                    <button class="chore-button" data-chore="water-bottle" aria-pressed="false"><img src="https://cdn-icons-png.flaticon.com/512/3022/3022692.png" alt="Put Water Bottle Outside" width="80" height="80"></button>
-                    <div class="config-icon" data-chore="water-bottle" style="width: 20px; height: 20px; background-color: yellow;"></div>
-                </div>
-            </div>
-            <button id="scroll-right" class="scroll-button">▶</button>
-        </div>
-        <div id="right-widget" class="widget">
-            <button id="right-widget-prev" class="scroll-button">◀</button>
-            <div class="widget-content">
-                <div id="rss-news" class="cycling-content active">
-                    <h2>RSS NEWS</h2>
-                    <div id="news-content"></div>
-                </div>
-                <div id="ios-album" class="cycling-content">
-                    <h2>iOS PUBLIC ALBUM</h2>
-                    <div id="album-content"></div>
-                </div>
-                <div id="word-of-day-en" class="cycling-content">
-                    <h2>WORD OF THE DAY 🇬🇧</h2>
-                    <div id="word-en-content"></div>
-                </div>
-                <div id="word-of-day-uk" class="cycling-content">
-                    <h2>WORD OF THE DAY 🇺🇦</h2>
-                    <div id="word-uk-content"></div>
-                </div>
-            </div>
-            <button id="right-widget-next" class="scroll-button">▶</button>
-        </div>
+        <div id="version-number">v0.1.5</div>
+        <div id="widget-container"></div>
     </div>
     <div id="chore-popup" class="popup">
         <div class="popup-content">
@@ -136,48 +36,69 @@
     <div id="chore-controls">
         <button id="export-chores">Export Chore Data</button>
     </div>
-    <script>
-        function loadScript(src) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = resolve;
-                script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
-                document.body.appendChild(script);
-            });
-        }
+    
+    <!-- Debug toggle button -->
+    <div id="debug-toggle" class="debug-control">
+        <button onclick="window.toggleDebugging()">Debug</button>
+    </div>
 
-        const scripts = [
-            'eventSystem.js',
-            'dateTime.js',
-            'weather.js',
-            'calendar.js',
-            'iosAlbum.js',
-            'contentCycling.js',
-            'dragResize.js',
-            'config.js',
-            'chores.js',
-            'choreToggle.js',
-            'ui.js',
-            'rss.js',
-            'main.js'
-        ];
+    <!-- Debug timer displays -->
+    <div id="main-widget-debug-timer" class="debug-timer"></div>
+    <div id="right-widget-debug-timer" class="debug-timer"></div>
 
-        Promise.all(scripts.map(loadScript))
-            .then(() => console.log('All scripts loaded successfully'))
-            .catch(error => console.error('Error loading scripts:', error));
+    <script type="module">
+        import { initializeApp } from './main.js';
+        import { enableDragResize } from './dragResize.js';
 
-        // Increase timeout to 15 seconds
-        setTimeout(() => {
-            if (!window.allScriptsLoaded) {
-                console.error('Script loading timed out after 15 seconds');
-            }
-        }, 15000);
+        // Load widget HTML content
+        const widgetContainer = document.getElementById('widget-container');
+        const widgetFiles = ['datetime-widget.html', 'main-widget.html', 'chores-widget.html', 'right-widget.html'];
+
+        Promise.all(widgetFiles.map(widget => 
+            fetch(widget)
+                .then(response => response.text())
+                .then(html => {
+                    widgetContainer.insertAdjacentHTML('beforeend', html);
+                })
+        ))
+        .then(() => {
+            console.log('All widgets loaded');
+            // Load all scripts
+            return Promise.all([
+                loadScript('eventSystem.js'),
+                loadScript('dateTime.js'),
+                loadScript('weather.js'),
+                loadScript('calendar.js'),
+                loadScript('iosAlbum.js'),
+                loadScript('contentCycling.js'),
+                loadScript('config.js'),
+                loadScript('chores.js'),
+                loadScript('choreToggle.js'),
+                loadScript('ui.js'),
+                loadScript('rss.js')
+            ]);
+        })
+        .then(() => {
+            console.log('All scripts loaded');
+            initializeApp();
+            enableDragResize();
+        })
+        .catch(error => console.error('Error loading widgets or scripts:', error));
 
         // Add a catch-all error handler
         window.addEventListener('error', function(event) {
             console.error('Unhandled error:', event.error);
         });
+
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+        }
     </script>
 </body>
 </html>

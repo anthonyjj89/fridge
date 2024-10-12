@@ -1,25 +1,26 @@
 let rightWidgetIndex = 0;
 let mainWidgetIndex = 0;
-const rightWidgetElements = [
-    document.getElementById('rss-news'),
-    document.getElementById('ios-album'),
-    document.getElementById('word-of-day-en'),
-    document.getElementById('word-of-day-uk')
-];
-const mainWidgetElements = document.querySelectorAll('#calendar-shopping .cycling-content');
+let rightWidgetElements = [];
+let mainWidgetElements = [];
 
 let autoScrollInterval;
-let autoScrollTimeout;
+let mainWidgetTimeout;
+let rightWidgetTimeout;
+let debugTimerIntervals = {};
 
-function cycleRightWidget(direction) {
+const AUTO_CYCLE_INTERVAL = 5000; // 5 seconds
+const MANUAL_CYCLE_DELAY = 120000; // 2 minutes
+
+let isDebugging = localStorage.getItem('isDebugging') === 'true';
+
+function cycleRightWidget(direction, manual = false) {
     console.log('Cycling right widget:', direction);
-    clearInterval(autoScrollInterval);
-    clearTimeout(autoScrollTimeout);
+    console.log('Current right widget index before cycling:', rightWidgetIndex);
 
     rightWidgetElements.forEach((element, index) => {
-        console.log(`Element ${index} (${element.id}) classList before:`, element.classList);
+        console.log(`Right widget element ${index} (${element.id}) classList before:`, element.classList);
         element.classList.remove('active');
-        console.log(`Element ${index} (${element.id}) classList after removal:`, element.classList);
+        console.log(`Right widget element ${index} (${element.id}) classList after removal:`, element.classList);
     });
 
     if (direction === 'next') {
@@ -30,21 +31,23 @@ function cycleRightWidget(direction) {
     
     console.log('New right widget active index:', rightWidgetIndex);
     rightWidgetElements[rightWidgetIndex].classList.add('active');
-    console.log('Active right widget element:', rightWidgetElements[rightWidgetIndex].id);
-    console.log('Active right widget element classList:', rightWidgetElements[rightWidgetIndex].classList);
+    console.log(`Right widget element ${rightWidgetIndex} (${rightWidgetElements[rightWidgetIndex].id}) classList after adding active:`, rightWidgetElements[rightWidgetIndex].classList);
 
-    // Log the content of the active element
-    console.log('Active right widget element content:', rightWidgetElements[rightWidgetIndex].innerHTML);
-
-    resetAutoScroll();
+    if (manual) {
+        pauseRightWidgetCycling();
+    }
+    updateDebugTimers('right');
 }
 
-function cycleMainWidget(direction) {
+function cycleMainWidget(direction, manual = false) {
     console.log('Cycling main widget:', direction);
-    clearInterval(autoScrollInterval);
-    clearTimeout(autoScrollTimeout);
+    console.log('Current main widget index before cycling:', mainWidgetIndex);
 
-    mainWidgetElements.forEach(element => element.classList.remove('active'));
+    mainWidgetElements.forEach((element, index) => {
+        console.log(`Main widget element ${index} classList before:`, element.classList);
+        element.classList.remove('active');
+        console.log(`Main widget element ${index} classList after removal:`, element.classList);
+    });
 
     if (direction === 'next') {
         mainWidgetIndex = (mainWidgetIndex + 1) % mainWidgetElements.length;
@@ -54,26 +57,96 @@ function cycleMainWidget(direction) {
     
     console.log('New main widget active index:', mainWidgetIndex);
     mainWidgetElements[mainWidgetIndex].classList.add('active');
-    console.log('Active main widget element:', mainWidgetElements[mainWidgetIndex].id);
+    console.log(`Main widget element ${mainWidgetIndex} classList after adding active:`, mainWidgetElements[mainWidgetIndex].classList);
 
-    resetAutoScroll();
+    if (manual) {
+        pauseMainWidgetCycling();
+    }
+    updateDebugTimers('main');
 }
 
-function resetAutoScroll() {
-    console.log('Resetting auto-scroll');
-    autoScrollTimeout = setTimeout(() => {
-        startCyclingContent();
-    }, 20000);
-}
-
-function startCyclingContent() {
-    console.log('Starting content cycling');
+function startAutoCycling() {
+    console.log('Starting auto cycling');
     clearInterval(autoScrollInterval);
-
     autoScrollInterval = setInterval(() => {
+        console.log('Auto-cycling triggered');
         cycleMainWidget('next');
         cycleRightWidget('next');
-    }, 5000);
+    }, AUTO_CYCLE_INTERVAL);
+    updateDebugTimers('both');
+}
+
+function stopAutoCycling() {
+    console.log('Stopping auto cycling');
+    clearInterval(autoScrollInterval);
+    clearTimeout(mainWidgetTimeout);
+    clearTimeout(rightWidgetTimeout);
+    clearDebugTimers();
+}
+
+function pauseMainWidgetCycling() {
+    console.log('Pausing main widget cycling');
+    clearTimeout(mainWidgetTimeout);
+    mainWidgetTimeout = setTimeout(() => {
+        startAutoCycling();
+    }, MANUAL_CYCLE_DELAY);
+    updateDebugTimers('main');
+}
+
+function pauseRightWidgetCycling() {
+    console.log('Pausing right widget cycling');
+    clearTimeout(rightWidgetTimeout);
+    rightWidgetTimeout = setTimeout(() => {
+        startAutoCycling();
+    }, MANUAL_CYCLE_DELAY);
+    updateDebugTimers('right');
+}
+
+function updateDebugTimers(widgetType) {
+    if (!isDebugging) return;
+
+    const updateTimer = (elementId, duration) => {
+        const timerElement = document.getElementById(elementId);
+        if (!timerElement) return;
+
+        clearInterval(debugTimerIntervals[elementId]);
+
+        let remainingTime = duration;
+        timerElement.textContent = (remainingTime / 1000).toFixed(1);
+
+        debugTimerIntervals[elementId] = setInterval(() => {
+            remainingTime -= 100;
+            if (remainingTime <= 0) {
+                clearInterval(debugTimerIntervals[elementId]);
+                timerElement.textContent = '0.0';
+            } else {
+                timerElement.textContent = (remainingTime / 1000).toFixed(1);
+            }
+        }, 100);
+    };
+
+    if (widgetType === 'main' || widgetType === 'both') {
+        updateTimer('main-widget-debug-timer', mainWidgetTimeout ? MANUAL_CYCLE_DELAY : AUTO_CYCLE_INTERVAL);
+    }
+    if (widgetType === 'right' || widgetType === 'both') {
+        updateTimer('right-widget-debug-timer', rightWidgetTimeout ? MANUAL_CYCLE_DELAY : AUTO_CYCLE_INTERVAL);
+    }
+}
+
+function clearDebugTimers() {
+    Object.values(debugTimerIntervals).forEach(clearInterval);
+    debugTimerIntervals = {};
+}
+
+function toggleDebugging() {
+    isDebugging = !isDebugging;
+    localStorage.setItem('isDebugging', isDebugging);
+    document.body.classList.toggle('debugging', isDebugging);
+    if (isDebugging) {
+        updateDebugTimers('both');
+    } else {
+        clearDebugTimers();
+    }
 }
 
 function setupEventListeners() {
@@ -84,21 +157,25 @@ function setupEventListeners() {
     const rightWidgetNext = document.getElementById('right-widget-next');
 
     if (mainWidgetPrev && mainWidgetNext && rightWidgetPrev && rightWidgetNext) {
-        mainWidgetPrev.addEventListener('click', () => {
-            console.log('Main widget prev clicked');
-            cycleMainWidget('prev');
+        mainWidgetPrev.addEventListener('click', (e) => {
+            console.log('Main widget prev button clicked');
+            e.preventDefault();
+            cycleMainWidget('prev', true);
         });
-        mainWidgetNext.addEventListener('click', () => {
-            console.log('Main widget next clicked');
-            cycleMainWidget('next');
+        mainWidgetNext.addEventListener('click', (e) => {
+            console.log('Main widget next button clicked');
+            e.preventDefault();
+            cycleMainWidget('next', true);
         });
-        rightWidgetPrev.addEventListener('click', () => {
-            console.log('Right widget prev clicked');
-            cycleRightWidget('prev');
+        rightWidgetPrev.addEventListener('click', (e) => {
+            console.log('Right widget prev button clicked');
+            e.preventDefault();
+            cycleRightWidget('prev', true);
         });
-        rightWidgetNext.addEventListener('click', () => {
-            console.log('Right widget next clicked');
-            cycleRightWidget('next');
+        rightWidgetNext.addEventListener('click', (e) => {
+            console.log('Right widget next button clicked');
+            e.preventDefault();
+            cycleRightWidget('next', true);
         });
         console.log('Event listeners attached successfully');
     } else {
@@ -106,27 +183,48 @@ function setupEventListeners() {
     }
 }
 
-// Ensure the DOM is fully loaded before setting up event listeners and starting content cycling
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM content loaded');
-        initializeCycling();
-    });
-} else {
-    console.log('DOM already loaded');
-    initializeCycling();
-}
-
 function initializeCycling() {
     console.log('Initializing content cycling');
+    rightWidgetElements = [
+        document.getElementById('rss-news'),
+        document.getElementById('ios-album'),
+        document.getElementById('word-of-day-en'),
+        document.getElementById('word-of-day-uk')
+    ].filter(Boolean);
+    mainWidgetElements = Array.from(document.querySelectorAll('#calendar-shopping .cycling-content'));
+
     console.log('Main widget elements:', mainWidgetElements);
     console.log('Right widget elements:', rightWidgetElements);
     rightWidgetElements.forEach((element, index) => {
-        console.log(`Right widget element ${index}:`, element);
-        console.log(`Right widget element ${index} content:`, element.innerHTML);
+        console.log(`Right widget element ${index}:`, element.id);
     });
-    setupEventListeners();
-    startCyclingContent();
+
+    if (rightWidgetElements.length > 0 && mainWidgetElements.length > 0) {
+        setupEventListeners();
+        startAutoCycling();
+    } else {
+        console.error('Widget elements not found. Cycling cannot be initialized.');
+    }
+
+    // Initialize debugging state
+    document.body.classList.toggle('debugging', isDebugging);
+    if (isDebugging) {
+        updateDebugTimers('both');
+    }
+}
+
+// Ensure the DOM is fully loaded before initializing
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCycling);
+} else {
+    initializeCycling();
 }
 
 console.log('contentCycling.js loaded and executed');
+
+// Export functions for external use
+window.cycleRightWidget = cycleRightWidget;
+window.cycleMainWidget = cycleMainWidget;
+window.startAutoCycling = startAutoCycling;
+window.stopAutoCycling = stopAutoCycling;
+window.toggleDebugging = toggleDebugging;

@@ -1,0 +1,50 @@
+/* Responsive design */
+@media (max-width: 768px) {
+    #dashboard {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+        grid-template-rows: auto auto auto; /* Three rows for smaller screens */
+    }
+
+    .widget {
+        padding: 10px;
+        min-height: auto; /* Allow height to adjust on smaller screens */
+    }
+
+    #main-widget, #right-widget, #chores {
+        grid-column: 1;
+        padding: 0;
+    }
+
+    #main-widget {
+        grid-row: 1;
+    }
+
+    #chores {
+        grid-row: 2;
+    }
+
+    #right-widget {
+        grid-row: 3;
+    }
+
+    .scroll-button {
+        display: none; /* Hide scroll buttons on smaller screens */
+    }
+
+    .cycling-content {
+        padding: 0;
+    }
+
+    #management-buttons {
+        flex-direction: column;
+    }
+
+    #management-buttons button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    #version-number {
+        font-size: 0.7em;
+    }
+}

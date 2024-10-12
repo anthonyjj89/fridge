@@ -1,7 +1,11 @@
+import { enableDragResize } from './dragResize.js';
+import { loadPositionsAndSizes } from './widgetPositions.js';
+import { toggleMaximize } from './widgetMaximize.js';
+
 console.log('Main.js execution started');
 
-function initializeApp() {
-    console.log('Initializing app version v0.1.3');
+export function initializeApp() {
+    console.log('Initializing app version v0.1.5');
     
     const initializationTimeout = setTimeout(() => {
         console.error('Initialization timed out after 6 seconds');
@@ -9,13 +13,13 @@ function initializeApp() {
 
     // Initialize core components
     const components = [
-        { name: 'Calendar', func: initializeCalendar },
-        { name: 'Weather', func: initializeWeather },
-        { name: 'DateTime', func: updateDateTime },
-        { name: 'IosAlbum', func: updateIosAlbum },
+        { name: 'Calendar', func: window.initializeCalendar || (() => console.log('Calendar initialization not available')) },
+        { name: 'Weather', func: window.initializeWeather || (() => console.log('Weather initialization not available')) },
+        { name: 'DateTime', func: window.updateDateTime || (() => console.log('DateTime update not available')) },
+        { name: 'IosAlbum', func: window.updateIosAlbum || (() => console.log('IosAlbum update not available')) },
         { name: 'DragResize', func: enableDragResize },
         { name: 'PositionsAndSizes', func: loadPositionsAndSizes },
-        { name: 'RSS', func: initializeRSSFeed }, // Add RSS feed initialization
+        { name: 'RSS', func: window.initializeRSSFeed || (() => console.log('RSS initialization not available')) },
     ];
 
     components.forEach(component => {
@@ -26,7 +30,7 @@ function initializeApp() {
             
             if (component.name === 'Calendar') {
                 const calendarWidget = document.getElementById('main-widget');
-                console.log('Calendar widget display after initialization:', calendarWidget.style.display);
+                console.log('Calendar widget display after initialization:', calendarWidget ? calendarWidget.style.display : 'Widget not found');
             }
         } catch (error) {
             console.error(`Error initializing ${component.name}:`, error);
@@ -36,8 +40,12 @@ function initializeApp() {
     // Initialize chores system
     try {
         console.log('Initializing chores system...');
-        window.chores.initialize();
-        console.log('Chores system initialized');
+        if (window.chores && window.chores.initialize) {
+            window.chores.initialize();
+            console.log('Chores system initialized');
+        } else {
+            console.warn('Chores system not available');
+        }
     } catch (error) {
         console.error('Error initializing chores system:', error);
     }
@@ -45,8 +53,12 @@ function initializeApp() {
     // Initialize UI components
     try {
         console.log('Initializing UI components...');
-        initializeUI();
-        console.log('UI components initialized');
+        if (window.initializeUI) {
+            window.initializeUI();
+            console.log('UI components initialized');
+        } else {
+            console.warn('UI initialization not available');
+        }
     } catch (error) {
         console.error('Error initializing UI components:', error);
     }
@@ -54,15 +66,19 @@ function initializeApp() {
     // Initialize chore status checking
     try {
         console.log('Setting up chore checking...');
-        window.chores.checkAllChores();
-        setInterval(() => {
-            try {
-                window.chores.checkAllChores();
-            } catch (error) {
-                console.error('Error checking chores:', error);
-            }
-        }, 60000); // Check every minute
-        console.log('Chore checking set up');
+        if (window.chores && window.chores.checkAllChores) {
+            window.chores.checkAllChores();
+            setInterval(() => {
+                try {
+                    window.chores.checkAllChores();
+                } catch (error) {
+                    console.error('Error checking chores:', error);
+                }
+            }, 60000); // Check every minute
+            console.log('Chore checking set up');
+        } else {
+            console.warn('Chore checking not available');
+        }
     } catch (error) {
         console.error('Error setting up chore checking:', error);
     }
@@ -75,6 +91,15 @@ function initializeApp() {
     } catch (error) {
         console.error('Error initializing content cycling:', error);
     }
+
+    // Initialize toggle buttons
+    try {
+        console.log('Initializing toggle buttons...');
+        initializeToggleButtons();
+        console.log('Toggle buttons initialized');
+    } catch (error) {
+        console.error('Error initializing toggle buttons:', error);
+    }
     
     console.log('All initializations complete');
 
@@ -83,28 +108,36 @@ function initializeApp() {
 
     // Final check of main widget visibility
     const mainWidget = document.getElementById('main-widget');
-    console.log('Final main widget display:', mainWidget.style.display);
-    console.log('Main widget computed style display:', window.getComputedStyle(mainWidget).display);
+    console.log('Final main widget display:', mainWidget ? mainWidget.style.display : 'Widget not found');
+    console.log('Main widget computed style display:', mainWidget ? window.getComputedStyle(mainWidget).display : 'Widget not found');
 }
 
 // Activate the default cycling content view
 function activateDefaultView() {
     console.log('Activating default view');
     const calendarContent = document.querySelector('#calendar-shopping .cycling-content');
-    calendarContent.classList.add('active');
-    console.log('Calendar content class list after activation:', calendarContent.classList);
+    if (calendarContent) {
+        calendarContent.classList.add('active');
+        console.log('Calendar content class list after activation:', calendarContent.classList);
+    } else {
+        console.warn('Calendar content not found');
+    }
     
     const rssNews = document.getElementById('rss-news');
-    rssNews.classList.add('active');
-    console.log('RSS news class list after activation:', rssNews.classList);
+    if (rssNews) {
+        rssNews.classList.add('active');
+        console.log('RSS news class list after activation:', rssNews.classList);
+    } else {
+        console.warn('RSS news element not found');
+    }
 }
 
 // Initialize content cycling and set up event listeners
 function initializeContentCycling() {
-    if (typeof startCyclingContent === 'function') {
-        startCyclingContent();
+    if (typeof window.startCyclingContent === 'function') {
+        window.startCyclingContent();
     } else {
-        console.error('startCyclingContent function not found');
+        console.warn('startCyclingContent function not found');
     }
 
     const prevButton = document.getElementById('right-widget-prev');
@@ -113,24 +146,41 @@ function initializeContentCycling() {
     if (prevButton && nextButton) {
         prevButton.addEventListener('click', () => {
             console.log('Prev button clicked');
-            if (typeof cycleRightWidget === 'function') {
-                cycleRightWidget('prev');
+            if (typeof window.cycleRightWidget === 'function') {
+                window.cycleRightWidget('prev');
             } else {
-                console.error('cycleRightWidget function not found');
+                console.warn('cycleRightWidget function not found');
             }
         });
         nextButton.addEventListener('click', () => {
             console.log('Next button clicked');
-            if (typeof cycleRightWidget === 'function') {
-                cycleRightWidget('next');
+            if (typeof window.cycleRightWidget === 'function') {
+                window.cycleRightWidget('next');
             } else {
-                console.error('cycleRightWidget function not found');
+                console.warn('cycleRightWidget function not found');
             }
         });
         console.log('Event listeners for right widget buttons set up');
     } else {
-        console.error('Right widget navigation buttons not found');
+        console.warn('Right widget navigation buttons not found');
     }
+}
+
+// Initialize toggle buttons
+function initializeToggleButtons() {
+    const toggleButtons = document.querySelectorAll('.widget-toggle');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const widget = event.target.closest('.widget');
+            if (widget) {
+                console.log(`Toggle button clicked for widget: ${widget.id}`);
+                toggleMaximize(widget);
+            } else {
+                console.warn('Widget not found');
+            }
+        });
+    });
+    console.log('Toggle buttons initialized');
 }
 
 // Expose the onChoreConfigSaved function globally
@@ -147,11 +197,10 @@ window.onChoreConfigSaved = function() {
     }
 };
 
-// Run initialization
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeApp);
-} else {
+// Initialize app when DOM content is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM content loaded, initializing app');
     initializeApp();
-}
+});
 
 console.log('Main.js loaded');

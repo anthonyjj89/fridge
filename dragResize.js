@@ -1,11 +1,25 @@
-// Enable dragging and resizing of elements
-function enableDragResize() {
+import { enableDrag } from './widgetDrag.js';
+import { enableResize } from './widgetResize.js';
+import { toggleMaximize } from './widgetMaximize.js';
+import { savePositionsAndSizes, loadPositionsAndSizes, toggleWidget, resetWidget, resetAllWidgets } from './widgetPositions.js';
+
+let isLocked = true; // Start locked
+const gridSize = 20; // Grid size for snapping
+
+export function enableDragResize() {
+    console.log('Enabling drag and resize functionality');
     const resizableElements = document.querySelectorAll('.widget');
-    const gridSize = 20; // Grid size for snapping
-    let isLocked = true;
+    console.log('Found resizable elements:', resizableElements.length);
+
+    // Remove existing lock icon if it exists
+    const existingLockIcon = document.querySelector('#lock-icon');
+    if (existingLockIcon) {
+        existingLockIcon.remove();
+    }
 
     // Create lock icon
     const lockIcon = document.createElement('div');
+    lockIcon.id = 'lock-icon';
     lockIcon.innerHTML = '&#x1F512;'; // Lock emoji (U+1F512)
     lockIcon.style.position = 'fixed';
     lockIcon.style.bottom = '10px';
@@ -18,6 +32,10 @@ function enableDragResize() {
     lockIcon.style.display = 'flex';
     lockIcon.style.justifyContent = 'center';
     lockIcon.style.alignItems = 'center';
+    lockIcon.style.zIndex = '9999';
+    lockIcon.style.backgroundColor = 'white';
+    lockIcon.style.borderRadius = '50%';
+    lockIcon.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
     document.body.appendChild(lockIcon);
 
     // Create management buttons container
@@ -27,7 +45,8 @@ function enableDragResize() {
     managementButtons.style.top = '10px';
     managementButtons.style.left = '50%';
     managementButtons.style.transform = 'translateX(-50%)';
-    managementButtons.style.display = 'none';
+    managementButtons.style.display = 'none'; // Initially hidden
+    managementButtons.style.zIndex = '9999';
     document.body.appendChild(managementButtons);
 
     // Create management buttons
@@ -67,12 +86,18 @@ function enableDragResize() {
         lockIcon.innerHTML = isLocked ? '&#x1F512;' : '&#x1F513;'; // 🔒 when locked, 🔓 when unlocked
         managementButtons.style.display = isLocked ? 'none' : 'flex';
         resizableElements.forEach(element => {
-            element.style.cursor = isLocked ? 'default' : 'move';
+            element.style.cursor = isLocked ? 'default' : 'grab';
+            element.style.boxShadow = isLocked ? 'none' : '0 0 10px rgba(0,0,0,0.1)';
             const resizeHandle = element.querySelector('.resize-handle');
             if (resizeHandle) {
                 resizeHandle.style.display = isLocked ? 'none' : 'block';
             }
+            const toggleButton = element.querySelector('.widget-toggle');
+            if (toggleButton) {
+                toggleButton.style.display = isLocked ? 'block' : 'none'; // Show when locked, hide when unlocked
+            }
         });
+        console.log('Lock state updated:', isLocked ? 'locked' : 'unlocked');
     }
 
     lockIcon.addEventListener('click', function() {
@@ -84,187 +109,54 @@ function enableDragResize() {
         element.style.position = 'absolute';
 
         // Create a handle for resizing
-        const resizeHandle = document.createElement('div');
-        resizeHandle.className = 'resize-handle';
-        resizeHandle.innerHTML = '&#x2921;'; // South East Double Arrow (U+2921)
-        resizeHandle.style.position = 'absolute';
-        resizeHandle.style.bottom = '0';
-        resizeHandle.style.right = '0';
-        resizeHandle.style.width = '20px';
-        resizeHandle.style.height = '20px';
-        resizeHandle.style.display = 'flex';
-        resizeHandle.style.justifyContent = 'center';
-        resizeHandle.style.alignItems = 'center';
-        resizeHandle.style.color = 'white';
-        resizeHandle.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        resizeHandle.style.cursor = 'nwse-resize';
-        resizeHandle.style.fontSize = '20px';
-        resizeHandle.style.display = 'none';
-        element.appendChild(resizeHandle);
-
-        // Make the entire element draggable
-        element.addEventListener('mousedown', dragStart);
-        element.addEventListener('touchstart', dragStart);
-
-        function dragStart(e) {
-            if (isLocked || e.target === resizeHandle) return;
-            e.preventDefault();
-            const touch = e.type === 'touchstart' ? e.touches[0] : e;
-            const offsetX = touch.clientX - element.offsetLeft;
-            const offsetY = touch.clientY - element.offsetTop;
-
-            function moveHandler(e) {
-                const touch = e.type === 'touchmove' ? e.touches[0] : e;
-                element.style.left = `${Math.round((touch.clientX - offsetX) / gridSize) * gridSize}px`;
-                element.style.top = `${Math.round((touch.clientY - offsetY) / gridSize) * gridSize}px`;
-            }
-
-            function endHandler() {
-                document.removeEventListener('mousemove', moveHandler);
-                document.removeEventListener('mouseup', endHandler);
-                document.removeEventListener('touchmove', moveHandler);
-                document.removeEventListener('touchend', endHandler);
-                savePositionsAndSizes();
-            }
-
-            document.addEventListener('mousemove', moveHandler);
-            document.addEventListener('mouseup', endHandler);
-            document.addEventListener('touchmove', moveHandler);
-            document.addEventListener('touchend', endHandler);
+        let resizeHandle = element.querySelector('.resize-handle');
+        if (!resizeHandle) {
+            resizeHandle = document.createElement('div');
+            resizeHandle.className = 'resize-handle';
+            resizeHandle.innerHTML = '&#x2921;'; // South East Double Arrow (U+2921)
+            resizeHandle.style.position = 'absolute';
+            resizeHandle.style.bottom = '0';
+            resizeHandle.style.right = '0';
+            resizeHandle.style.width = '20px';
+            resizeHandle.style.height = '20px';
+            resizeHandle.style.display = 'flex';
+            resizeHandle.style.justifyContent = 'center';
+            resizeHandle.style.alignItems = 'center';
+            resizeHandle.style.color = 'white';
+            resizeHandle.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            resizeHandle.style.cursor = 'nwse-resize';
+            resizeHandle.style.fontSize = '20px';
+            resizeHandle.style.zIndex = '1000';
+            element.appendChild(resizeHandle);
         }
 
-        // Make the element resizable from the bottom-right corner
-        resizeHandle.addEventListener('mousedown', resizeStart);
-        resizeHandle.addEventListener('touchstart', resizeStart);
-
-        function resizeStart(e) {
-            if (isLocked) return;
-            e.stopPropagation();
-            e.preventDefault();
-            const touch = e.type === 'touchstart' ? e.touches[0] : e;
-            const startX = touch.clientX;
-            const startY = touch.clientY;
-            const startWidth = parseInt(document.defaultView.getComputedStyle(element).width, 10);
-            const startHeight = parseInt(document.defaultView.getComputedStyle(element).height, 10);
-
-            function moveHandler(e) {
-                const touch = e.type === 'touchmove' ? e.touches[0] : e;
-                const newWidth = Math.round((startWidth + touch.clientX - startX) / gridSize) * gridSize;
-                const newHeight = Math.round((startHeight + touch.clientY - startY) / gridSize) * gridSize;
-                element.style.width = `${newWidth}px`;
-                element.style.height = `${newHeight}px`;
-            }
-
-            function endHandler() {
-                document.removeEventListener('mousemove', moveHandler);
-                document.removeEventListener('mouseup', endHandler);
-                document.removeEventListener('touchmove', moveHandler);
-                document.removeEventListener('touchend', endHandler);
-                savePositionsAndSizes();
-            }
-
-            document.addEventListener('mousemove', moveHandler);
-            document.addEventListener('mouseup', endHandler);
-            document.addEventListener('touchmove', moveHandler);
-            document.addEventListener('touchend', endHandler);
+        // Add toggle button functionality
+        const toggleButton = element.querySelector('.widget-toggle');
+        if (toggleButton) {
+            console.log('Adding toggle functionality to widget:', element.id);
+            toggleButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent event from bubbling up
+                console.log('Toggle button clicked for widget:', element.id);
+                toggleMaximize(element);
+            });
+        } else {
+            console.warn('No toggle button found for widget:', element.id);
         }
+
+        // Enable drag and resize
+        enableDrag(element, gridSize, () => isLocked, savePositionsAndSizes);
+        enableResize(element, resizeHandle, gridSize, () => isLocked, savePositionsAndSizes);
     });
 
     // Initial update of lock state
     updateLockState();
 }
 
-// Save positions and sizes to local storage
-function savePositionsAndSizes() {
-    const resizableElements = document.querySelectorAll('.widget');
-    const positions = [];
-    resizableElements.forEach(element => {
-        positions.push({
-            id: element.id,
-            left: element.style.left,
-            top: element.style.top,
-            width: element.style.width,
-            height: element.style.height,
-            visible: element.style.display !== 'none'
-        });
-    });
-    localStorage.setItem('widgetPositions', JSON.stringify(positions));
-    console.log('Saved positions:', positions);
-}
-
-// Load positions and sizes from local storage
-function loadPositionsAndSizes() {
-    const positions = JSON.parse(localStorage.getItem('widgetPositions')) || [];
-    console.log('Loaded positions:', positions);
-    const resizableElements = document.querySelectorAll('.widget');
-    
-    resizableElements.forEach(element => {
-        const savedPosition = positions.find(pos => pos.id === element.id);
-        if (savedPosition) {
-            element.style.left = savedPosition.left;
-            element.style.top = savedPosition.top;
-            element.style.width = savedPosition.width;
-            element.style.height = savedPosition.height;
-            element.style.display = savedPosition.visible ? 'block' : 'none';
-        } else {
-            // If no saved position, set default values
-            element.style.left = '20px';
-            element.style.top = '20px';
-            element.style.display = 'block';
-        }
-        console.log(`Widget ${element.id} display:`, element.style.display);
-    });
-}
-
-// Toggle widget visibility
-function toggleWidget(id) {
-    const widget = document.getElementById(id);
-    if (widget) {
-        console.log(`Toggling widget ${id}. Current display:`, widget.style.display);
-        if (widget.style.display === 'none') {
-            widget.style.display = 'block';
-            if (!widget.style.left && !widget.style.top) {
-                // If the widget has no position, center it
-                const rect = widget.getBoundingClientRect();
-                widget.style.left = `${(window.innerWidth - rect.width) / 2}px`;
-                widget.style.top = `${(window.innerHeight - rect.height) / 2}px`;
-            }
-        } else {
-            widget.style.display = 'none';
-        }
-        console.log(`Widget ${id} new display:`, widget.style.display);
-        savePositionsAndSizes();
-    }
-}
-
-// Reset a single widget
-function resetWidget(id) {
-    const widget = document.getElementById(id);
-    if (widget) {
-        widget.style.left = '20px';
-        widget.style.top = '20px';
-        widget.style.display = 'block';
-        savePositionsAndSizes();
-    }
-}
-
-// Reset all widgets
-function resetAllWidgets(visibleOnly) {
-    const widgets = document.querySelectorAll('.widget');
-    let topOffset = 20;
-    widgets.forEach(widget => {
-        if (!visibleOnly || widget.style.display !== 'none') {
-            widget.style.left = '20px';
-            widget.style.top = `${topOffset}px`;
-            widget.style.display = 'block';
-            topOffset += 50; // Offset each widget by 50px vertically
-        }
-    });
-    savePositionsAndSizes();
-}
-
 // Initialize drag and resize functionality
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM content loaded, initializing drag and resize');
     loadPositionsAndSizes();
     enableDragResize();
 });
+
+export { toggleWidget, resetWidget, resetAllWidgets };

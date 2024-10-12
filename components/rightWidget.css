@@ -27,7 +27,7 @@
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     padding: 10px;
-    overflow-y: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -78,6 +78,8 @@
 #rss-news {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    overflow: hidden;
 }
 
 #rss-news h2 {
@@ -87,8 +89,15 @@
 #rss-news ul {
     list-style-type: none;
     padding: 0;
-    flex-grow: 1;
-    overflow-y: auto;
+    margin: 0;
+    height: calc(100% - 40px); /* Adjust based on your h2 height */
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+#rss-news ul::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
 }
 
 #rss-news li {

@@ -1,0 +1,138 @@
+/* General widget styling */
+.widget {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    padding: 20px;
+    overflow: hidden;
+    position: relative; /* Ensure scroll buttons are positioned correctly */
+    min-height: 100px; /* Set a minimum height for widgets */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Heading styling */
+h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Content styling for widgets */
+.widget-content, .cycling-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 1.2em;
+    overflow-y: auto; /* Add scrolling for overflow content */
+    width: 100%;
+}
+
+/* List styling */
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* Cycling content visibility */
+.cycling-content {
+    display: none;
+    padding: 0 10px; /* Add some padding to the content itself */
+}
+
+.cycling-content.active {
+    display: flex;
+}
+
+/* Scroll button styling for main widget and right widget */
+.scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.scroll-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#main-widget-prev, #right-widget-prev {
+    left: 5px;
+}
+
+#main-widget-next, #right-widget-next {
+    right: 5px;
+}
+
+/* Improved accessibility for buttons */
+.scroll-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Toggle button styling */
+.widget-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.widget-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Maximized widget styling */
+.widget.maximized {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    width: calc(100vw - 60px);
+    height: calc(100vh - 60px);
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.95);
+    border-radius: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow: auto;
+}
+
+/* Clickable padding area */
+.maximized-padding {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9998;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure the toggle button is visible in maximized state */
+.widget.maximized .widget-toggle {
+    top: 10px;
+    right: 10px;
+}
