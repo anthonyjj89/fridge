@@ -58,8 +58,6 @@ function maximizeWidget(widget) {
     // Add event listeners for user interaction
     widget.addEventListener('mousemove', resetMaximizeTimer);
     widget.addEventListener('click', resetMaximizeTimer);
-    widget.addEventListener('touchstart', handleTouchStart);
-    widget.addEventListener('touchend', handleTouchEnd);
     widget.addEventListener('keydown', resetMaximizeTimer);
 
     console.log('Widget maximized:', widget.id);
@@ -85,8 +83,6 @@ function minimizeWidget(widget) {
     // Remove event listeners
     widget.removeEventListener('mousemove', resetMaximizeTimer);
     widget.removeEventListener('click', resetMaximizeTimer);
-    widget.removeEventListener('touchstart', handleTouchStart);
-    widget.removeEventListener('touchend', handleTouchEnd);
     widget.removeEventListener('keydown', resetMaximizeTimer);
 
     clearTimeout(maximizeTimer);
@@ -108,7 +104,6 @@ function resetMaximizeTimer() {
 
 function handleTouchStart(event) {
     touchStartY = event.touches[0].clientY;
-    resetMaximizeTimer();
 }
 
 function handleTouchEnd(event) {
@@ -116,15 +111,18 @@ function handleTouchEnd(event) {
     const swipeDistance = touchStartY - touchEndY;
 
     if (Math.abs(swipeDistance) > 50) { // Minimum swipe distance
-        if (swipeDistance > 0) {
-            // Swipe up
-            if (!event.target.classList.contains('maximized')) {
-                maximizeWidget(event.target);
-            }
-        } else {
-            // Swipe down
-            if (event.target.classList.contains('maximized')) {
-                minimizeWidget(event.target);
+        const widget = event.target.closest('.widget');
+        if (widget) {
+            if (swipeDistance > 0) {
+                // Swipe up
+                if (!widget.classList.contains('maximized')) {
+                    maximizeWidget(widget);
+                }
+            } else {
+                // Swipe down
+                if (widget.classList.contains('maximized')) {
+                    minimizeWidget(widget);
+                }
             }
         }
     }
