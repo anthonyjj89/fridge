@@ -33,9 +33,16 @@
     resize: none !important;
 }
 
-/* Hide vertical scrollbars in resize mode */
+/* Hide scrollbars in resize mode */
 .widget.resizable {
-    overflow: hidden;
+    overflow: hidden !important;
+}
+
+.widget.resizable .widget-content,
+.widget.resizable .cycling-content {
+    overflow: hidden !important;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /* Hide scrollbars in locked state */

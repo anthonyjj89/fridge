@@ -12,8 +12,8 @@
     align-items: center;
     justify-content: flex-end;
     margin-top: 10px;
-    color: white; /* Changed to white to match the overall theme */
-    height: auto; /* Allows independent height */
+    color: white;
+    height: auto;
 }
 
 #temperature::before {
@@ -24,6 +24,58 @@
 #weather-description {
     font-size: 1.2em;
     margin-top: 5px;
+}
+
+/* Fullscreen styles */
+.weather-fullscreen {
+    background-color: rgba(31, 30, 30, 0.95); /* Match the widget background color */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.weather-fullscreen #temperature {
+    font-size: 6em;
+    margin-bottom: 20px;
+}
+
+.weather-fullscreen #weather-description {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+/* Additional weather information for fullscreen mode */
+.weather-fullscreen .weather-details {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 30px;
+}
+
+.weather-fullscreen .weather-detail-item {
+    text-align: center;
+    margin: 0 10px;
+}
+
+.weather-fullscreen .weather-detail-label {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.weather-fullscreen .weather-detail-value {
+    font-size: 1.8em;
+    font-weight: bold;
 }
 
 /* Responsive adjustments */
@@ -38,5 +90,40 @@
 
     #weather-description {
         font-size: 1em;
+    }
+
+    .weather-fullscreen #temperature {
+        font-size: 4em;
+    }
+
+    .weather-fullscreen #weather-description {
+        font-size: 2em;
+    }
+
+    .weather-fullscreen .weather-details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .weather-fullscreen .weather-detail-item {
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-fullscreen #temperature {
+        font-size: 3em;
+    }
+
+    .weather-fullscreen #weather-description {
+        font-size: 1.5em;
+    }
+
+    .weather-fullscreen .weather-detail-label {
+        font-size: 1em;
+    }
+
+    .weather-fullscreen .weather-detail-value {
+        font-size: 1.4em;
     }
 }

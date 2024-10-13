@@ -29,6 +29,17 @@ body {
     background-repeat: no-repeat;
 }
 
+/* Locked state styles */
+body.locked .widget {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+body.locked .widget-toggle,
+body.locked .config-icon {
+    display: none;
+}
+
 #dashboard {
     height: 100vh;
     display: flex;
@@ -188,10 +199,72 @@ body.debugging .debug-timer {
     display: inline-block;
 }
 
-/* Fix padlock position */
-#lock-icon {
+/* Lock toggle button */
+#lock-toggle {
     position: fixed;
     bottom: 10px;
     left: 10px;
     z-index: 9999;
+}
+
+#lock-toggle button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#lock-toggle button:hover {
+    background-color: #45a049;
+}
+
+#lock-toggle button.locked {
+    background-color: #f44336;
+}
+
+#lock-toggle button.locked:hover {
+    background-color: #d32f2f;
+}
+
+/* Swipe toggle button */
+#swipe-toggle {
+    position: fixed;
+    bottom: 10px;
+    left: 120px; /* Adjust this value to position it next to the lock toggle */
+    z-index: 9999;
+}
+
+#swipe-toggle button {
+    background-color: #2196F3;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#swipe-toggle button:hover {
+    background-color: #1976D2;
+}
+
+#swipe-toggle button.disabled {
+    background-color: #9E9E9E;
+}
+
+#swipe-toggle button.disabled:hover {
+    background-color: #757575;
 }

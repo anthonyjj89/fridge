@@ -25,6 +25,7 @@ function loadChoreConfig() {
     }
     console.log('Chore configuration loaded:', choreConfig);
 }
+
 export function initialize() {
     console.log('Initializing chore system');
     loadChoreConfig();
@@ -63,9 +64,10 @@ function initializeChores() {
 function updateChoreState(button, chore) {
     console.log('Updating chore state:', chore.name);
     console.log('Chore last completed:', chore.lastCompleted);
-    console.log('Is chore due:', isChoredDue(chore));
+    const isDue = isChoredDue(chore);
+    console.log('Is chore due:', isDue);
     
-    if (isChoredDue(chore)) {
+    if (isDue) {
         console.log('Setting chore to red (due)');
         button.style.backgroundColor = 'red';
         button.classList.add('flashing');
@@ -192,6 +194,7 @@ function scrollChores(direction) {
         choreList.scrollLeft += scrollAmount;
     }
 }
+
 export function openChorePopup(choreName) {
     console.log('Opening chore popup for:', choreName);
     const chore = choreConfig.chores.find(c => c.name === choreName);
@@ -206,6 +209,7 @@ export function openChorePopup(choreName) {
         document.getElementById('chore-popup').style.display = 'block';
     }
 }
+
 export function saveChorePopup() {
     const choreName = document.getElementById('chore-name').textContent;
     const chore = choreConfig.chores.find(c => c.name === choreName);
@@ -222,14 +226,12 @@ export function saveChorePopup() {
 function closeChorePopup() {
     document.getElementById('chore-popup').style.display = 'none';
 }
+
 export function selectAllDays() {
     document.querySelectorAll('.day-checkbox').forEach(checkbox => {
         checkbox.checked = true;
     });
 }
-
-// Remove the DOMContentLoaded event listener, as we'll handle initialization in main.js
-// document.addEventListener('DOMContentLoaded', () => { ... });
 
 // Export functions and config for external use
 export const chores = {
