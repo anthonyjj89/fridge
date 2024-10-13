@@ -1,5 +1,5 @@
 import { enableDragResize, loadPositionsAndSizes } from './dragResize.js';
-import { toggleMaximize } from './widgetMaximize.js';
+import { toggleMaximize, addSwipeListeners } from './widgetMaximize.js';
 import { initializeCalendar } from './calendar.js';
 import { initializeWeather } from './weather.js';
 import { updateDateTime } from './dateTime.js';
@@ -12,7 +12,7 @@ import { initializeContentCycling, cycleRightWidget } from './contentCycling.js'
 console.log('Main.js execution started');
 
 export function initializeApp() {
-    console.log('Initializing app version v0.1.7');
+    console.log('Initializing app version v0.1.8');
     
     const initializationTimeout = setTimeout(() => {
         console.error('Initialization timed out after 6 seconds');
@@ -89,6 +89,15 @@ export function initializeApp() {
         console.log('Toggle buttons initialized successfully');
     } catch (error) {
         console.error('Error initializing toggle buttons:', error);
+    }
+
+    // Initialize swipe gestures
+    try {
+        console.log('Initializing swipe gestures...');
+        addSwipeListeners();
+        console.log('Swipe gestures initialized successfully');
+    } catch (error) {
+        console.error('Error initializing swipe gestures:', error);
     }
     
     console.log('All initializations complete');

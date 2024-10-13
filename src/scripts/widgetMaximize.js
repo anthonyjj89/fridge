@@ -1,5 +1,7 @@
 let maximizedWidget = null;
 let maximizeTimer = null;
+let touchStartY = 0;
+let touchEndY = 0;
 
 export function toggleMaximize(widget) {
     console.log('Toggling maximize for widget:', widget.id);
@@ -56,7 +58,8 @@ function maximizeWidget(widget) {
     // Add event listeners for user interaction
     widget.addEventListener('mousemove', resetMaximizeTimer);
     widget.addEventListener('click', resetMaximizeTimer);
-    widget.addEventListener('touchstart', resetMaximizeTimer);
+    widget.addEventListener('touchstart', handleTouchStart);
+    widget.addEventListener('touchend', handleTouchEnd);
     widget.addEventListener('keydown', resetMaximizeTimer);
 
     console.log('Widget maximized:', widget.id);
@@ -82,7 +85,8 @@ function minimizeWidget(widget) {
     // Remove event listeners
     widget.removeEventListener('mousemove', resetMaximizeTimer);
     widget.removeEventListener('click', resetMaximizeTimer);
-    widget.removeEventListener('touchstart', resetMaximizeTimer);
+    widget.removeEventListener('touchstart', handleTouchStart);
+    widget.removeEventListener('touchend', handleTouchEnd);
     widget.removeEventListener('keydown', resetMaximizeTimer);
 
     clearTimeout(maximizeTimer);
@@ -100,6 +104,39 @@ function resetMaximizeTimer() {
             minimizeWidget(maximizedWidget);
         }
     }, 120000); // 2 minutes
+}
+
+function handleTouchStart(event) {
+    touchStartY = event.touches[0].clientY;
+    resetMaximizeTimer();
+}
+
+function handleTouchEnd(event) {
+    touchEndY = event.changedTouches[0].clientY;
+    const swipeDistance = touchStartY - touchEndY;
+
+    if (Math.abs(swipeDistance) > 50) { // Minimum swipe distance
+        if (swipeDistance > 0) {
+            // Swipe up
+            if (!event.target.classList.contains('maximized')) {
+                maximizeWidget(event.target);
+            }
+        } else {
+            // Swipe down
+            if (event.target.classList.contains('maximized')) {
+                minimizeWidget(event.target);
+            }
+        }
+    }
+}
+
+// Add swipe gesture listeners to all widgets
+export function addSwipeListeners() {
+    const widgets = document.querySelectorAll('.widget');
+    widgets.forEach(widget => {
+        widget.addEventListener('touchstart', handleTouchStart);
+        widget.addEventListener('touchend', handleTouchEnd);
+    });
 }
 
 console.log('WidgetMaximize.js loaded');
