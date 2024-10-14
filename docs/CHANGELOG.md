@@ -1,9 +1,28 @@
+### Note
+- When updating this changelog, do not remove previous entries. Amend the file by adding new entries at the top.
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.8] - 2023-06-XX
+
+### Added
+- Implemented full-screen styling for the weather widget
+- Added additional weather information (humidity, wind speed, precipitation) to the datetime widget
+- Implemented a manual swipe toggle functionality
+- Added swipe gestures for fullscreen toggle (swipe up to maximize, swipe down to minimize)
+
+### Changed
+- Updated the datetime widget to show more weather details in full-screen mode
+- Modified the widget maximize/minimize functionality to handle the datetime widget specifically
+- Improved the responsiveness of the datetime and weather displays
+
+### Fixed
+- Resolved issues with swipe functionality in resize mode
 
 ## [0.1.7] - 2023-05-28
 
@@ -23,8 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known Issues
 - Chores may not always initialize in the correct state (flashing red-white) on first load or reset.
-
-## [0.1.6] - 2023-05-21
 
 ## [0.1.6] - 2023-05-21
 
@@ -63,4 +80,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Resolved issues with widget outlines appearing outside of debug mode.
 - Fixed inconsistent timer behavior when manually cycling widgets.
-

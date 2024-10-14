@@ -2,12 +2,19 @@
 #datetime {
     grid-column: 2;
     background-color: transparent;
-    color: white; /* Changed to white to match the overall theme */
+    color: white;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.datetime-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 #day {
@@ -22,9 +29,74 @@
     line-height: 1;
 }
 
+#temperature {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.weather-details {
+    display: none;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.weather-detail-item {
+    text-align: center;
+}
+
+.weather-detail-label {
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+.weather-detail-value {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Fullscreen styles */
+#datetime.maximized {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(31, 30, 30, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+#datetime.maximized .datetime-content {
+    align-items: center;
+}
+
+#datetime.maximized #day {
+    font-size: 8em;
+}
+
+#datetime.maximized #time {
+    font-size: 6em;
+}
+
+#datetime.maximized #temperature {
+    font-size: 5em;
+    margin-top: 20px;
+}
+
+#datetime.maximized .weather-details {
+    display: flex;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     #datetime {
+        align-items: center;
+    }
+
+    .datetime-content {
         align-items: center;
     }
 
@@ -34,5 +106,29 @@
 
     #time {
         font-size: 2.5em;
+    }
+
+    #temperature {
+        font-size: 2em;
+    }
+
+    #datetime.maximized #day {
+        font-size: 6em;
+    }
+
+    #datetime.maximized #time {
+        font-size: 4em;
+    }
+
+    #datetime.maximized #temperature {
+        font-size: 3.5em;
+    }
+
+    .weather-detail-label {
+        font-size: 0.9em;
+    }
+
+    .weather-detail-value {
+        font-size: 1.3em;
     }
 }

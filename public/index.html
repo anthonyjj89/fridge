@@ -15,7 +15,7 @@
 <body>
     <div id="background"></div>
     <div id="dashboard">
-        <div id="version-number">v0.1.7</div>
+        <div id="version-number">v0.1.8</div>
         <div id="widget-container"></div>
     </div>
     <div id="chore-popup" class="popup">
@@ -50,6 +50,16 @@
         <button id="debug-button">Debug</button>
     </div>
 
+    <!-- Lock toggle button -->
+    <div id="lock-toggle" class="lock-control">
+        <button id="lock-button">Lock</button>
+    </div>
+
+    <!-- Swipe toggle button -->
+    <div id="swipe-toggle" class="swipe-control">
+        <button id="swipe-button">Swipe</button>
+    </div>
+
     <!-- Debug timer displays -->
     <div id="main-widget-debug-timer" class="debug-timer"></div>
     <div id="right-widget-debug-timer" class="debug-timer"></div>
@@ -58,6 +68,7 @@
         import { initializeApp } from '../src/scripts/main.js';
         import { enableDragResize } from '../src/scripts/dragResize.js';
         import { toggleDebugging } from '../src/scripts/contentCycling.js';
+        import { initializeUI } from '../src/scripts/ui.js';
 
         // Load widget HTML content
         const widgetContainer = document.getElementById('widget-container');
@@ -88,7 +99,6 @@
                 loadScript('../src/scripts/config.js'),
                 loadScript('../src/scripts/chores.js'),
                 loadScript('../src/scripts/choreToggle.js'),
-                loadScript('../src/scripts/ui.js'),
                 loadScript('../src/scripts/rss.js')
             ]);
         })
@@ -96,6 +106,7 @@
             console.log('All scripts loaded');
             initializeApp();
             enableDragResize();
+            initializeUI();
             document.getElementById('debug-button').addEventListener('click', toggleDebugging);
         })
         .catch(error => console.error('Error loading widgets or scripts:', error));

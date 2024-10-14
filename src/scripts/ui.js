@@ -1,9 +1,11 @@
 // UI-related functions
+import { toggleLock } from './main.js';
 
 export function initializeUI() {
     addScrollFunctionality();
     addChorePopupListeners();
     addPopupAutoClose();
+    initializeLockToggle();
 }
 
 function addScrollFunctionality() {
@@ -98,5 +100,34 @@ function addPopupAutoClose() {
         }
     });
 }
+
+function initializeLockToggle() {
+    const lockToggle = document.getElementById('lock-toggle');
+    if (lockToggle) {
+        lockToggle.addEventListener('click', function() {
+            toggleLock();
+            updateLockUI();
+        });
+        updateLockUI(); // Set initial state
+    } else {
+        console.warn('Lock toggle button not found in the DOM');
+    }
+}
+
+function updateLockUI() {
+    const lockToggle = document.getElementById('lock-toggle');
+    const isLocked = document.body.classList.contains('locked');
+    if (lockToggle) {
+        lockToggle.textContent = isLocked ? 'Unlock' : 'Lock';
+        lockToggle.classList.toggle('locked', isLocked);
+    }
+    document.body.classList.toggle('locked', isLocked);
+    console.log(`UI updated to reflect ${isLocked ? 'locked' : 'unlocked'} state`);
+}
+
+// Listen for lock state changes
+document.addEventListener('lockStateChanged', function(event) {
+    updateLockUI();
+});
 
 console.log('UI module loaded');

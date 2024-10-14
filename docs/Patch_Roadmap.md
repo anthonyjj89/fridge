@@ -72,45 +72,7 @@ Version 0.1.7 focused on improving widget functionality, addressing scrollbar is
 
 ---
 
-## Version 0.1.6 - 2023-05-21
-
-### Overview
-This patch introduced enhanced scheduling features, improved user interaction with pop-ups, and resolved several timer-related bugs. However, some layout stability issues remain.
-
-### Key Updates
-1. **Added “All Days” Button**: Simplified scheduling by adding a button for selecting all days at once.
-2. **Second Time Slot**: Users can now assign a second time slot for chores within the same day.
-3. **Auto-Close Pop-Up**: Clicking outside the pop-up will now close it automatically.
-
-## Version 0.1.5 - 2023-05-14
-
-### Known Issues
-- Main widget changes size on each cycle after initial load or reset.
-- Right widget debug outlines visible outside of debug mode.
-- Chores display in white only on initial load, instead of showing correct flashing states.
-
----
-
-## Version 0.1.6 - 2023-05-21
-
-### Overview
-This patch introduced enhanced scheduling features, improved user interaction with pop-ups, and resolved several timer-related bugs. However, some layout stability issues remain.
-
-### Key Updates
-1. **Added “All Days” Button**: Simplified scheduling by adding a button for selecting all days at once.
-2. **Second Time Slot**: Users can now assign a second time slot for chores within the same day.
-3. **Auto-Close Pop-Up**: Clicking outside the pop-up will now close it automatically.
-
-## Version 0.1.5 - 2023-05-14
-
-### Known Issues
-- Main widget changes size on each cycle after initial load or reset.
-- Right widget debug outlines visible outside of debug mode.
-- Chores display in white only on initial load, instead of showing correct flashing states.
-
----
-
-## Version 0.1.6 - 2023-05-21
+## Version 0.1.8 - Planned Release
 
 ### Overview
 Version 0.1.8 aims to address remaining known issues and further improve the user experience with new features and enhancements.
