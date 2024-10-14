@@ -1,5 +1,47 @@
 # Patch Roadmap
 
+- When updating this document, do not remove previous entries. Amend the file by adding new entries at the top.
+
+## Version 0.1.9 - Planned Release
+
+### Overview
+Version 0.1.9 aims to address remaining known issues and further improve the user experience with new features and enhancements.
+
+### Key Updates
+1. **Fix Chore Initialization**:
+   - Resolve the issue where chores may not initialize in the correct state on first load or reset.
+
+2. **Day/Night Themes**:
+   - Implement automatic day and night themes based on the time of day.
+
+3. **Performance Optimization**:
+   - Optimize JavaScript and CSS for better performance.
+   - Implement lazy loading for non-critical resources.
+
+---
+
+## Version 0.1.8 - Completed Release
+
+### Overview
+Version 0.1.8 focused on implementing full-screen functionality for widgets, improving weather information display, and enhancing the overall user experience.
+
+### Key Updates
+1. **Swipe Gestures for Fullscreen** - Completed:
+   - Implemented swipe up gesture to make widgets fullscreen.
+   - Implemented swipe down gesture to return widgets to normal size.
+   - Maintained existing toggle button functionality.
+
+2. **Weather Widget Enhancement** - Completed:
+   - Added a background to the weather widget when in fullscreen mode for improved visibility.
+
+3. **Improved Resize Mode** - Completed:
+   - Removed scroll bars in resize mode for a cleaner interface.
+
+### Known Issues
+- Chores may not always initialize in the correct state (flashing red-white) on first load or reset.
+
+---
+
 ## Version 0.1.7 - 2023-05-28
 
 ### Overview
@@ -49,20 +91,48 @@ This patch introduced enhanced scheduling features, improved user interaction wi
 
 ---
 
-## Version 0.1.8 - Planned Release
+## Version 0.1.6 - 2023-05-21
 
 ### Overview
-Version 0.1.8 aims to address remaining known issues and further improve the user experience.
+This patch introduced enhanced scheduling features, improved user interaction with pop-ups, and resolved several timer-related bugs. However, some layout stability issues remain.
+
+### Key Updates
+1. **Added “All Days” Button**: Simplified scheduling by adding a button for selecting all days at once.
+2. **Second Time Slot**: Users can now assign a second time slot for chores within the same day.
+3. **Auto-Close Pop-Up**: Clicking outside the pop-up will now close it automatically.
+
+## Version 0.1.5 - 2023-05-14
+
+### Known Issues
+- Main widget changes size on each cycle after initial load or reset.
+- Right widget debug outlines visible outside of debug mode.
+- Chores display in white only on initial load, instead of showing correct flashing states.
+
+---
+
+## Version 0.1.6 - 2023-05-21
+
+### Overview
+Version 0.1.8 aims to address remaining known issues and further improve the user experience with new features and enhancements.
 
 ### Key Updates
 1. **Fix Chore Initialization**:
    - Resolve the issue where chores may not initialize in the correct state on first load or reset.
 
-2. **Further UI/UX Improvements**:
-   - Fine-tune widget animations and transitions.
-   - Enhance responsiveness across different screen sizes.
+2. **Swipe Gestures for Fullscreen**:
+   - Implement swipe up gesture to make widgets fullscreen.
+   - Implement swipe down gesture to return widgets to normal size.
 
-3. **Performance Optimization**:
+3. **Weather Widget Enhancement**:
+   - Add a background to the weather widget when in fullscreen mode for improved visibility.
+
+4. **Improved Resize Mode**:
+   - Remove scroll bars in resize mode for a cleaner interface.
+
+5. **Day/Night Themes**:
+   - Implement automatic day and night themes based on the time of day.
+
+6. **Performance Optimization**:
    - Optimize JavaScript and CSS for better performance.
    - Implement lazy loading for non-critical resources.
 
@@ -79,7 +149,7 @@ Version 0.2.0 introduces several major features that enhance functionality and u
    - Cross-translation functionality using an external API.
    - Displays a word of the day in both languages with translation between them.
 3. **iOS Public Album Slide Show**: Incorporate a slideshow feature using photos from a shared public album on iOS.
-4. **Google Maps Upcoming Events List**: Show upcoming events based on user’s location, powered by Google Maps.
+4. **Google Maps Upcoming Events List**: Show upcoming events based on user's location, powered by Google Maps.
 5. **Shopping List with Scheduling**:
    - Grid-based list for regular shopping, similar to Chores.
    - User-settable schedule based on average consumption (e.g., daily, weekly).
@@ -96,14 +166,6 @@ Version 0.3.0 will focus on changes and updates based on user feedback collected
 - UI/UX improvements based on feedback.
 - Feature enhancements to address user pain points or feature requests.
 - Optimization of performance across all devices and browsers.
-
----
-
-## Version 0.4.0 and Beyond - To Be Confirmed (TBC)
-
-### Future Goals:
-- Further iterations based on evolving user needs and technical capabilities.
-- Preparation for a stable version with all core functionalities.
 
 ---
 

@@ -1,4 +1,3 @@
-
 # Guide to Document Usage
 
 This guide explains how to effectively use the 4 main documents for tracking and managing your project's development.

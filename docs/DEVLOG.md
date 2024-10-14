@@ -2,6 +2,51 @@
 
 IMPORTANT: When updating this log, add new entries at the top of the file. Do not overwrite or remove previous entries. You may add information to previous entries if necessary, but preserve all existing content.
 
+## Version 0.1.9 - Planned Release
+
+### Overview
+Version 0.1.9 aims to address remaining known issues and further improve the user experience with new features and enhancements.
+
+### Key Updates & Priorities
+
+1. **Fix Chore State Initialization** - **Priority: High**
+   - Address the issue where chores may not initialize in the correct state on first load or reset.
+   - **Estimated Timeline**: 2 days.
+   - **Risks**: This involves logic changes, so regression tests are important to ensure this doesn't introduce new bugs.
+
+2. **Implement Day/Night Themes** - **Priority: High**
+   - Create day and night themes for the application.
+   - Implement automatic theme switching based on the time of day.
+   - **Estimated Timeline**: 3-4 days.
+   - **Risks**: Ensure smooth transitions between themes and maintain readability of all widgets in both themes.
+
+### Development Considerations
+- Comprehensive testing across different devices and screen sizes is crucial.
+- Ensure that the new features (especially the day/night themes) don't negatively impact performance.
+- Test the swipe functionality thoroughly to ensure it doesn't interfere with other touch-based interactions.
+
+## Version 0.1.8 - 2023-06-XX
+
+### Implemented Features
+1. **Full-Screen Styling for Weather Widget**
+   - Implemented full-screen styling for the weather widget.
+   - Added additional weather information (humidity, wind speed, precipitation) to the datetime widget.
+   - Implemented a manual swipe toggle functionality.
+   - Added swipe gestures for fullscreen toggle (swipe up to maximize, swipe down to minimize).
+
+### Changed Features
+1. **Datetime Widget**
+   - Updated the datetime widget to show more weather details in full-screen mode.
+   - Modified the widget maximize/minimize functionality to handle the datetime widget specifically.
+   - Improved the responsiveness of the datetime and weather displays.
+
+### Fixed Issues
+1. **Swipe Functionality**
+   - Resolved issues with swipe functionality in resize mode.
+
+### Known Issues
+- Chores may not always initialize in the correct state (flashing red-white) on first load or reset.
+
 ## Version 0.1.7 - 2023-05-28
 
 ### Implemented Features
